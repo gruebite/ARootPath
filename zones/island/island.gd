@@ -10,26 +10,23 @@ enum {
 const WIDTH := 42
 const HEIGHT := 42
 
-onready var tiles := $tiles
-onready var entities := $entities
-onready var spring := $entities/spring
-onready var player := $player
+const SPRING := preload("res://zones/island/spring/spring.tscn")
+const PLANT := preload("res://zones/island/plant/plant.tscn")
 
-var entity_lookup := {}
+onready var tiles := $tiles
+
+var spring: Entity
+
+# Set if we're coming from the cavern.
+var returning_from_cavern := false
 
 func _ready():
-    player.connect("player_moved", self, "player_moved")
     load_island()
-
-func get_entity(zpos: Vector2) -> Entity:
-    return entity_lookup.get(zpos)
+    if returning_from_cavern:
+        returned_from_cavern()
 
 func unwalkable(zpos: Vector2) -> bool:
     return tiles.get_cell_autotile_coord(zpos.x, zpos.y) == Vector2(1, 0)
-
-func player_moved(from: Vector2, to: Vector2) -> void:
-    entity_lookup.erase(from)
-    entity_lookup[to] = player
     
 func generate_island() -> void:
     var walker := Walker.new()
@@ -47,14 +44,18 @@ func generate_island() -> void:
         walker.commit()
         walker.forget()
 
+    # Save island state.
     game_state.island_tiles.clear()
-    
     for y in HEIGHT:
         for x in WIDTH:
             var c = walker.grid[Vector2(x, y)]
             game_state.island_tiles[Vector2(x, y)] = c
 
 func load_island() -> void:
+    spring = SPRING.instance()
+    add_entity(spring)
+    
+    # Load island state.
     tiles.clear()
     for y in HEIGHT:
         for x in WIDTH:
@@ -65,6 +66,38 @@ func load_island() -> void:
                 TILE_WATER:
                     tiles.set_cell(x, y, 0, false, false, false, Vector2(2, 0))
 
-    player.zone_position = Vector2(WIDTH / 2, HEIGHT / 2 + 1)
-    spring.zone_position = Vector2(WIDTH / 2, HEIGHT / 2)
-    entity_lookup[Vector2(WIDTH / 2, HEIGHT / 2)] = spring
+    move_entity(player, Vector2(WIDTH / 2, HEIGHT / 2 + 1))
+    move_entity(spring, Vector2(WIDTH / 2, HEIGHT / 2))
+    
+    for zpos in game_state.plant_state:
+        var inst: Plant = Plant.instance()
+        inst.zone_position = zpos
+        add_entity(inst)
+
+func can_grow() -> bool:
+    return len(game_state.plant_state) < game_state.mana_capacity
+
+func can_grow_at(zpos: Vector2) -> bool:
+    return can_grow() and game_state.plant_state.get(zpos) == null
+
+func grow_plant(id: String, zpos: Vector2) -> void:
+    assert(can_grow_at(zpos))
+    var plant: Plant = PLANT.instance()
+    plant.zone_position = zpos
+    # This function fills in plant_state.
+    plant.grow_into(id)
+
+func count_spells() -> Dictionary:
+    var counts := {}
+    for n in get_tree().get_nodes_in_group("plant"):
+        var plant: Plant = n
+        counts[plant.kind_id] = counts.get(plant.kind_id, 0) + plant.get_water_level_charges()
+    return counts
+
+func leaving_for_cavern() -> void:
+    # Update plant state.
+    get_tree().call_group("plant", "_leaving_for_cavern")
+
+func returned_from_cavern() -> void:
+    # Update plant state.
+    get_tree().call_group("plant", "_returned_from_cavern")

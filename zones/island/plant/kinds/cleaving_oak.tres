@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://zones/island/plant/plant_kind.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+identifier = "cleaving_oak"
+watering_frequency = 5
+waterings_per_level = 3
+starting_water_level = 1
+water_level_charges = [ 1, 3, 5, 7, 9 ]

@@ -40,6 +40,16 @@ _global_script_classes=[ {
 "path": "res://screens/main/main.gd"
 }, {
 "base": "Entity",
+"class": "Plant",
+"language": "GDScript",
+"path": "res://zones/island/plant/plant.gd"
+}, {
+"base": "Resource",
+"class": "PlantKind",
+"language": "GDScript",
+"path": "res://zones/island/plant/plant_kind.gd"
+}, {
+"base": "Entity",
 "class": "Player",
 "language": "GDScript",
 "path": "res://player/player.gd"
@@ -66,6 +76,8 @@ _global_script_class_icons={
 "GameState": "",
 "Island": "",
 "Main": "",
+"Plant": "",
+"PlantKind": "",
 "Player": "",
 "ShadowCast": "",
 "Walker": "",

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://zones/island/plant/plant.gd" type="Script" id=1]
+
+[node name="plant" type="Sprite" groups=[
+"plant",
+]]
+script = ExtResource( 1 )

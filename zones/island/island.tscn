@@ -1,9 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://zones/island/island.gd" type="Script" id=1]
-[ext_resource path="res://player/player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://zones/island/island_tileset.tres" type="TileSet" id=3]
-[ext_resource path="res://zones/island/spring/spring.tscn" type="PackedScene" id=4]
 
 [node name="island" type="Node2D"]
 script = ExtResource( 1 )
@@ -15,7 +13,3 @@ cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
 
 [node name="entities" type="YSort" parent="."]
-
-[node name="spring" parent="entities" instance=ExtResource( 4 )]
-
-[node name="player" parent="." instance=ExtResource( 2 )]

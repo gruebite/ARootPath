@@ -12,19 +12,21 @@ const LEVEL_SIZES := [
 
 onready var tiles = $tiles
 onready var fog = $fog
-onready var entities = $entities
-onready var player = $player
 
 var fov := ShadowCast.new(funcref(self, "unwalkable"), funcref(self, "reveal"))
 var unfov := ShadowCast.new(funcref(self, "unwalkable"), funcref(self, "unreveal"))
 
+var spell_counts: Dictionary
 var level := 0
 
-var entity_lookup := {}
-
 func _ready():
-    player.connect("player_moved", self, "player_moved")
     carve()
+
+func move_entity(ent: Entity, to: Vector2) -> void:
+    if ent.is_in_group("player"):
+        unfov.compute(ent.zone_position, 8)
+        fov.compute(to, 8)
+    .move_entity(ent, to)
 
 func unwalkable(zpos: Vector2) -> bool:
     return tiles.get_cell_autotile_coord(zpos.x, zpos.y) != Vector2(1, 0)
@@ -55,14 +57,8 @@ func carve() -> void:
             match c:
                 TILE_GROUND:
                     tiles.set_cell(x, y, 0, false, false, false, Vector2(1, 0))
-    player.zone_position = Vector2(width / 2, height / 2)
-    fov.compute(Vector2(width / 2, height / 2), 8)
-
-func player_moved(from: Vector2, to: Vector2) -> void:
-    unfov.compute(from, 8)
-    fov.compute(to, 8)
-    entity_lookup.erase(from)
-    entity_lookup[to] = player
+    
+    move_entity(player, Vector2(width / 2, height / 2))
 
 func unreveal(zpos: Vector2) -> void:
     fog.set_cellv(zpos, 2)

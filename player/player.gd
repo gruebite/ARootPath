@@ -1,12 +1,10 @@
 extends Entity
 class_name Player
 
-signal player_moved(from, to)
-
 func _unhandled_input(event: InputEvent):
     var delta := Vector2.ZERO
     if event.is_action_pressed("ui_accept"):
-        pass
+        game.main.warp_island()
     elif event.is_action_pressed("ui_cancel"):
         pass
     elif event.is_action_pressed("ui_up", true):
@@ -20,13 +18,11 @@ func _unhandled_input(event: InputEvent):
     
     if delta != Vector2.ZERO:
         var test := zone_position + delta
-        var ent: Entity = game.current_zone.get_entity(test)
+        var ent: Entity = game.main.current_zone.get_entity_at(test)
         if ent:
             ent.bump()
-        elif not game.current_zone.unwalkable(test):
-            var from := zone_position
-            move_to(test)
-            emit_signal("player_moved", from, zone_position)
+        elif not game.main.current_zone.unwalkable(test):
+            game.main.current_zone.move_entity(self, test)
 
 func _draw():
     draw_circle(Vector2(8, 8), 8, Color.red)

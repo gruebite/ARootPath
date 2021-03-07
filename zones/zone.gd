@@ -7,5 +7,5 @@ func _ready() -> void:
 func get_entity(_pos: Vector2) -> Entity:
     return null
 
-func get_tile(_pos: Vector2) -> int:
-    return -1
+func unwalkable(_pos: Vector2) -> bool:
+    return false

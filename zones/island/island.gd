@@ -12,14 +12,25 @@ const HEIGHT := 42
 
 onready var tiles := $tiles
 onready var entities := $entities
+onready var spring := $entities/spring
 onready var player := $player
 
+var entity_lookup := {}
+
 func _ready():
+    player.connect("player_moved", self, "player_moved")
     load_island()
 
 func get_entity(zpos: Vector2) -> Entity:
-    return .get_entity(zpos)
+    return entity_lookup.get(zpos)
 
+func unwalkable(zpos: Vector2) -> bool:
+    return tiles.get_cell_autotile_coord(zpos.x, zpos.y) == Vector2(1, 0)
+
+func player_moved(from: Vector2, to: Vector2) -> void:
+    entity_lookup.erase(from)
+    entity_lookup[to] = player
+    
 func generate_island() -> void:
     var walker := Walker.new()
 
@@ -54,4 +65,6 @@ func load_island() -> void:
                 TILE_WATER:
                     tiles.set_cell(x, y, 0, false, false, false, Vector2(2, 0))
 
-    player.zone_position = Vector2(WIDTH / 2, HEIGHT / 2)
+    player.zone_position = Vector2(WIDTH / 2, HEIGHT / 2 + 1)
+    spring.zone_position = Vector2(WIDTH / 2, HEIGHT / 2)
+    entity_lookup[Vector2(WIDTH / 2, HEIGHT / 2)] = spring

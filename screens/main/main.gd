@@ -5,6 +5,7 @@ const ISLAND = preload("res://zones/island/island.tscn")
 const CAVERN = preload("res://zones/cavern/cavern.tscn")
 
 onready var zone: Node2D = $zone
+onready var text: CanvasLayer = $text_layer
 
 func _ready():
     game.main = self

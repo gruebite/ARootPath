@@ -85,6 +85,7 @@ game="*res://scripts/globals/game.gd"
 
 [debug]
 
+gdscript/warnings/return_value_discarded=false
 gdscript/warnings/integer_division=false
 
 [display]

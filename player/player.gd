@@ -3,10 +3,10 @@ class_name Player
 
 signal player_moved(from, to)
 
-func _input(event: InputEvent):
+func _unhandled_input(event: InputEvent):
     var delta := Vector2.ZERO
     if event.is_action_pressed("ui_accept"):
-        game.main.warp_cavern(2)
+        pass
     elif event.is_action_pressed("ui_cancel"):
         pass
     elif event.is_action_pressed("ui_up", true):
@@ -23,7 +23,7 @@ func _input(event: InputEvent):
         var ent: Entity = game.current_zone.get_entity(test)
         if ent:
             ent.bump()
-        else:
+        elif not game.current_zone.unwalkable(test):
             var from := zone_position
             move_to(test)
             emit_signal("player_moved", from, zone_position)

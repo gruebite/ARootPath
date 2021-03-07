@@ -12,7 +12,7 @@ const DIR8 = [
     Vector2(-1, -1),
 ]
 
-# Maintains a randomly accessible point set.
+# Maintains a random access point set.
 class PointSet:
     var array := []
 
@@ -138,6 +138,9 @@ func step(dx: int, dy: int) -> void:
 
 func stepv(delta: Vector2) -> void:
     position += delta
+
+func step_random() -> void:
+    position += DIR8[rng.randi_range(0, len(DIR8) - 1)]
 
 func step_weighted_last(weight: float) -> void:
     var target_angle := position.angle_to_point(remembered[-1])

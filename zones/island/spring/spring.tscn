@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/monochrome.png" type="Texture" id=1]
+[ext_resource path="res://zones/island/spring/spring.gd" type="Script" id=2]
+
+[node name="spring" type="Sprite" groups=[
+"spring",
+]]
+texture = ExtResource( 1 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 323, 102, 16, 16 )
+script = ExtResource( 2 )

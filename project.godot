@@ -9,13 +9,67 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Zone",
+"class": "Cavern",
+"language": "GDScript",
+"path": "res://zones/cavern/cavern.gd"
+}, {
+"base": "Sprite",
+"class": "Entity",
+"language": "GDScript",
+"path": "res://zones/entity.gd"
+}, {
+"base": "Node",
+"class": "Game",
+"language": "GDScript",
+"path": "res://scripts/globals/game.gd"
+}, {
+"base": "Node",
+"class": "GameState",
+"language": "GDScript",
+"path": "res://scripts/globals/game_state.gd"
+}, {
+"base": "Zone",
+"class": "Island",
+"language": "GDScript",
+"path": "res://zones/island/island.gd"
+}, {
+"base": "Node2D",
+"class": "Main",
+"language": "GDScript",
+"path": "res://screens/main/main.gd"
+}, {
+"base": "Entity",
+"class": "Player",
+"language": "GDScript",
+"path": "res://player/player.gd"
+}, {
+"base": "Reference",
+"class": "ShadowCast",
+"language": "GDScript",
+"path": "res://scripts/shadow_cast.gd"
+}, {
 "base": "Resource",
 "class": "Walker",
 "language": "GDScript",
 "path": "res://scripts/walker.gd"
+}, {
+"base": "Node2D",
+"class": "Zone",
+"language": "GDScript",
+"path": "res://zones/zone.gd"
 } ]
 _global_script_class_icons={
-"Walker": ""
+"Cavern": "",
+"Entity": "",
+"Game": "",
+"GameState": "",
+"Island": "",
+"Main": "",
+"Player": "",
+"ShadowCast": "",
+"Walker": "",
+"Zone": ""
 }
 
 [application]
@@ -26,7 +80,8 @@ run/main_scene="res://screens/main/main.tscn"
 
 [autoload]
 
-GameState="*res://scripts/globals/game_state.gd"
+game_state="*res://scripts/globals/game_state.gd"
+game="*res://scripts/globals/game.gd"
 
 [debug]
 
@@ -34,6 +89,8 @@ gdscript/warnings/integer_division=false
 
 [display]
 
+window/size/width=512
+window/size/height=384
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 

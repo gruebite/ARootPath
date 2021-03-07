@@ -8,11 +8,36 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Resource",
+"class": "Walker",
+"language": "GDScript",
+"path": "res://scripts/walker.gd"
+} ]
 _global_script_class_icons={
-
+"Walker": ""
 }
 
 [application]
 
-run/main_scene="res://scenes/main.tscn"
+config/name="A Root Path"
+config/description="2021 7DRL Entry"
+run/main_scene="res://screens/main/main.tscn"
+
+[autoload]
+
+GameState="*res://scripts/globals/game_state.gd"
+
+[debug]
+
+gdscript/warnings/integer_division=false
+
+[display]
+
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+
+[rendering]
+
+environment/default_clear_color=Color( 0, 0, 0, 1 )
+quality/dynamic_fonts/use_oversampling=false

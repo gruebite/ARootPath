@@ -12,6 +12,9 @@ var plant_state: Dictionary
 # Island tile data.
 var island_tiles: Dictionary
 
+# Location of the petrified tree.
+var petrified_tree_location: Vector2
+
 func _ready() -> void:
     reset()
 

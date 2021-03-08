@@ -10,6 +10,10 @@ const LEVEL_SIZES := [
     100, 141, 173
 ]
 
+const LEVEL_ROOTS := [
+    8, 5, 3,
+]
+
 const CAST_ACTION := preload("res://zones/cavern/action/cast_action.tscn")
 
 const SLIME := preload("res://zones/cavern/slime/slime.tscn")
@@ -30,6 +34,8 @@ func _unhandled_input(event: InputEvent) -> void:
     if event.is_action_pressed("ui_accept"):
         var action = CAST_ACTION.instance()
         game.main.action_layer.add_child(action)
+    elif event.is_action_pressed("ui_cancel"):
+        game.main.warp_island()
 
 func move_entity(ent: Entity, to: Vector2) -> void:
     if ent.is_in_group("player"):

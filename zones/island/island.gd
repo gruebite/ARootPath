@@ -34,7 +34,7 @@ func _unhandled_input(event: InputEvent) -> void:
         game.main.action_layer.add_child(action)
 
 func unwalkable(zpos: Vector2) -> bool:
-    return tiles.get_cell_autotile_coord(zpos.x, zpos.y) == Vector2(1, 0)
+    return tiles.get_cell_autotile_coord(zpos.x, zpos.y) == Vector2(0, 0)
     
 func generate_island() -> void:
     var walker := Walker.new(game.rng)
@@ -58,6 +58,12 @@ func generate_island() -> void:
         for x in WIDTH:
             var c = walker.grid[Vector2(x, y)]
             game_state.island_tiles[Vector2(x, y)] = c
+    while true:
+        var x = game.rng.randi_range(0, WIDTH - 1)
+        var y = game.rng.randi_range(0, HEIGHT - 1)
+        if game_state.island_tiles[Vector2(x, y)] == TILE_GROUND:
+            game_state.petrified_tree_location = Vector2(x, y)
+            break
 
 func load_island() -> void:
     spring = SPRING.instance()
@@ -78,12 +84,7 @@ func load_island() -> void:
 
     move_entity(player, Vector2(WIDTH / 2, HEIGHT / 2 + 1))
     move_entity(spring, Vector2(WIDTH / 2, HEIGHT / 2))
-    while true:
-        var x = game.rng.randi_range(0, WIDTH - 1)
-        var y = game.rng.randi_range(0, HEIGHT - 1)
-        if tiles.get_cell_autotile_coord(x, y) == Vector2(2, 0):
-            move_entity(petrified_tree, Vector2(x, y))
-            break
+    move_entity(petrified_tree, game_state.petrified_tree_location)
     
     for zpos in game_state.plant_state:
         var inst: Plant = Plant.instance()

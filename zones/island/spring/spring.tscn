@@ -6,6 +6,7 @@
 [node name="spring" type="Sprite" groups=[
 "spring",
 ]]
+modulate = Color( 0, 0.701961, 0.752941, 1 )
 texture = ExtResource( 1 )
 centered = false
 region_enabled = true

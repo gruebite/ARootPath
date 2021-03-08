@@ -10,6 +10,7 @@ func _gui_input(event: InputEvent) -> void:
         if selector:
             selector.hide()
             $container.show()
+            selector = null
         else:
             queue_free()
     elif event.is_action_pressed("ui_accept"):

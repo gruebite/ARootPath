@@ -18,6 +18,12 @@ func add_entity(ent: Entity) -> void:
     entity_lookup[ent.zone_position] = ent
     ent.position = ent.zone_position * 16
 
+func add_entity_at(ent: Entity, zpos: Vector2) -> void:
+    ent.zone_position = zpos
+    entities.add_child(ent)
+    entity_lookup[ent.zone_position] = ent
+    ent.position = ent.zone_position * 16
+
 func remove_entity(ent: Entity) -> void:
     entities.remove_child(ent)
     entity_lookup.erase(ent.zone_position)

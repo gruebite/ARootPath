@@ -1,6 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://zones/island/action/grow_action.gd" type="Script" id=1]
+
+[sub_resource type="ImageTexture" id=6]
+size = Vector2( 392, 96 )
 
 [sub_resource type="OpenSimplexNoise" id=2]
 period = 16.0
@@ -38,7 +41,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="container" type="VBoxContainer" parent="."]
+[node name="container" type="TextureRect" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -48,58 +51,69 @@ margin_top = -48.0
 margin_right = 196.0
 margin_bottom = 48.0
 rect_min_size = Vector2( 392, 96 )
+texture = SubResource( 6 )
+
+[node name="items" type="VBoxContainer" parent="container"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -196.0
+margin_top = -48.0
+margin_right = 196.0
+margin_bottom = 48.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="kinds" type="HBoxContainer" parent="container"]
+[node name="kinds" type="HBoxContainer" parent="container/items"]
 margin_right = 392.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 0, 32 )
 
-[node name="tree" type="TextureRect" parent="container/kinds"]
+[node name="tree" type="TextureRect" parent="container/items/kinds"]
 margin_right = 75.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
 texture = SubResource( 1 )
 
-[node name="bush" type="TextureRect" parent="container/kinds"]
+[node name="bush" type="TextureRect" parent="container/items/kinds"]
 margin_left = 79.0
 margin_right = 154.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
 
-[node name="flower" type="TextureRect" parent="container/kinds"]
+[node name="flower" type="TextureRect" parent="container/items/kinds"]
 margin_left = 158.0
 margin_right = 233.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
 
-[node name="fungus" type="TextureRect" parent="container/kinds"]
+[node name="fungus" type="TextureRect" parent="container/items/kinds"]
 margin_left = 237.0
 margin_right = 312.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
 
-[node name="moss" type="TextureRect" parent="container/kinds"]
+[node name="moss" type="TextureRect" parent="container/items/kinds"]
 margin_left = 316.0
 margin_right = 392.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
 
-[node name="selection" type="HBoxContainer" parent="container"]
+[node name="selection" type="HBoxContainer" parent="container/items"]
 margin_top = 36.0
 margin_right = 392.0
 margin_bottom = 60.0
 size_flags_vertical = 3
 
-[node name="description" type="TextureRect" parent="container"]
+[node name="description" type="TextureRect" parent="container/items"]
 margin_top = 64.0
 margin_right = 392.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 0, 32 )
 
-[node name="label" type="RichTextLabel" parent="container/description"]
+[node name="label" type="RichTextLabel" parent="container/items/description"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 bbcode_enabled = true

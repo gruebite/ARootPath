@@ -43,6 +43,7 @@ func warp_cavern(level: int=0) -> void:
         var old_cavern: Cavern = current_zone
         cavern.spell_counts = old_cavern.spell_counts
     
+    print("spells: ", cavern.spell_counts)
     current_zone.queue_free()
     current_zone = cavern
     zone.add_child(cavern)

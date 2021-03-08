@@ -1,4 +1,4 @@
 extends Entity
 
 func bump() -> void:
-    game.main.show_message(["Petrified.  Its roots go deep."])
+    game.main.show_message(["Once a great tree, now petrified.  Its roots go deep."])

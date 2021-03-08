@@ -1,8 +1,13 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://zones/island/plant/plant.gd" type="Script" id=1]
+[ext_resource path="res://assets/monochrome.png" type="Texture" id=2]
 
 [node name="plant" type="Sprite" groups=[
 "plant",
 ]]
+texture = ExtResource( 2 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 68, 34, 16, 16 )
 script = ExtResource( 1 )

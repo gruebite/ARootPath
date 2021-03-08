@@ -16,6 +16,7 @@ func _ready() -> void:
 func add_entity(ent: Entity) -> void:
     entities.add_child(ent)
     entity_lookup[ent.zone_position] = ent
+    ent.position = ent.zone_position * 16
 
 func remove_entity(ent: Entity) -> void:
     entities.remove_child(ent)

@@ -18,6 +18,9 @@ func _leaving_for_cavern() -> void:
         get_state()["water_level"] = max(0, get_state()["water_level"] - 1)
         get_state()["waterings"] = 0
 
+func bump() -> void:
+    game.main.show_message(["Growing strong."])
+
 func grow_into(arch_id: String) -> void:
     game_state.plant_state[zone_position] = {
         "id": arch_id,

@@ -1,6 +1,8 @@
 extends Node2D
 class_name Main
 
+const MESSAGE_BOX = preload("res://screens/main/message_box/message_box.tscn")
+
 const ISLAND = preload("res://zones/island/island.tscn")
 const CAVERN = preload("res://zones/cavern/cavern.tscn")
 
@@ -44,3 +46,13 @@ func warp_cavern(level: int=0) -> void:
     current_zone.queue_free()
     current_zone = cavern
     zone.add_child(cavern)
+
+func show_message(texts: Array, yes: FuncRef=null, no: FuncRef=null) -> void:
+    if action_layer.get_child_count() > 0:
+        print("Tried to create multiple messages")
+        return
+    var msg: MessageBox = MESSAGE_BOX.instance()
+    msg.texts = texts
+    msg.yes = yes
+    msg.no = no
+    action_layer.add_child(msg)

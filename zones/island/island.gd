@@ -10,26 +10,34 @@ enum {
 const WIDTH := 42
 const HEIGHT := 42
 
+const GROW_ACTION := preload("res://zones/island/action/grow_action.tscn")
+const PETRIFIED_TREE := preload("res://zones/island/petrified_tree/petrified_tree.tscn")
 const SPRING := preload("res://zones/island/spring/spring.tscn")
 const PLANT := preload("res://zones/island/plant/plant.tscn")
 
 onready var tiles := $tiles
 
 var spring: Entity
+var petrified_tree: Entity
 
 # Set if we're coming from the cavern.
 var returning_from_cavern := false
 
-func _ready():
+func _ready() -> void:
     load_island()
     if returning_from_cavern:
         returned_from_cavern()
+
+func _unhandled_input(event: InputEvent) -> void:
+    if event.is_action_pressed("ui_accept"):
+        var action = GROW_ACTION.instance()
+        game.main.action_layer.add_child(action)
 
 func unwalkable(zpos: Vector2) -> bool:
     return tiles.get_cell_autotile_coord(zpos.x, zpos.y) == Vector2(1, 0)
     
 func generate_island() -> void:
-    var walker := Walker.new()
+    var walker := Walker.new(game.rng)
 
     walker.start(WIDTH, HEIGHT)
     walker.goto(WIDTH / 2, HEIGHT / 2)
@@ -54,6 +62,8 @@ func generate_island() -> void:
 func load_island() -> void:
     spring = SPRING.instance()
     add_entity(spring)
+    petrified_tree = PETRIFIED_TREE.instance()
+    add_entity(petrified_tree)
     
     # Load island state.
     tiles.clear()
@@ -68,6 +78,12 @@ func load_island() -> void:
 
     move_entity(player, Vector2(WIDTH / 2, HEIGHT / 2 + 1))
     move_entity(spring, Vector2(WIDTH / 2, HEIGHT / 2))
+    while true:
+        var x = game.rng.randi_range(0, WIDTH - 1)
+        var y = game.rng.randi_range(0, HEIGHT - 1)
+        if tiles.get_cell_autotile_coord(x, y) == Vector2(2, 0):
+            move_entity(petrified_tree, Vector2(x, y))
+            break
     
     for zpos in game_state.plant_state:
         var inst: Plant = Plant.instance()

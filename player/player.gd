@@ -3,11 +3,7 @@ class_name Player
 
 func _unhandled_input(event: InputEvent):
     var delta := Vector2.ZERO
-    if event.is_action_pressed("ui_accept"):
-        game.main.warp_island()
-    elif event.is_action_pressed("ui_cancel"):
-        pass
-    elif event.is_action_pressed("ui_up", true):
+    if event.is_action_pressed("ui_up", true):
         delta = Vector2(0, -1)
     elif event.is_action_pressed("ui_down", true):
         delta = Vector2(0, 1)

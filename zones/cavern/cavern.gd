@@ -10,6 +10,10 @@ const LEVEL_SIZES := [
     100, 141, 173
 ]
 
+const CAST_ACTION := preload("res://zones/cavern/action/cast_action.tscn")
+
+const SLIME := preload("res://zones/cavern/slime/slime.tscn")
+
 onready var tiles = $tiles
 onready var fog = $fog
 
@@ -19,8 +23,13 @@ var unfov := ShadowCast.new(funcref(self, "unwalkable"), funcref(self, "unreveal
 var spell_counts: Dictionary
 var level := 0
 
-func _ready():
+func _ready() -> void:
     carve()
+    
+func _unhandled_input(event: InputEvent) -> void:
+    if event.is_action_pressed("ui_accept"):
+        var action = CAST_ACTION.instance()
+        game.main.action_layer.add_child(action)
 
 func move_entity(ent: Entity, to: Vector2) -> void:
     if ent.is_in_group("player"):
@@ -35,7 +44,7 @@ func carve() -> void:
     var width: int = LEVEL_SIZES[level]
     var height: int = LEVEL_SIZES[level]
 
-    var walker := Walker.new()
+    var walker := Walker.new(game.rng)
     walker.start(width, height)
     walker.goto(width / 2, height / 2)
     walker.mark_plus(TILE_GROUND)

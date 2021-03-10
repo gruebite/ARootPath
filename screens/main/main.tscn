@@ -28,6 +28,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="text_layer" type="CanvasLayer" parent="."]
-
 [node name="action_layer" type="CanvasLayer" parent="."]
+
+[node name="text_layer" type="CanvasLayer" parent="."]

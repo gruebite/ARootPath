@@ -3,7 +3,7 @@ class_name MessageBox
 
 const SCROLL_TIME := 2.0
 
-onready var text_label := $box/label
+onready var text_label := $box/margin/label
 
 var texts := []
 var yes: FuncRef = null

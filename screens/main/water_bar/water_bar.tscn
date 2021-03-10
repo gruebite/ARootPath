@@ -2,7 +2,7 @@
 
 [ext_resource path="res://screens/main/water_bar/water_bar.gd" type="Script" id=1]
 [ext_resource path="res://fonts/cozette.tres" type="DynamicFont" id=2]
-[ext_resource path="res://assets/panel.png" type="Texture" id=3]
+[ext_resource path="res://assets/9patch.png" type="Texture" id=3]
 [ext_resource path="res://screens/main/water_bar/bar.gd" type="Script" id=4]
 
 [node name="water_bar" type="Control"]
@@ -22,11 +22,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="text" type="TextureRect" parent="container"]
+[node name="text" type="NinePatchRect" parent="container"]
 margin_right = 16.0
 margin_bottom = 16.0
 rect_min_size = Vector2( 16, 16 )
 texture = ExtResource( 3 )
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
 
 [node name="amount" type="Label" parent="container/text"]
 rect_min_size = Vector2( 16, 16 )
@@ -38,10 +42,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="bar" type="Control" parent="container"]
+[node name="bar" type="NinePatchRect" parent="container"]
 margin_left = 16.0
 margin_right = 160.0
 margin_bottom = 16.0
-rect_min_size = Vector2( 140, 16 )
-size_flags_horizontal = 3
+rect_min_size = Vector2( 144, 16 )
+texture = ExtResource( 3 )
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
 script = ExtResource( 4 )

@@ -10,7 +10,6 @@ enum {
 const WIDTH := 42
 const HEIGHT := 42
 
-const GROW_ACTION := preload("res://zones/island/action/grow_action.tscn")
 const PETRIFIED_TREE := preload("res://zones/island/petrified_tree/petrified_tree.tscn")
 const SPRING := preload("res://zones/island/spring/spring.tscn")
 const PLANT := preload("res://zones/island/plant/plant.tscn")
@@ -25,11 +24,6 @@ func _ready() -> void:
     load_island()
     if returning_from_cavern:
         returned_from_cavern()
-
-func _unhandled_input(event: InputEvent) -> void:
-    if event.is_action_pressed("ui_accept"):
-        var action = GROW_ACTION.instance()
-        game.main.action_layer.add_child(action)
 
 func unwalkable(zpos: Vector2) -> bool:
     return tiles.get_cell_autotile_coord(zpos.x, zpos.y) == Vector2(0, 0)

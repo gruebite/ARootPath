@@ -1,6 +1,7 @@
 extends Node2D
 class_name Main
 
+const ACTION = preload("res://screens/main/action/action.tscn")
 const MESSAGE_BOX = preload("res://screens/main/message_box/message_box.tscn")
 
 const ISLAND = preload("res://zones/island/island.tscn")
@@ -21,6 +22,13 @@ func _ready():
     island.generate_island()
     current_zone = island
     zone.add_child(island)
+    
+func _unhandled_input(event: InputEvent) -> void:
+    if event.is_action_pressed("ui_accept"):
+        do_action()
+        
+func do_action() -> void:
+    action_layer.add_child(ACTION.instance())
 
 func warp_island() -> void:
     var island: Island = ISLAND.instance()

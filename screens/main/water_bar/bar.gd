@@ -1,4 +1,4 @@
-extends Control
+extends NinePatchRect
 
 func _draw() -> void:
     draw_rect(Rect2(Vector2.ZERO, rect_size), Color.transparent)

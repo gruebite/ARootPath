@@ -51,7 +51,7 @@ func get_state() -> Dictionary:
 
 func get_age() -> int:
     return get_state()["age"]
-    
+
 func get_last_watered() -> int:
     return get_state()["last_watered"]
 
@@ -64,7 +64,6 @@ func get_current_stage() -> int:
     return i
 
 func get_current_stage_charges() -> int:
-    print(get_current_stage(), ":", get_stage_charges()[get_current_stage()])
     return get_stage_charges()[get_current_stage()]
 
 func get_archetype_id() -> String:

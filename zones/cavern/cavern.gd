@@ -18,8 +18,6 @@ const LEVEL_ROOTS := [
 
 const LAST_LEVEL := 2
 
-const CAST_ACTION := preload("res://zones/cavern/action/cast_action.tscn")
-
 const HOLE := preload("res://zones/cavern/hole/hole.tscn")
 const ROOTS := preload("res://zones/cavern/roots/roots.tscn")
 
@@ -39,11 +37,6 @@ func _ready() -> void:
     slime_brain.zone = self
     slime_brain.level = level
     carve()
-    
-func _unhandled_input(event: InputEvent) -> void:
-    if event.is_action_pressed("ui_accept"):
-        var action = CAST_ACTION.instance()
-        game.main.action_layer.add_child(action)
 
 func _player_took_turn() -> void:
     get_tree().call_group("turn_taker", "take_turn")

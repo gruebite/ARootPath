@@ -1,20 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://screens/main/message_box/message_box.gd" type="Script" id=1]
 [ext_resource path="res://fonts/cozette.tres" type="DynamicFont" id=2]
-
-[sub_resource type="Shader" id=1]
-code = "shader_type canvas_item;
-
-void fragment() {
-    COLOR = vec4(0.0, 0.0, 0.0, 1.0);
-}"
-
-[sub_resource type="ShaderMaterial" id=2]
-shader = SubResource( 1 )
-
-[sub_resource type="ImageTexture" id=3]
-size = Vector2( 512, 64 )
+[ext_resource path="res://assets/9patch.png" type="Texture" id=3]
 
 [node name="message_box" type="Control"]
 anchor_top = 1.0
@@ -27,18 +15,40 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="box" type="TextureRect" parent="."]
-material = SubResource( 2 )
-anchor_right = 1.0
+[node name="box" type="NinePatchRect" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-texture = SubResource( 3 )
+margin_left = -196.0
+margin_top = -32.0
+margin_right = 196.0
+texture = ExtResource( 3 )
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="label" type="Label" parent="box"]
+[node name="margin" type="MarginContainer" parent="box"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+custom_constants/margin_right = 2
+custom_constants/margin_top = 2
+custom_constants/margin_left = 2
+custom_constants/margin_bottom = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="label" type="Label" parent="box/margin"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 390.0
+margin_bottom = 30.0
+size_flags_vertical = 7
 custom_fonts/font = ExtResource( 2 )
 autowrap = true
 uppercase = true

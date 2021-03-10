@@ -7,6 +7,7 @@
 "demon",
 "slime",
 ]]
+visible = false
 modulate = Color( 0.905882, 0, 0.211765, 1 )
 texture = ExtResource( 2 )
 centered = false

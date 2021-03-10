@@ -6,10 +6,11 @@
 [node name="slime" type="Sprite" groups=[
 "slime",
 ]]
+visible = false
 modulate = Color( 0.913725, 0.419608, 1, 1 )
 position = Vector2( 0, -0.198425 )
 texture = ExtResource( 2 )
 centered = false
 region_enabled = true
-region_rect = Rect2( 340, 85, 16, 16 )
+region_rect = Rect2( 595, 187, 16, 16 )
 script = ExtResource( 1 )

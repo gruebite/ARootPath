@@ -1,49 +1,41 @@
 extends Node2D
 class_name Zone
 
-const PLAYER = preload("res://player/player.tscn")
-
 onready var tiles = $tiles
+onready var objects = $objects
 onready var entities = $entities
+onready var player = $player
 onready var targeting = $targeting
-
-var player: Player
 
 var entity_lookup := {}
 
 func _ready() -> void:
-    player = PLAYER.instance()
-    add_entity(player)
+    player.zone = self
 
-func add_entity(ent: Entity) -> void:
-    entities.add_child(ent)
-    entity_lookup[ent.zone_position] = ent
-    ent.position = ent.zone_position * 16
-
-func add_entity_at(ent: Entity, zpos: Vector2) -> void:
+func add_entity_at(ent, zpos: Vector2) -> void:
+    assert(not entity_lookup.has(zpos))
+    ent.zone = self
     ent.zone_position = zpos
     entities.add_child(ent)
     entity_lookup[ent.zone_position] = ent
-    ent.position = ent.zone_position * 16
 
-func remove_entity(ent: Entity) -> void:
+func remove_entity(ent) -> void:
+    assert(entity_lookup.has(ent.zone_position))
     entities.remove_child(ent)
     entity_lookup.erase(ent.zone_position)
 
-func remove_entity_at(zpos: Vector2) -> void:
-    if not entity_lookup.has(zpos):
-        return
-    entities.remove_child(entity_lookup[zpos])
-    entity_lookup.erase(zpos)
-
-func get_entity_at(zpos: Vector2) -> Entity:
+func get_entity(zpos: Vector2) -> Node2D:
     return entity_lookup.get(zpos)
 
-func move_entity(ent: Entity, to: Vector2) -> void:
+func move_entity(ent, to: Vector2) -> void:
+    assert(not entity_lookup.has(to))
     entity_lookup.erase(ent.zone_position)
     ent.zone_position = to
-    ent.position = to * 16
     entity_lookup[to] = ent
+
+func kill_entity(ent) -> void:
+    remove_entity(ent)
+    ent.queue_free()
 
 func unwalkable(_pos: Vector2) -> bool:
     return false

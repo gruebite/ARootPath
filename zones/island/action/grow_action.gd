@@ -21,7 +21,7 @@ func _gui_input(event: InputEvent) -> void:
         if selecting:
             if get_targeting_kind() == Targeting.Kind.YES:
                 var island = game.main.current_zone
-                island.grow_plant(Plant.CLEAVING_OAK, spots[0])
+                island.grow_plant(Plant.OAK, spots[0])
                 game.main.current_zone.targeting.clear()
                 queue_free()
             else:

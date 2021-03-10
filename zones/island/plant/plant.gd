@@ -1,21 +1,31 @@
 extends Entity
 class_name Plant
 
-const CLEAVING_OAK := "cleaving_oak"
+signal died_from_dought()
+signal died_from_age()
+
+const OAK := "oak"
 const ARCHETYPES := {
-    CLEAVING_OAK: preload("res://zones/island/plant/archetypes/cleaving_oak.tres"),
+    OAK: preload("res://zones/island/plant/archetypes/oak.tres"),
 }
 
-# Set to false when we need to be watered.
 var needs_watering: bool = false
 
 func _returned_from_cavern() -> void:
-    get_state()["last_watered_count"] += 1
-    needs_watering = get_last_watered_count() >= get_watering_frequency()
+    get_state()["age"] += 1
+    if get_age() >= get_lifespan():
+        emit_signal("kill_me")
+        emit_signal("died_from_age")
+    var runs_since_watered := get_age() - get_last_watered()
+    var drought_time := runs_since_watered - get_watering_frequency()
+    if drought_time >= 0:
+        needs_watering = true
+        if drought_time > get_drought_limit():
+            emit_signal("kill_me")
+            emit_signal("died_from_drought")
 
 func _leaving_for_cavern() -> void:
     if needs_watering:
-        get_state()["water_level"] = max(0, get_state()["water_level"] - 1)
         get_state()["waterings"] = 0
 
 func bump() -> void:
@@ -24,34 +34,38 @@ func bump() -> void:
 func grow_into(arch_id: String) -> void:
     game_state.plant_state[zone_position] = {
         "id": arch_id,
-        # Water level.  Increased by consistent watering.
-        "water_level": ARCHETYPES[arch_id].starting_water_level,
-        # Number of waterings in a row.
-        "waterings": 0,
-        # Number of runs since last watered.
-        "last_watered_count": 0,
+        # Age in runs.
+        "age": 0,
+        # Age when last watered.
+        "last_watered": 0,
     }
+    texture = get_archetype().texture
 
 func water() -> void:
     assert(needs_watering)
     needs_watering = false
-    get_state()["waterings"] = get_state()["waterings"] + 1
-    if get_waterings() == get_waterings_per_level():
-        get_state()["waterings"] = 0
-        get_state()["water_level"] = max(get_max_water_level(), get_state()["water_level"] + 1)
-    get_state()["last_watered_count"] = 0
+    get_state()["last_watered"] = get_age()
 
 func get_state() -> Dictionary:
     return game_state.plant_state[zone_position]
 
-func get_water_level() -> int:
-    return get_state()["water_level"]
+func get_age() -> int:
+    return get_state()["age"]
     
-func get_waterings() -> int:
-    return get_state()["waterings"]
-    
-func get_last_watered_count() -> int:
-    return get_state()["last_watered_count"]
+func get_last_watered() -> int:
+    return get_state()["last_watered"]
+
+func get_current_stage() -> int:
+    var i := 0
+    for limit in get_stage_ages():
+        if get_age() < limit:
+            break
+        i += 1
+    return i
+
+func get_current_stage_charges() -> int:
+    print(get_current_stage(), ":", get_stage_charges()[get_current_stage()])
+    return get_stage_charges()[get_current_stage()]
 
 func get_archetype_id() -> String:
     return get_state()["id"]
@@ -65,11 +79,17 @@ func get_kind() -> int:
 func get_watering_frequency() -> int:
     return get_archetype().watering_frequency
 
-func get_waterings_per_level() -> int:
-    return get_archetype().waterings_per_level
+func get_watering_quantity() -> int:
+    return get_archetype().watering_quantity
 
-func get_max_water_level() -> int:
-    return len(get_archetype().water_level_charges) - 1
+func get_drought_limit() -> int:
+    return get_archetype().drought_limit
 
-func get_water_level_charges() -> int:
-    return get_archetype().water_level_charges[get_water_level()]
+func get_lifespan() -> int:
+    return get_archetype().drought_limit
+
+func get_stage_ages() -> Array:
+    return get_archetype().stage_ages
+
+func get_stage_charges() -> Array:
+    return get_archetype().stage_ages

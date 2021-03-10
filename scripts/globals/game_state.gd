@@ -1,10 +1,10 @@
 extends Node
 class_name GameState
 
-const STARTING_MANA_CAPACITY := 6
+const STARTING_WATER := 20
 
-# Capacity.  Used for growing plants on island, and chaining spells in cavern.
-var mana_capacity: int
+# How much water we have.
+var water: int
 
 # List of plants based on location.  Updated everytime we return from the cavern.
 var plant_state: Dictionary
@@ -19,6 +19,6 @@ func _ready() -> void:
     reset()
 
 func reset() -> void:
-    mana_capacity = STARTING_MANA_CAPACITY
+    water = STARTING_WATER
     plant_state = {}
     island_tiles = {}

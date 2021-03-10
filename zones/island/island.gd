@@ -64,11 +64,6 @@ func generate_island() -> void:
             break
 
 func load_island() -> void:
-    spring = SPRING.instance()
-    add_entity(spring)
-    petrified_tree = PETRIFIED_TREE.instance()
-    add_entity(petrified_tree)
-    
     # Load island state.
     tiles.clear()
     for y in HEIGHT:
@@ -79,18 +74,19 @@ func load_island() -> void:
                     tiles.set_cell(x, y, 0, false, false, false, Vector2(1, 0))
                 TILE_WATER:
                     tiles.set_cell(x, y, 0, false, false, false, Vector2(2, 0))
-
-    move_entity(player, Vector2(WIDTH / 2, HEIGHT / 2 + 1))
-    move_entity(spring, Vector2(WIDTH / 2, HEIGHT / 2))
-    move_entity(petrified_tree, game_state.petrified_tree_location)
+    
+    player.zone_position = Vector2(WIDTH / 2, HEIGHT / 2 + 1)
+    spring = SPRING.instance()
+    add_entity_at(spring, Vector2(WIDTH / 2, HEIGHT / 2))
+    petrified_tree = PETRIFIED_TREE.instance()
+    add_entity_at(petrified_tree, game_state.petrified_tree_location)
     
     for zpos in game_state.plant_state:
         var inst: Plant = PLANT.instance()
-        inst.zone_position = zpos
-        add_entity(inst)
+        add_entity_at(inst, zpos)
 
 func can_grow() -> bool:
-    return len(game_state.plant_state) < game_state.mana_capacity
+    return len(game_state.plant_state) < game_state.water
 
 func can_grow_at(zpos: Vector2) -> bool:
     return can_grow() and game_state.plant_state.get(zpos) == null and zpos != spring.zone_position and zpos != petrified_tree.zone_position
@@ -98,16 +94,22 @@ func can_grow_at(zpos: Vector2) -> bool:
 func grow_plant(id: String, zpos: Vector2) -> void:
     assert(can_grow_at(zpos))
     var plant: Plant = PLANT.instance()
-    plant.zone_position = zpos
+    add_entity_at(plant, zpos)
     # This function fills in plant_state.
     plant.grow_into(id)
-    add_entity(plant)
 
 func count_spells() -> Dictionary:
-    var counts := {}
+    # The petrified tree provides 1 of each spell.
+    var counts := {
+        PlantArchetype.Kind.TREE: 1,
+        PlantArchetype.Kind.BUSH: 1,
+        PlantArchetype.Kind.FLOWER: 1,
+        PlantArchetype.Kind.FUNGUS: 1,
+        PlantArchetype.Kind.MOSS: 1,
+    }
     for n in get_tree().get_nodes_in_group("plant"):
         var plant: Plant = n
-        counts[plant.get_archetype_id()] = counts.get(plant.get_archetype_id(), 0) + plant.get_water_level_charges()
+        counts[plant.get_kind()] = counts.get(plant.get_kind(), 0) + plant.get_current_stage_charges()
     return counts
 
 func leaving_for_cavern() -> void:

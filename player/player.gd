@@ -1,7 +1,13 @@
 extends Entity
 class_name Player
 
+signal took_turn()
+
+onready var tween := $tween
+
 func _unhandled_input(event: InputEvent):
+    if $tween.is_active():
+        return
     var delta := Vector2.ZERO
     if event.is_action_pressed("ui_up", true):
         delta = Vector2(0, -1)
@@ -14,12 +20,19 @@ func _unhandled_input(event: InputEvent):
     
     if delta != Vector2.ZERO:
         var test := zone_position + delta
-        var ent: Entity = game.main.current_zone.get_entity_at(test)
+        var ent: Entity = zone.get_entity(test)
         if ent:
             ent.bump()
-        elif not game.main.current_zone.unwalkable(test):
-            game.main.current_zone.move_entity(self, test)
-        get_tree().call_group("turn_taker", "take_turn")
+            emit_signal("took_turn")
+        elif not zone.unwalkable(test):
+            tween.interpolate_property(self, "zone_position",
+                zone_position, test, 0.1, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+            tween.start()
+            yield(tween, "tween_all_completed")
+            emit_signal("took_turn")
 
 func _draw():
-    draw_circle(Vector2(8, 8), 8, Color.red)
+    draw_circle(Vector2(8, 8), 5, Color.red)
+
+func bump() -> void:
+    print("WHAT")

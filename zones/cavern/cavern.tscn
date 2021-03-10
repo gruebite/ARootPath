@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://zones/cavern/cavern.gd" type="Script" id=1]
 [ext_resource path="res://zones/targeting/targeting.tscn" type="PackedScene" id=2]
 [ext_resource path="res://zones/cavern/cavern_tileset.tres" type="TileSet" id=3]
 [ext_resource path="res://zones/cavern/fog_tileset.tres" type="TileSet" id=4]
 [ext_resource path="res://zones/cavern/slime/slime_brain.tscn" type="PackedScene" id=5]
+[ext_resource path="res://player/player.tscn" type="PackedScene" id=6]
 
 [node name="cavern" type="Node2D"]
 script = ExtResource( 1 )
@@ -14,7 +15,9 @@ tile_set = ExtResource( 3 )
 cell_size = Vector2( 16, 16 )
 format = 1
 
-[node name="entities" type="Node2D" parent="."]
+[node name="objects" type="YSort" parent="."]
+
+[node name="entities" type="YSort" parent="."]
 
 [node name="targeting" parent="." instance=ExtResource( 2 )]
 
@@ -22,5 +25,7 @@ format = 1
 tile_set = ExtResource( 4 )
 cell_size = Vector2( 16, 16 )
 format = 1
+
+[node name="player" parent="." instance=ExtResource( 6 )]
 
 [node name="slime_brain" parent="." instance=ExtResource( 5 )]

@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://zones/island/action/grow_action.gd" type="Script" id=1]
+[ext_resource path="res://fonts/cozette.tres" type="DynamicFont" id=2]
 
 [sub_resource type="ImageTexture" id=6]
 size = Vector2( 392, 96 )
@@ -12,19 +13,6 @@ period = 16.0
 width = 16
 height = 16
 noise = SubResource( 2 )
-
-[sub_resource type="Shader" id=4]
-code = "shader_type canvas_item;
-
-void fragment() {
-    COLOR = vec4(1.0, 1.0, 1.0, 0.5) * MODULATE;    
-}"
-
-[sub_resource type="ShaderMaterial" id=5]
-shader = SubResource( 4 )
-
-[sub_resource type="ImageTexture" id=3]
-size = Vector2( 16, 16 )
 
 [node name="grow_action" type="Control"]
 anchor_left = 0.5
@@ -52,6 +40,9 @@ margin_right = 196.0
 margin_bottom = 48.0
 rect_min_size = Vector2( 392, 96 )
 texture = SubResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="items" type="VBoxContainer" parent="container"]
 anchor_left = 0.5
@@ -116,6 +107,7 @@ rect_min_size = Vector2( 0, 32 )
 [node name="label" type="RichTextLabel" parent="container/items/description"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+custom_fonts/normal_font = ExtResource( 2 )
 bbcode_enabled = true
 bbcode_text = "[color=red]CLEAVING OAK[/color]
 DEALS DAMAGE IN AN AREA AROUND THE WISP."
@@ -124,59 +116,3 @@ DEALS DAMAGE IN AN AREA AROUND THE WISP."
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="up" type="TextureRect" parent="."]
-visible = false
-material = SubResource( 5 )
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_top = -16.0
-margin_right = 16.0
-margin_bottom = 1.52588e-05
-rect_min_size = Vector2( 16, 16 )
-texture = SubResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="down" type="TextureRect" parent="."]
-visible = false
-material = SubResource( 5 )
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_top = 16.0
-margin_right = 16.0
-margin_bottom = 32.0
-rect_min_size = Vector2( 16, 16 )
-texture = SubResource( 3 )
-
-[node name="left" type="TextureRect" parent="."]
-visible = false
-material = SubResource( 5 )
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -16.0
-margin_top = 1.52588e-05
-margin_bottom = 16.0
-rect_min_size = Vector2( 16, 16 )
-texture = SubResource( 3 )
-
-[node name="right" type="TextureRect" parent="."]
-visible = false
-material = SubResource( 5 )
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 16.0
-margin_top = 1.52588e-05
-margin_right = 32.0
-margin_bottom = 16.0
-rect_min_size = Vector2( 16, 16 )
-texture = SubResource( 3 )

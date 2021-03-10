@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://zones/cavern/slime/demon.gd" type="Script" id=1]
+[ext_resource path="res://assets/monochrome.png" type="Texture" id=2]
+
+[node name="demon" type="Sprite" groups=[
+"demon",
+"slime",
+]]
+modulate = Color( 0.905882, 0, 0.211765, 1 )
+texture = ExtResource( 2 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 102, 34, 16, 16 )
+script = ExtResource( 1 )

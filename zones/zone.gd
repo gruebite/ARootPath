@@ -3,7 +3,9 @@ class_name Zone
 
 const PLAYER = preload("res://player/player.tscn")
 
+onready var tiles = $tiles
 onready var entities = $entities
+onready var targeting = $targeting
 
 var player: Player
 
@@ -27,6 +29,12 @@ func add_entity_at(ent: Entity, zpos: Vector2) -> void:
 func remove_entity(ent: Entity) -> void:
     entities.remove_child(ent)
     entity_lookup.erase(ent.zone_position)
+
+func remove_entity_at(zpos: Vector2) -> void:
+    if not entity_lookup.has(zpos):
+        return
+    entities.remove_child(entity_lookup[zpos])
+    entity_lookup.erase(zpos)
 
 func get_entity_at(zpos: Vector2) -> Entity:
     return entity_lookup.get(zpos)

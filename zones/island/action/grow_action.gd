@@ -1,69 +1,64 @@
 extends Control
 
-var selector: Control = null
+var shape := ShapeCast.new()
+
+var spots := []
+
+var selecting := false
 
 func _ready() -> void:
     grab_focus()
 
 func _gui_input(event: InputEvent) -> void:
     if event.is_action_pressed("ui_cancel"):
-        if selector:
-            selector.hide()
+        if selecting:
+            game.main.current_zone.targeting.clear()
             $container.show()
-            selector = null
+            selecting = false
         else:
             queue_free()
     elif event.is_action_pressed("ui_accept"):
-        if selector:
-            var island = game.main.current_zone
-            island.grow_plant(Plant.CLEAVING_OAK, island.player.zone_position + get_selector_delta())
-            queue_free()
+        if selecting:
+            if get_targeting_kind() == Targeting.Kind.YES:
+                var island = game.main.current_zone
+                island.grow_plant(Plant.CLEAVING_OAK, spots[0])
+                game.main.current_zone.targeting.clear()
+                queue_free()
+            else:
+                game.main.show_message(["Cannot plant tree."], funcref(self, "grab_focus"))
         else:
-            selector = $up
-            selector.show()
+            selecting = true
             $container.hide()
-            check_can_grow()
+            spots = shape.cast(game.main.current_zone.player.zone_position, ShapeCast.Direction.NORTH)
+            game.main.current_zone.targeting.clear()
+            game.main.current_zone.targeting.add_points(spots, get_targeting_kind())
     elif event.is_action_pressed("ui_up"):
-        if selector:
-            selector.hide()
-            selector = $up
-            selector.show()
-            check_can_grow()
+        if selecting:
+            spots = shape.cast(game.main.current_zone.player.zone_position, ShapeCast.Direction.NORTH)
+            game.main.current_zone.targeting.clear()
+            game.main.current_zone.targeting.add_points(spots, get_targeting_kind())
     elif event.is_action_pressed("ui_down"):
-        if selector:
-            selector.hide()
-            selector = $down
-            selector.show()
-            check_can_grow()
+        if selecting:
+            spots = shape.cast(game.main.current_zone.player.zone_position, ShapeCast.Direction.SOUTH)
+            game.main.current_zone.targeting.clear()
+            game.main.current_zone.targeting.add_points(spots, get_targeting_kind())
     elif event.is_action_pressed("ui_left"):
-        if selector:
-            selector.hide()
-            selector = $left
-            selector.show()
-            check_can_grow()
+        if selecting:
+            spots = shape.cast(game.main.current_zone.player.zone_position, ShapeCast.Direction.WEST)
+            game.main.current_zone.targeting.clear()
+            game.main.current_zone.targeting.add_points(spots, get_targeting_kind())
     elif event.is_action_pressed("ui_right"):
-        if selector:
-            selector.hide()
-            selector = $right
-            selector.show()
-            check_can_grow()
+        if selecting:
+            spots = shape.cast(game.main.current_zone.player.zone_position, ShapeCast.Direction.EAST)
+            game.main.current_zone.targeting.clear()
+            game.main.current_zone.targeting.add_points(spots, get_targeting_kind())
             
     accept_event()
 
-func check_can_grow() -> void:
-    assert(selector)
+func get_targeting_kind() -> int:
+    assert(selecting)
     var island = game.main.current_zone
-    if island.can_grow_at(island.player.zone_position + get_selector_delta()):
-        selector.modulate = Color.green
+    if island.can_grow_at(spots[0]):
+        return Targeting.Kind.YES
     else:
-        selector.modulate = Color.red
-
-func get_selector_delta() -> Vector2:
-    assert(selector)
-    var delta := Vector2.ZERO
-    match selector.name:
-        "up": delta = Vector2.UP
-        "down": delta = Vector2.DOWN
-        "left": delta = Vector2.LEFT
-        "right": delta = Vector2.RIGHT
-    return delta
+        return Targeting.Kind.NO

@@ -1,17 +1,6 @@
 extends Resource
 class_name Walker
 
-const DIR8 = [
-    Vector2( 0, -1),
-    Vector2( 1, -1),
-    Vector2( 1,  0),
-    Vector2( 1,  1),
-    Vector2( 0,  1),
-    Vector2(-1,  1),
-    Vector2(-1,  0),
-    Vector2(-1, -1),
-]
-
 # Maintains a random access point set.
 class PointSet:
     var array := []
@@ -140,14 +129,15 @@ func stepv(delta: Vector2) -> void:
     position += delta
 
 func step_random() -> void:
-    position += DIR8[rng.randi_range(0, len(DIR8) - 1)]
+    position += Direction.delta(rng.randi_range(0, Direction.COUNT - 1))
 
 func step_weighted_last(weight: float) -> void:
     var target_angle := position.angle_to_point(remembered[-1])
     var sum := 0.0
     var weights := []
     var candidates := []
-    for delta in DIR8:
+    for dir in Direction.COUNT:
+        var delta := Direction.delta(dir)
         var cand = position + delta
         if out_of_bounds(cand):
             continue

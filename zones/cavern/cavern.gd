@@ -23,10 +23,9 @@ const CAST_ACTION := preload("res://zones/cavern/action/cast_action.tscn")
 
 const HOLE := preload("res://zones/cavern/hole/hole.tscn")
 const ROOTS := preload("res://zones/cavern/roots/roots.tscn")
-const SLIME := preload("res://zones/cavern/slime/slime.tscn")
 
-onready var tiles = $tiles
 onready var fog = $fog
+onready var slime_brain = $slime_brain
 
 var fov := ShadowCast.new(funcref(self, "unwalkable"), funcref(self, "reveal"))
 var unfov := ShadowCast.new(funcref(self, "unwalkable"), funcref(self, "unreveal"))
@@ -35,23 +34,23 @@ var spell_counts: Dictionary
 var level := 0
 
 func _ready() -> void:
+    slime_brain.zone = self
+    slime_brain.level = level
     carve()
     
 func _unhandled_input(event: InputEvent) -> void:
     if event.is_action_pressed("ui_accept"):
         var action = CAST_ACTION.instance()
         game.main.action_layer.add_child(action)
-    elif event.is_action_pressed("ui_cancel"):
-        game.main.warp_island()
 
 func move_entity(ent: Entity, to: Vector2) -> void:
     if ent.is_in_group("player"):
         unfov.compute(ent.zone_position, FOV_RADIUS)
         fov.compute(to, FOV_RADIUS)
-        for x in 16:
-            for y in 16:
-                var dx: int = x - 8
-                var dy: int = y - 8
+        for x in SLIME_RADIUS * 2:
+            for y in SLIME_RADIUS * 2:
+                var dx: int = x - SLIME_RADIUS
+                var dy: int = y - SLIME_RADIUS
     .move_entity(ent, to)
 
 func unwalkable(zpos: Vector2) -> bool:
@@ -102,9 +101,17 @@ func carve() -> void:
         roots_to_add -= 1
     
     move_entity(player, Vector2(size / 2, size / 2))
+    
+    slime_brain.spawn_leeches(walker)
 
 func unreveal(zpos: Vector2) -> void:
+    var ent = entity_lookup.get(zpos)
+    if ent:
+        ent.visible = false
     fog.set_cellv(zpos, 2)
 
 func reveal(zpos: Vector2) -> void:
+    var ent = entity_lookup.get(zpos)
+    if ent:
+        ent.visible = true
     fog.set_cellv(zpos, 1)

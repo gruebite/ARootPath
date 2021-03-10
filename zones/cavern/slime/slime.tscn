@@ -1,5 +1,15 @@
-[gd_scene format=2]
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://zones/cavern/slime/slime.gd" type="Script" id=1]
+[ext_resource path="res://assets/monochrome.png" type="Texture" id=2]
 
 [node name="slime" type="Sprite" groups=[
 "slime",
 ]]
+modulate = Color( 0.913725, 0.419608, 1, 1 )
+position = Vector2( 0, -0.198425 )
+texture = ExtResource( 2 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 340, 85, 16, 16 )
+script = ExtResource( 1 )

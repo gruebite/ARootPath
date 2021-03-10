@@ -19,6 +19,7 @@ func _unhandled_input(event: InputEvent):
             ent.bump()
         elif not game.main.current_zone.unwalkable(test):
             game.main.current_zone.move_entity(self, test)
+        get_tree().call_group("turn_taker", "take_turn")
 
 func _draw():
     draw_circle(Vector2(8, 8), 8, Color.red)

@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://zones/island/island.gd" type="Script" id=1]
+[ext_resource path="res://zones/targeting/targeting.tscn" type="PackedScene" id=2]
 [ext_resource path="res://zones/island/island_tileset.tres" type="TileSet" id=3]
 
 [node name="island" type="Node2D"]
@@ -13,3 +14,5 @@ cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
 
 [node name="entities" type="YSort" parent="."]
+
+[node name="targeting" parent="." instance=ExtResource( 2 )]

@@ -15,8 +15,6 @@ const PETRIFIED_TREE := preload("res://zones/island/petrified_tree/petrified_tre
 const SPRING := preload("res://zones/island/spring/spring.tscn")
 const PLANT := preload("res://zones/island/plant/plant.tscn")
 
-onready var tiles := $tiles
-
 var spring: Entity
 var petrified_tree: Entity
 

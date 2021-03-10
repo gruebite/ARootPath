@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://zones/cavern/slime/slime_brain.gd" type="Script" id=1]
+
+[node name="slime_brain" type="Node2D" groups=[
+"turn_taker",
+]]
+script = ExtResource( 1 )

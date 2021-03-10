@@ -49,11 +49,11 @@ func warp_cavern(level: int=0) -> void:
     zone.add_child(cavern)
 
 func show_message(texts: Array, yes: FuncRef=null, no: FuncRef=null) -> void:
-    if action_layer.get_child_count() > 0:
+    if text_layer.get_child_count() > 0:
         print("Tried to create multiple messages")
         return
     var msg: MessageBox = MESSAGE_BOX.instance()
     msg.texts = texts
     msg.yes = yes
     msg.no = no
-    action_layer.add_child(msg)
+    text_layer.add_child(msg)

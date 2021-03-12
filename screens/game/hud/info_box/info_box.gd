@@ -21,8 +21,6 @@ func display_plant_kind(kind: int, can_afford: bool) -> void:
     $PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer/GrowthPeriod/Label.text = str(res.growth_period)
     $PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer/WateringQuantity/Label.text = str(res.watering_quantity)
     $PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer/WateringFrequency/Label.text = str(res.watering_frequency)
-    $PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer/DroughtLimit/Label.text = str(res.drought_limit)
-    $PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer/Charges/Label.text = str(res.spell_charges)
     $PlantArch/NinePatch/MarginContainer/VBoxContainer/Description.text = res.description
     $PlantArch.show()
 
@@ -37,7 +35,6 @@ func display_plant(plant: Plant) -> void:
         $Plant/NinePatch/MarginContainer/VBoxContainer/GridContainer/WaterNeeded/Label.modulate = Color.white
     $Plant/NinePatch/MarginContainer/VBoxContainer/GridContainer/Age/Label.text = str(plant.get_age())
     $Plant/NinePatch/MarginContainer/VBoxContainer/GridContainer/Stage/Label.text = str(plant.get_stage())
-    $Plant/NinePatch/MarginContainer/VBoxContainer/GridContainer/DroughtLevel/Label.text = str(int(max(0, plant.get_drought_level())))
     $Plant/NinePatch/MarginContainer/VBoxContainer/GridContainer/Charges/Label.text = str(plant.get_charges())
     $Plant/NinePatch/MarginContainer/VBoxContainer/Description.text = res.spell_description
     $Plant.show()

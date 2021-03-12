@@ -145,8 +145,8 @@ gdscript/warnings/integer_division=false
 
 [display]
 
-window/size/width=512
-window/size/height=384
+window/size/width=384
+window/size/height=216
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 

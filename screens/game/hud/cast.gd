@@ -37,6 +37,6 @@ func perform(at: Vector2, index: int=0) -> void:
     active = true
     selected = index
     origin = at
-    info_box.display_simple(Plant.SPELLS[selected])
+    info_box.display_simple(Plant.KIND_RESOURCES[selected].spell_description)
     resources.charges.select(selected)
     

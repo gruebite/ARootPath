@@ -6,7 +6,7 @@
 script = ExtResource( 1 )
 name = "Starry Poppies"
 description = "Burning yellow."
-spell_description = "Teleport to a visible location."
+spell_description = "Teleport to a location."
 grow_cost = 2
 growth_period = 1
 spell_charges = 1

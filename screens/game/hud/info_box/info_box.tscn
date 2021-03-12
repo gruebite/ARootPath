@@ -22,9 +22,11 @@ __meta__ = {
 [node name="PlantArch" type="Control" parent="."]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -88.0
-margin_right = 184.0
-rect_min_size = Vector2( 184, 88 )
+margin_left = -8.0
+margin_top = -56.0
+margin_right = 176.0
+margin_bottom = 8.0
+rect_min_size = Vector2( 184, 56 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -46,14 +48,14 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 174.0
-margin_bottom = 78.0
+margin_bottom = 54.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="GridContainer" type="GridContainer" parent="PlantArch/NinePatch/MarginContainer/VBoxContainer"]
 margin_right = 164.0
-margin_bottom = 38.0
+margin_bottom = 44.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 2
@@ -152,6 +154,7 @@ text = "3"
 align = 1
 
 [node name="Description" type="Label" parent="PlantArch/NinePatch/MarginContainer/VBoxContainer"]
+visible = false
 margin_top = 52.0
 margin_right = 164.0
 margin_bottom = 58.0
@@ -169,8 +172,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -184.0
-margin_top = -88.0
+margin_left = -177.0
+margin_top = -80.0
+margin_right = 7.0
+margin_bottom = 8.0
 rect_min_size = Vector2( 184, 88 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -313,13 +318,14 @@ __meta__ = {
 }
 
 [node name="Simple" type="Control" parent="."]
-visible = false
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -216.0
-margin_top = -32.0
+margin_left = -209.0
+margin_top = -24.0
+margin_right = 7.0
+margin_bottom = 8.00002
 rect_min_size = Vector2( 216, 32 )
 __meta__ = {
 "_edit_use_anchors_": false

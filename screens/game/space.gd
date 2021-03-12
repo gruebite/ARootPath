@@ -196,12 +196,11 @@ func interact(index: int=-1) -> void:
     else:
         emit_signal("player_interacted", player.map_position, index)
 
-func move_player(to: Vector2) -> void:
+func move_player(to: Vector2, is_turn: bool=true) -> void:
     if unwalkable(to): return
     if turn_system.current_turn != TurnSystem.TURN_PLAYER:
         print("NOT TURN ", turn_system.thinker_count)
         return
-    GameState.stop_spell_chain()
 
     var ent: Entity = entities.get_entity(to)
     if ent and ent.is_in_group("slime"):
@@ -212,7 +211,10 @@ func move_player(to: Vector2) -> void:
         if fog.visible:
             fog.recompute(from, to)
         emit_signal("player_entered", to)
-    turn_system.do_turn()
+    
+    if is_turn:
+        GameState.stop_spell_chain()
+        turn_system.do_turn()
 
 func unwalkable(mpos: Vector2) -> bool:
     return not Tile.walkable(tiles.get_cellv(mpos))
@@ -236,10 +238,54 @@ func grow_plant(kind: int, at: Vector2) -> void:
 
 
 func can_cast_spell(kind: int, area: Array) -> bool:
+    if GameState.spell_charges[kind] == 0:
+        return false
+    if GameState.chain_count >= GameState.water:
+        return false
+    match kind:
+        Plant.Kind.TREE:
+            return true
+        Plant.Kind.BUSH:
+            return not unwalkable(area[0]) and not entities.get_entity(area[0]) and fog.is_revealed(area[0])
+        Plant.Kind.FLOWER:
+            return not unwalkable(area[0]) and fog.is_revealed(area[0])
+        Plant.Kind.FUNGUS:
+            return true
+        Plant.Kind.MOSS:
+            return true
     return false
 
 func cast_spell(kind: int, area: Array) -> void:
-    pass
+    assert(can_cast_spell(kind, area))
+    match kind:
+        Plant.Kind.TREE:
+            for pos in area:
+                if fog.is_revealed(pos):
+                    var slime = entities.get_entity(pos)
+                    if slime and slime.is_in_group("slime"):
+                        slime.damage()
+        Plant.Kind.BUSH:
+            var slime = entities.get_entity(area[0])
+            if slime and slime.is_in_group("slime"):
+                slime.damage()
+        Plant.Kind.FLOWER:
+            move_player(area[0], false)
+        Plant.Kind.FUNGUS:
+            if fog.is_revealed(area[0]):
+                slime_brain.freeze_spot(area[0])
+        Plant.Kind.MOSS:
+            for pos in area:
+                if fog.is_revealed(pos):
+                    var slime = entities.get_entity(area[0])
+                    if slime and slime.is_in_group("slime"):
+                        slime.damage()
+                    elif tiles.get_cellv(pos) == -1:
+                        tiles.set_cellv(pos, Tile.GROUND)
+                        tiles.update_bitmask_area(pos)
+                        move_player(player.map_position, false)
+    GameState.modify_water(-GameState.chain_count)
+    GameState.use_spell_charge(kind)
+    GameState.chain_spell()
 
 func _has_space_for_plant(kind: int, at: Vector2) -> bool:
     if entities.get_entity(at) != null: return true

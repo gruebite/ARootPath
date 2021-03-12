@@ -115,6 +115,9 @@ func remove_slime(at: Vector2) -> int:
     slimes.erase(at)
     return kind
 
+func freeze_spot(at: Vector2) -> void:
+    pass
+
 func _slime_died(slime: Entity) -> void:
     remove_slime(slime.map_position)
 

@@ -36,7 +36,7 @@ func display_plant(plant: Plant) -> void:
     $Plant/NinePatch/MarginContainer/VBoxContainer/GridContainer/Age/Label.text = str(plant.get_age())
     $Plant/NinePatch/MarginContainer/VBoxContainer/GridContainer/Stage/Label.text = str(plant.get_stage())
     $Plant/NinePatch/MarginContainer/VBoxContainer/GridContainer/Charges/Label.text = str(plant.get_charges())
-    $Plant/NinePatch/MarginContainer/VBoxContainer/Description.text = res.spell_description
+    $Plant/NinePatch/MarginContainer/VBoxContainer/Description.text = res.description
     $Plant.show()
 
 func hide_all() -> void:

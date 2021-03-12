@@ -43,6 +43,10 @@ func set_water(to: int) -> void:
 func set_spell_charge(kind: int, to: int) -> void:
     spell_charges[kind] = to
     emit_signal("spell_charge_changed", kind, to)
+    
+func use_spell_charge(kind: int) -> void:
+    assert(spell_charges[kind] >= 0)
+    set_spell_charge(kind, spell_charges[kind] - 1)
 
 func chain_spell() -> void:
     chain_count += 1

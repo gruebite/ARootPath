@@ -96,6 +96,25 @@ func warp_island() -> void:
                     # North/West
                     128:
                         $TileFix.set_cellv(p * 2 + Vector2(0, 0), 3)
+            if tiles.get_cellv(p) == Tile.GROUND:
+                var w: int = 0
+                for dir in Direction.COUNT:
+                    var t: int = tiles.get_cellv(p + Direction.delta(dir))
+                    if t == Tile.WATER or t == -1:
+                        w |= 1 << dir
+                match w:
+                    # NorthEast
+                    2:
+                        $TileFix.set_cellv(p * 2 + Vector2(1, 0), 4)
+                    # SouthEast
+                    8:
+                        $TileFix.set_cellv(p * 2 + Vector2(1, 1), 5)
+                    # South/West
+                    32:
+                        $TileFix.set_cellv(p * 2 + Vector2(0, 1), 6)
+                    # North/West
+                    128:
+                        $TileFix.set_cellv(p * 2 + Vector2(0, 0), 7)
     post_process(GameState.ISLAND_WIDTH, GameState.ISLAND_HEIGHT)
 
     var FAIRY_COUNT := 10

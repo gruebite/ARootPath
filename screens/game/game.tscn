@@ -43,16 +43,16 @@ tile_set = ExtResource( 2 )
 cell_size = Vector2( 16, 16 )
 format = 1
 
-[node name="Targeting" type="TileMap" parent="Space"]
-tile_set = ExtResource( 10 )
-cell_size = Vector2( 16, 16 )
-format = 1
-
 [node name="FOG" type="TileMap" parent="Space"]
 tile_set = ExtResource( 9 )
 cell_size = Vector2( 16, 16 )
 format = 1
 script = ExtResource( 7 )
+
+[node name="Targeting" type="TileMap" parent="Space"]
+tile_set = ExtResource( 10 )
+cell_size = Vector2( 16, 16 )
+format = 1
 
 [node name="SlimeBrain" type="Node2D" parent="Space" groups=[
 "turn_taker",

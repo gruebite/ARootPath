@@ -7,7 +7,7 @@ enum {
     SEEN,    
 }
 
-const RADIUS := 10
+const RADIUS := 7
 
 onready var fov := ShadowCast.new(funcref(get_parent(), "unwalkable"), funcref(self, "reveal"))
 onready var unfov := ShadowCast.new(funcref(get_parent(), "unwalkable"), funcref(self, "unreveal"))

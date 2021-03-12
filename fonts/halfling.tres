@@ -1,7 +1,9 @@
 [gd_resource type="DynamicFont" load_steps=2 format=2]
 
-[ext_resource path="res://fonts/m5x7.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://fonts/halfling.ttf" type="DynamicFontData" id=1]
 
 [resource]
+size = 8
 extra_spacing_top = -2
+extra_spacing_bottom = 1
 font_data = ExtResource( 1 )

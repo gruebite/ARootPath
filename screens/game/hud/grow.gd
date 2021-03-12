@@ -16,15 +16,15 @@ var target_shape := ShapeCast.new()
 func _gui_input(event: InputEvent) -> void:
     if not active: return
     accept_event()
-    
+
     if event.is_action_pressed("ui_cancel"):
         cancel()
         return
-    
+
     if targeting:
         do_targeting(event)
         return
-    
+
     if event.is_action_pressed("ui_accept"):
         targeting = true
         target(Direction.NORTH)
@@ -95,4 +95,4 @@ func do_targeting(event: InputEvent) -> void:
         target(Direction.WEST)
     elif event.is_action_pressed("ui_right"):
         target(Direction.EAST)
-    
+

@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://ui/theme.tres" type="Theme" id=1]
+[ext_resource path="res://screens/game/hud/resources/resources.gd" type="Script" id=2]
+[ext_resource path="res://screens/game/hud/resources/water/water.tscn" type="PackedScene" id=3]
+[ext_resource path="res://screens/game/hud/resources/charges/charges.tscn" type="PackedScene" id=4]
+
+[node name="Resources" type="Control"]
+margin_right = 96.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 96, 128 )
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Charges" parent="." instance=ExtResource( 4 )]
+margin_top = 24.0
+margin_right = -96.0
+margin_bottom = -104.0
+
+[node name="Water" parent="." instance=ExtResource( 3 )]

@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://screens/game/hud/resources/subkinds/subkinds.gd" type="Script" id=1]
+[ext_resource path="res://ui/theme.tres" type="Theme" id=2]
+[ext_resource path="res://ui/nine_patch/nine_patch.tscn" type="PackedScene" id=3]
+
+[node name="Subkinds" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 2 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tree" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NinePatch" parent="Tree" instance=ExtResource( 3 )]
+
+[node name="Bush" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NinePatch" parent="Bush" instance=ExtResource( 3 )]
+
+[node name="Flower" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NinePatch" parent="Flower" instance=ExtResource( 3 )]
+
+[node name="Fungus" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NinePatch" parent="Fungus" instance=ExtResource( 3 )]
+
+[node name="Moss" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NinePatch" parent="Moss" instance=ExtResource( 3 )]

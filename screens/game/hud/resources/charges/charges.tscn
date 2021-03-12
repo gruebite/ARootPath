@@ -1,0 +1,134 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://screens/game/hud/resources/charges/charges.gd" type="Script" id=1]
+[ext_resource path="res://ui/theme.tres" type="Theme" id=2]
+[ext_resource path="res://ui/nine_patch/nine_patch.tscn" type="PackedScene" id=3]
+[ext_resource path="res://ui/plant_icon/plant_icon.tscn" type="PackedScene" id=4]
+
+[node name="Charges" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -512.0
+margin_bottom = -384.0
+theme = ExtResource( 2 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NinePatch" parent="." instance=ExtResource( 3 )]
+margin_left = -8.0
+margin_top = -8.0
+margin_right = 40.0
+margin_bottom = 72.0
+rect_min_size = Vector2( 48, 80 )
+
+[node name="MarginContainer" type="MarginContainer" parent="NinePatch"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NinePatch/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 38.0
+margin_bottom = 70.0
+
+[node name="Trees" type="HBoxContainer" parent="NinePatch/MarginContainer/VBoxContainer"]
+margin_right = 28.0
+margin_bottom = 8.0
+
+[node name="Amount" type="Label" parent="NinePatch/MarginContainer/VBoxContainer/Trees"]
+margin_top = 1.0
+margin_right = 12.0
+margin_bottom = 7.0
+size_flags_horizontal = 7
+text = "1"
+align = 1
+
+[node name="PlantIcon" parent="NinePatch/MarginContainer/VBoxContainer/Trees" instance=ExtResource( 4 )]
+margin_left = 18.0
+margin_right = 26.0
+size_flags_horizontal = 6
+
+[node name="Bushes" type="HBoxContainer" parent="NinePatch/MarginContainer/VBoxContainer"]
+margin_top = 12.0
+margin_right = 28.0
+margin_bottom = 20.0
+
+[node name="Amount" type="Label" parent="NinePatch/MarginContainer/VBoxContainer/Bushes"]
+margin_top = 1.0
+margin_right = 12.0
+margin_bottom = 7.0
+size_flags_horizontal = 7
+text = "1"
+align = 1
+
+[node name="PlantIcon" parent="NinePatch/MarginContainer/VBoxContainer/Bushes" instance=ExtResource( 4 )]
+margin_left = 18.0
+margin_right = 26.0
+size_flags_horizontal = 6
+kind = 1
+
+[node name="Flowers" type="HBoxContainer" parent="NinePatch/MarginContainer/VBoxContainer"]
+margin_top = 24.0
+margin_right = 28.0
+margin_bottom = 32.0
+
+[node name="Amount" type="Label" parent="NinePatch/MarginContainer/VBoxContainer/Flowers"]
+margin_top = 1.0
+margin_right = 12.0
+margin_bottom = 7.0
+size_flags_horizontal = 7
+text = "1"
+align = 1
+
+[node name="PlantIcon" parent="NinePatch/MarginContainer/VBoxContainer/Flowers" instance=ExtResource( 4 )]
+margin_left = 18.0
+margin_right = 26.0
+size_flags_horizontal = 6
+kind = 2
+
+[node name="Fungi" type="HBoxContainer" parent="NinePatch/MarginContainer/VBoxContainer"]
+margin_top = 36.0
+margin_right = 28.0
+margin_bottom = 44.0
+
+[node name="Amount" type="Label" parent="NinePatch/MarginContainer/VBoxContainer/Fungi"]
+margin_top = 1.0
+margin_right = 12.0
+margin_bottom = 7.0
+size_flags_horizontal = 7
+text = "1"
+align = 1
+
+[node name="PlantIcon" parent="NinePatch/MarginContainer/VBoxContainer/Fungi" instance=ExtResource( 4 )]
+margin_left = 18.0
+margin_right = 26.0
+size_flags_horizontal = 6
+kind = 3
+
+[node name="Mosses" type="HBoxContainer" parent="NinePatch/MarginContainer/VBoxContainer"]
+margin_top = 48.0
+margin_right = 28.0
+margin_bottom = 56.0
+
+[node name="Amount" type="Label" parent="NinePatch/MarginContainer/VBoxContainer/Mosses"]
+margin_top = 1.0
+margin_right = 12.0
+margin_bottom = 7.0
+size_flags_horizontal = 7
+text = "1"
+align = 1
+
+[node name="PlantIcon" parent="NinePatch/MarginContainer/VBoxContainer/Mosses" instance=ExtResource( 4 )]
+margin_left = 18.0
+margin_right = 26.0
+size_flags_horizontal = 6
+kind = 4

@@ -37,7 +37,7 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "InfoBox",
 "language": "GDScript",
-"path": "res://screens/game/hud/info_box.gd"
+"path": "res://screens/game/hud/info_box/info_box.gd"
 }, {
 "base": "Entity",
 "class": "Plant",
@@ -57,7 +57,7 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "Resources",
 "language": "GDScript",
-"path": "res://screens/game/hud/resources.gd"
+"path": "res://screens/game/hud/resources/resources.gd"
 }, {
 "base": "Reference",
 "class": "ShadowCast",

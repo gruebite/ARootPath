@@ -34,6 +34,8 @@ var player: Player
 var where: int
 var cavern_level: int
 
+var noise := OpenSimplexNoise.new()
+
 onready var turn_system := get_node(turn_system_path)
 onready var tiles := $Tiles
 onready var targeting := $Targeting

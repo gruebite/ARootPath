@@ -59,22 +59,9 @@ func warp_island() -> void:
     for y in GameState.ISLAND_HEIGHT:
         for x in GameState.ISLAND_WIDTH:
             var c = GameState.island_tiles[Vector2(x, y)]
-            tiles.set_cell(x, y, c)
-    tiles.update_bitmask_region(Vector2.ZERO, Vector2(GameState.ISLAND_WIDTH, GameState.ISLAND_HEIGHT))
-    # Fix tiles near water.
-    for y in GameState.ISLAND_HEIGHT:
-        for x in GameState.ISLAND_WIDTH:
-            if tiles.get_cell(x, y) == Tile.GROUND:
-                var near_void := false
-                var near_water := false
-                for dir in range(0, Direction.COUNT, 2):
-                    var test := Vector2(x, y) + Direction.delta(dir)
-                    if tiles.get_cellv(test) == -1:
-                        near_void = true
-                    elif tiles.get_cellv(test) == Tile.WATER:
-                        near_water = true
-                if near_water and not near_void:
-                    tiles.set_cell(x, y, Tile.GROUND, false, false, false, Vector2(2, 2))
+            if c >= 0:
+                tiles.set_cell(x, y, c)
+    tiles.update_bitmask_region()
                 
 
     player = Player.instance()

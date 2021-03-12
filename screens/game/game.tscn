@@ -22,6 +22,7 @@ turn_system_path = NodePath("../TurnSystem")
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 16, 16 )
 format = 1
+tile_data = PoolIntArray( 786451, 12, 0, 851982, 10, 0, 851983, 3, 0, 851984, 3, 0, 851985, 3, 0, 851986, 15, 0, 851987, 16, 0 )
 
 [node name="Entities" type="YSort" parent="Space"]
 script = ExtResource( 4 )

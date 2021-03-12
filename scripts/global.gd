@@ -5,4 +5,4 @@ var space: Space
 var rng := RandomNumberGenerator.new()
 
 func _ready() -> void:
-    rng.randomize()
+    pass#rng.randomize()

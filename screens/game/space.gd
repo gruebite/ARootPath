@@ -151,7 +151,7 @@ func warp_cavern() -> void:
 
     fog.unreveal_area(size, size)
     fog.recompute(player.map_position, player.map_position)
-    fog.show()
+    #fog.show()
 
     slime_brain.spawn_slimes(walker)
 

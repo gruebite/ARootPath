@@ -9,60 +9,55 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Zone",
-"class": "Cavern",
-"language": "GDScript",
-"path": "res://zones/cavern/cavern.gd"
-}, {
 "base": "Reference",
 "class": "Direction",
 "language": "GDScript",
 "path": "res://scripts/direction.gd"
 }, {
-"base": "Sprite",
-"class": "Entity",
+"base": "YSort",
+"class": "Entities",
 "language": "GDScript",
-"path": "res://zones/entity.gd"
-}, {
-"base": "Node",
-"class": "Game",
-"language": "GDScript",
-"path": "res://scripts/globals/game.gd"
-}, {
-"base": "Node",
-"class": "GameState",
-"language": "GDScript",
-"path": "res://scripts/globals/game_state.gd"
-}, {
-"base": "Zone",
-"class": "Island",
-"language": "GDScript",
-"path": "res://zones/island/island.gd"
+"path": "res://screens/game/entities.gd"
 }, {
 "base": "Node2D",
-"class": "Main",
+"class": "Entity",
 "language": "GDScript",
-"path": "res://screens/main/main.gd"
+"path": "res://entities/entity.gd"
+}, {
+"base": "TileMap",
+"class": "FOG",
+"language": "GDScript",
+"path": "res://screens/game/fov.gd"
+}, {
+"base": "Node2D",
+"class": "Game",
+"language": "GDScript",
+"path": "res://screens/game/game.gd"
 }, {
 "base": "Control",
-"class": "MessageBox",
+"class": "InfoBox",
 "language": "GDScript",
-"path": "res://screens/main/message_box/message_box.gd"
+"path": "res://screens/game/hud/info_box.gd"
 }, {
 "base": "Entity",
 "class": "Plant",
 "language": "GDScript",
-"path": "res://zones/island/plant/plant.gd"
+"path": "res://entities/plant/plant.gd"
 }, {
 "base": "Resource",
-"class": "PlantArchetype",
+"class": "PlantArch",
 "language": "GDScript",
-"path": "res://zones/island/plant/plant_archetype.gd"
+"path": "res://entities/plant/plant_arch.gd"
 }, {
 "base": "Entity",
 "class": "Player",
 "language": "GDScript",
 "path": "res://player/player.gd"
+}, {
+"base": "Control",
+"class": "Resources",
+"language": "GDScript",
+"path": "res://screens/game/hud/resources.gd"
 }, {
 "base": "Reference",
 "class": "ShadowCast",
@@ -74,56 +69,67 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/shape_cast.gd"
 }, {
-"base": "Entity",
-"class": "Slime",
+"base": "Node2D",
+"class": "SlimeBrain",
 "language": "GDScript",
-"path": "res://zones/cavern/slime/slime.gd"
+"path": "res://screens/game/slime_brain.gd"
 }, {
-"base": "TileMap",
-"class": "Targeting",
+"base": "Node2D",
+"class": "Space",
 "language": "GDScript",
-"path": "res://zones/targeting/targeting.gd"
+"path": "res://screens/game/world.gd"
+}, {
+"base": "Node",
+"class": "Tile",
+"language": "GDScript",
+"path": "res://scripts/tile.gd"
+}, {
+"base": "Node2D",
+"class": "TurnSystem",
+"language": "GDScript",
+"path": "res://screens/game/turn_system.gd"
+}, {
+"base": "Node",
+"class": "Util",
+"language": "GDScript",
+"path": "res://scripts/util.gd"
 }, {
 "base": "Resource",
 "class": "Walker",
 "language": "GDScript",
 "path": "res://scripts/walker.gd"
-}, {
-"base": "Node2D",
-"class": "Zone",
-"language": "GDScript",
-"path": "res://zones/zone.gd"
 } ]
 _global_script_class_icons={
-"Cavern": "",
 "Direction": "",
+"Entities": "",
 "Entity": "",
+"FOG": "",
 "Game": "",
-"GameState": "",
-"Island": "",
-"Main": "",
-"MessageBox": "",
+"InfoBox": "",
 "Plant": "",
-"PlantArchetype": "",
+"PlantArch": "",
 "Player": "",
+"Resources": "",
 "ShadowCast": "",
 "ShapeCast": "",
-"Slime": "",
-"Targeting": "",
-"Walker": "",
-"Zone": ""
+"SlimeBrain": "",
+"Space": "",
+"Tile": "",
+"TurnSystem": "",
+"Util": "",
+"Walker": ""
 }
 
 [application]
 
 config/name="A Root Path"
 config/description="2021 7DRL Entry"
-run/main_scene="res://screens/main/main.tscn"
+run/main_scene="res://screens/game/game.tscn"
 
 [autoload]
 
-game_state="*res://scripts/globals/game_state.gd"
-game="*res://scripts/globals/game.gd"
+Global="*res://scripts/global.gd"
+GameState="*res://scripts/game_state.gd"
 
 [debug]
 
@@ -137,6 +143,29 @@ window/size/width=512
 window/size/height=384
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
+
+[importer_defaults]
+
+texture={
+"compress/bptc_ldr": 0,
+"compress/hdr_mode": 0,
+"compress/lossy_quality": 0.7,
+"compress/mode": 0,
+"compress/normal_map": 0,
+"detect_3d": false,
+"flags/anisotropic": false,
+"flags/filter": false,
+"flags/mipmaps": false,
+"flags/repeat": 0,
+"flags/srgb": 2,
+"process/HDR_as_SRGB": false,
+"process/fix_alpha_border": true,
+"process/invert_color": false,
+"process/premult_alpha": false,
+"size_limit": 0,
+"stream": false,
+"svg/scale": 1.0
+}
 
 [rendering]
 

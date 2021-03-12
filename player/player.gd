@@ -1,13 +1,13 @@
 extends Entity
 class_name Player
 
-signal took_turn()
-
-onready var tween := $tween
-
-func _unhandled_input(event: InputEvent):
-    if $tween.is_active():
+func _unhandled_input(event: InputEvent) -> void:
+    # Interact below us.
+    if event.is_action_pressed("ui_accept"):
+        Global.space.interact()
         return
+
+    # Move.
     var delta := Vector2.ZERO
     if event.is_action_pressed("ui_up", true):
         delta = Vector2(0, -1)
@@ -17,22 +17,23 @@ func _unhandled_input(event: InputEvent):
         delta = Vector2(-1, 0)
     elif event.is_action_pressed("ui_right", true):
         delta = Vector2(1, 0)
-    
+
     if delta != Vector2.ZERO:
-        var test := zone_position + delta
-        var ent: Entity = zone.get_entity(test)
-        if ent:
-            ent.bump()
-            emit_signal("took_turn")
-        elif not zone.unwalkable(test):
-            tween.interpolate_property(self, "zone_position",
-                zone_position, test, 0.1, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
-            tween.start()
-            yield(tween, "tween_all_completed")
-            emit_signal("took_turn")
-
-func _draw():
-    draw_circle(Vector2(8, 8), 5, Color.red)
-
-func bump() -> void:
-    print("WHAT")
+        var desired := map_position + delta
+        Global.space.move_player(desired)
+        return
+        
+    match event.get_class():
+        "InputKeyEvent":
+            var key := event as InputEventKey
+            match key.scancode:
+                KEY_1:
+                    Global.space.interact(0)
+                KEY_2:
+                    Global.space.interact(1)
+                KEY_3:
+                    Global.space.interact(2)
+                KEY_4:
+                    Global.space.interact(3)
+                KEY_5:
+                    Global.space.interact(4)

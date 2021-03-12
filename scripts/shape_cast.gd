@@ -7,26 +7,24 @@ enum Kind {
     SQUARE,
     CIRCLE,
     CONE,
-    WALL,
-}
-
-enum Direction {
-    NONE,
-    NORTH,
-    EAST,
-    SOUTH,
-    WEST,    
 }
 
 export(Kind) var kind := Kind.POINT
 export var size := 1
 
-func cast(origin: Vector2, dir: int=Direction.NONE) -> Array:
+var origin := Vector2.ZERO
+var direction: int = -1
+
+func _init(k: int=Kind.POINT, sz: int=1) -> void:
+    kind = k
+    size = sz
+
+func cast() -> Array:
     match kind:
-        Kind.POINT: return [origin + __dir_to_vector(dir)]
+        Kind.POINT: return [origin + Direction.delta(direction)]
         Kind.LINE:
             var arr := []
-            var dirv := __dir_to_vector(dir)
+            var dirv := Direction.delta(direction)
             var iter := origin
             for i in size:
                 iter += dirv
@@ -34,7 +32,7 @@ func cast(origin: Vector2, dir: int=Direction.NONE) -> Array:
             return arr
         Kind.SQUARE:
             var arr := []
-            var dirv := __dir_to_vector(dir)
+            var dirv := Direction.delta(direction)
             var center := origin + (dirv * size)
             for y in size * 2:
                 for x in size * 2:
@@ -44,25 +42,27 @@ func cast(origin: Vector2, dir: int=Direction.NONE) -> Array:
             return arr
         Kind.CIRCLE:
             var arr := []
-            var dirv := __dir_to_vector(dir)
+            var dirv := Direction.delta(direction)
             var center := origin + (dirv * size)
             for y in size * 2:
                 for x in size * 2:
                     var dy: int = y - size
                     var dx: int = x - size
                     var v := Vector2(dx, dy)
-                    if v.length_squared() <= size * size:
+                    if v.length_squared() < size * size:
                         arr.append(center + v)
             return arr
-        Kind.CONE: return []
-        Kind.WALL: return []
+        Kind.CONE:
+            var arr := []
+            var dirv := Direction.delta(direction)
+            for y in size * 2:
+                for x in size * 2:
+                    var dy: int = y - size
+                    var dx: int = x - size
+                    var v := Vector2(dx, dy)
+                    if v.length_squared() <= size * size and abs(v.angle_to(dirv)) <= deg2rad(60):
+                        arr.append(origin + v)
+            return arr
     assert(false)
     return []
 
-func __dir_to_vector(dir: int) -> Vector2:
-    match dir:
-        Direction.NORTH: return Vector2.UP
-        Direction.EAST: return Vector2.RIGHT
-        Direction.SOUTH: return Vector2.DOWN
-        Direction.WEST: return Vector2.LEFT
-    return Vector2.ZERO

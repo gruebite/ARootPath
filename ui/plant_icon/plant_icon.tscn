@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/textures/tilesheet.png" type="Texture" id=1]
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 488, 504, 8, 8 )
+
+[node name="PlantIcon" type="TextureRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1024.0
+margin_bottom = -768.0
+rect_min_size = Vector2( 8, 8 )
+size_flags_vertical = 4
+texture = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

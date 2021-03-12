@@ -81,7 +81,7 @@ func start(w: int, h: int) -> void:
     for y in height:
         for x in width:
             closed_tiles.add(x, y)
-            grid[Vector2(x, y)] = 0
+            grid[Vector2(x, y)] = -1
 
 func out_of_bounds(pos: Vector2) -> bool:
     return pos.x < 0 || pos.y < 0 || pos.x >= width || pos.y >= height

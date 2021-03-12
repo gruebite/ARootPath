@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://entities/plant/plant_arch.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+name = "Fungus"
+description = "A fungus."
+kind = 3
+grow_cost = 5
+growth_period = 5
+spell_charges = 1
+watering_frequency = 1
+watering_quantity = 2
+drought_limit = 2

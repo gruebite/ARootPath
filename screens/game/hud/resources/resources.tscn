@@ -1,23 +1,59 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://ui/theme.tres" type="Theme" id=1]
 [ext_resource path="res://screens/game/hud/resources/resources.gd" type="Script" id=2]
 [ext_resource path="res://screens/game/hud/resources/water/water.tscn" type="PackedScene" id=3]
 [ext_resource path="res://screens/game/hud/resources/charges/charges.tscn" type="PackedScene" id=4]
+[ext_resource path="res://ui/nine_patch/nine_patch.tscn" type="PackedScene" id=5]
 
 [node name="Resources" type="Control"]
-margin_right = 96.0
-margin_bottom = 128.0
-rect_min_size = Vector2( 96, 128 )
+margin_left = -8.0
+margin_top = -8.0
+margin_right = -8.0
+margin_bottom = -8.0
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Charges" parent="." instance=ExtResource( 4 )]
-margin_top = 24.0
-margin_right = -96.0
-margin_bottom = -104.0
+[node name="NinePatch" parent="." instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 40, 64 )
 
-[node name="Water" parent="." instance=ExtResource( 3 )]
+[node name="MarginContainer" type="MarginContainer" parent="NinePatch"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 8
+custom_constants/margin_top = 8
+custom_constants/margin_left = 8
+custom_constants/margin_bottom = 8
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NinePatch/MarginContainer"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 32.0
+margin_bottom = 56.0
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Water" parent="NinePatch/MarginContainer/VBoxContainer" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 24.0
+margin_bottom = 8.0
+
+[node name="Charges" parent="NinePatch/MarginContainer/VBoxContainer" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 8.0
+margin_right = 24.0
+margin_bottom = 48.0

@@ -21,7 +21,7 @@ func update_target(dir: int) -> void:
         Global.space.targeting.set_cellv(location, 0)
 
 func update_info() -> void:
-    resources.charges.select(selected)
+    resources.charges.highlight(selected)
     var res: PlantResource = Plant.KIND_RESOURCES[selected]
     var can_afford: bool = res.grow_cost <= GameState.water
     info_box.display_plant_kind(selected, can_afford)

@@ -54,4 +54,4 @@ func update_target(dir: int) -> void:
 
 func update_info() -> void:
     info_box.display_simple(Plant.KIND_RESOURCES[selected].spell_description)
-    resources.charges.select(selected)
+    resources.charges.highlight(selected)

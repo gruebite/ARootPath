@@ -79,6 +79,6 @@ func _cancel() -> void:
     _state = STATE_INACTIVE
     release_focus()
     Global.space.targeting.clear()
-    resources.charges.deselect()
+    resources.charges.highlight()
     
     info_box.hide_all()

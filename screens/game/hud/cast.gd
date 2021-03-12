@@ -41,8 +41,10 @@ func update_target(dir: int) -> void:
             target_shape.origin += Direction.delta(dir)
         Plant.Kind.FLOWER:
             target_shape.origin += Direction.delta(dir)
-        Plant.Kind.FUNGUS: pass
-        Plant.Kind.MOSS: pass
+        Plant.Kind.FUNGUS:
+            target_shape.direction = -1
+        Plant.Kind.MOSS:
+            target_shape.direction = -1
     var target_type = 0
     var area := target_shape.cast()
     if Global.space.can_cast_spell(selected, area):

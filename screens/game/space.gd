@@ -246,9 +246,9 @@ func can_cast_spell(kind: int, area: Array) -> bool:
         Plant.Kind.TREE:
             return true
         Plant.Kind.BUSH:
-            return not unwalkable(area[0]) and not entities.get_entity(area[0]) and fog.is_revealed(area[0])
-        Plant.Kind.FLOWER:
             return not unwalkable(area[0]) and fog.is_revealed(area[0])
+        Plant.Kind.FLOWER:
+            return not unwalkable(area[0]) and not entities.get_entity(area[0]) and fog.is_revealed(area[0])
         Plant.Kind.FUNGUS:
             return true
         Plant.Kind.MOSS:

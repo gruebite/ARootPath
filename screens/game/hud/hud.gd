@@ -7,9 +7,7 @@ onready var space: Space = get_node(space_path)
 func _on_Space_player_entered(at: Vector2) -> void:
     var entities: Entities = space.entities
     var ent := entities.get_entity(at)
-    print("HERE0")
     if ent:
-        print("HERE1")
         if ent.is_in_group("spring"):
             $Root/InfoBox.display_simple("SPRING. CAVERN ENTRANCE.")
         elif ent.is_in_group("petrified_tree"):
@@ -19,7 +17,6 @@ func _on_Space_player_entered(at: Vector2) -> void:
         elif ent.is_in_group("pit"):
             $Root/InfoBox.display_simple("DEEP PIT. ONE WAY.")
         elif ent.is_in_group("plant"):
-            print("HERE2")
             $Root/InfoBox.display_plant(ent as Plant)
     else:
         $Root/InfoBox.hide_all()

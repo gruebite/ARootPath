@@ -163,12 +163,15 @@ func interact(index: int=0) -> void:
             warp_island()
         elif ent.is_in_group("plant"):
             var plant := ent as Plant
-            if plant.water_needed > 0:
-                if GameState.water >= plant.water_needed:
-                    pass
+            var needed := plant.get_water_needed()
+            if needed > 0:
+                if GameState.water >= needed:
+                    GameState.set_water(GameState.water - needed)
                 else:
                     # :(
                     pass
+        elif ent.is_in_group("tainted_water"):
+            pass
     else:
         emit_signal("player_interacted", player.map_position, index)
 

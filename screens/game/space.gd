@@ -87,9 +87,11 @@ func warp_island() -> void:
 
     entities.add_entity_at(Spring.instance(), Vector2(GameState.ISLAND_WIDTH / 2, GameState.ISLAND_HEIGHT / 2))
     entities.add_entity_at(PetrifiedTree.instance(), GameState.petrified_tree_location)
+    objects.set_cellv(GameState.petrified_tree_location, -1)
 
     for mpos in GameState.plant_state:
         entities.add_entity_at(PlantScene.instance(), mpos)
+        objects.set_cellv(mpos, -1)
 
     fog.hide()
 
@@ -130,6 +132,7 @@ func warp_cavern() -> void:
         if entities.get_entity(mpos) or (mpos - Vector2(size / 2, size / 2)).length() < size / 4:
             continue
         entities.add_entity_at(Pit.instance(), mpos)
+        objects.set_cellv(mpos, -1)
         pits_to_add -= 1
 
     var roots_to_add: int = CAVERN_ROOTS[cavern_level]
@@ -138,6 +141,7 @@ func warp_cavern() -> void:
         if entities.get_entity(mpos):
             continue
         entities.add_entity_at(Roots.instance(), mpos)
+        objects.set_cellv(mpos, -1)
         roots_to_add -= 1
 
     player = PlayerScene.instance()
@@ -227,6 +231,7 @@ func grow_plant(kind: int, at: Vector2) -> void:
         "age": 0,
         "last_watered": 0,
     }
+    objects.set_cellv(at, -1)
     entities.add_entity_at(PlantScene.instance(), at)
 
 

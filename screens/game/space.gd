@@ -224,7 +224,7 @@ func grow_plant(kind: int, at: Vector2) -> void:
     GameState.modify_water(-Plant.KIND_RESOURCES[kind].grow_cost)
     GameState.plant_state[at] = {
         "kind": kind,
-        "age": 30,
+        "age": 0,
         "last_watered": 0,
     }
     entities.add_entity_at(PlantScene.instance(), at)

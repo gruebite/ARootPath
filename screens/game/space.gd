@@ -40,6 +40,7 @@ var cavern_level: int
 onready var turn_system := get_node(turn_system_path)
 onready var tiles := $Tiles
 onready var objects := $Objects
+onready var air := $Air
 onready var targeting := $Targeting
 onready var entities := $Entities
 onready var fog := $FOG
@@ -51,6 +52,7 @@ func _ready() -> void:
 func reset_everything() -> void:
     tiles.clear()
     objects.clear()
+    air.clear()
     targeting.clear()
     entities.clear_all()
     fog.clear()
@@ -60,7 +62,7 @@ func warp_island() -> void:
     reset_everything()
     where = ISLAND
     cavern_level = -1
-    
+
     # Update plants, calculate spell counts.
     GameState.update_island()
 
@@ -71,6 +73,12 @@ func warp_island() -> void:
                 tiles.set_cell(x, y, c)
     tiles.update_bitmask_region()
     post_process(GameState.ISLAND_WIDTH, GameState.ISLAND_HEIGHT)
+
+    var FAIRY_COUNT := 10
+    for i in range(FAIRY_COUNT):
+        var x: int = Global.rng.randi_range(0, GameState.ISLAND_WIDTH - 1)
+        var y: int = Global.rng.randi_range(0, GameState.ISLAND_HEIGHT - 1)
+        air.set_cell(x, y, Tile.FAIRY0 + Global.rng.randi_range(0, 1))
 
     player = PlayerScene.instance()
     player.map_position = GameState.return_location
@@ -142,19 +150,28 @@ func warp_cavern() -> void:
     fog.show()
 
     slime_brain.spawn_slimes(walker)
-    
+
 func post_process(w: int, h: int) -> void:
     for y in w:
         for x in h:
             var coord: Vector2 = tiles.get_cell_autotile_coord(x, y)
-            if tiles.get_cell(x, y) == Tile.GROUND and coord == MIDDLE_COORD:
-                var norm := noise.get_noise_2d(x + 0.5, y + 0.5)
-                var coord_x := 7
-                if norm < 0.0:
-                    coord_x = int(round((1+norm) * (1+norm) * 6))
-                objects.set_cell(x, y, Tile.GRAVEL, false, false, false, Vector2(coord_x, 0))
+            if coord == MIDDLE_COORD:
+                if tiles.get_cell(x, y) == Tile.GROUND:
+                    var norm := noise.get_noise_2d(x + 0.5, y + 0.5)
+                    if norm < 0.0:
+                        var coord_x := int(round((1+norm) * (1+norm) * 6))
+                        objects.set_cell(x, y, Tile.GRAVEL, false, false, false, Vector2(coord_x, 0))
+                    elif norm >= 0.2:
+                        norm = (norm - 0.2) * 2
+                        var coord_x := int(round(norm * 5))
+                        objects.set_cell(x, y, Tile.GRASS, false, false, false, Vector2(coord_x, 0))
+                elif tiles.get_cell(x, y) == Tile.WATER:
+                    if Global.rng.randf() < 0.1:
+                        objects.set_cell(x, y, Tile.SHIMMER)
+                    elif Global.rng.randf() < 0.1:
+                        objects.set_cell(x, y, Tile.LILLY)
 
-func interact(index: int=0) -> void:
+func interact(index: int=-1) -> void:
     var ent: Entity = entities.get_entity(player.map_position)
     if ent:
         if ent.is_in_group("spring") or ent.is_in_group("pit"):
@@ -181,7 +198,7 @@ func move_player(to: Vector2) -> void:
         print("NOT TURN ", turn_system.thinker_count)
         return
     GameState.stop_spell_chain()
-        
+
     var ent: Entity = entities.get_entity(to)
     if ent and ent.is_in_group("slime"):
         ent.damage()
@@ -195,20 +212,34 @@ func move_player(to: Vector2) -> void:
 
 func unwalkable(mpos: Vector2) -> bool:
     return not Tile.walkable(tiles.get_cellv(mpos))
-    
+
 func can_afford_plant(kind: int) -> bool:
     return GameState.water >= Plant.KIND_RESOURCES[kind].grow_cost
 
 func can_grow_plant(kind: int, at: Vector2) -> bool:
-    return can_afford_plant(kind) and not unwalkable(at) and tiles.get_cellv(at) != Tile.WATER and not entities.is_an_entity_near(at)
+    return can_afford_plant(kind) and not unwalkable(at) and tiles.get_cellv(at) != Tile.WATER and _has_space_for_plant(kind, at)
 
 func grow_plant(kind: int, at: Vector2) -> void:
     assert(can_grow_plant(kind, at))
     GameState.modify_water(-Plant.KIND_RESOURCES[kind].grow_cost)
     GameState.plant_state[at] = {
         "kind": kind,
-        "age": 0,
+        "age": 30,
         "last_watered": 0,
     }
     entities.add_entity_at(PlantScene.instance(), at)
-    
+
+
+func _has_space_for_plant(kind: int, at: Vector2) -> bool:
+    if entities.get_entity(at) != null: return true
+    var required: int = Plant.KIND_RESOURCES[kind].space_needed
+    for d in range(0, Direction.COUNT, 2):
+        var check := at + Direction.delta(d)
+        var other = entities.get_entity(check)
+        if other != null:
+            if other.is_in_group("plant"):
+                if required == 1 or other.get_resource().space_needed == 1:
+                    return false
+            else:
+                return false
+    return true

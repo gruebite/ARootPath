@@ -11,7 +11,7 @@ enum Kind {
 
 const COUNT := 5
 
-const MAX_STAGE := 4
+const MAX_STAGE := 3
 
 const KIND_RESOURCES = [
     preload("res://entities/plant/resources/tree.tres"),

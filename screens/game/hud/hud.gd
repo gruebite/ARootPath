@@ -22,7 +22,7 @@ func _on_Space_player_entered(at: Vector2) -> void:
         $Root/InfoBox.hide_all()
 
 # Interacted on an empty space.
-func _on_Space_player_interacted(at: Vector2, index: int) -> void:
+func _on_Space_player_interacted(at: Vector2, index: int=-1) -> void:
     if space.where == Space.ISLAND:
         $Root/Grow.perform(at, index)
     elif space.where == Space.CAVERN:

@@ -13,3 +13,4 @@ spell_charges = 3
 watering_frequency = 5
 watering_quantity = 1
 drought_limit = 2
+space_needed = 0

@@ -8,7 +8,7 @@ signal spell_chain_stopped()
 
 const ISLAND_WIDTH := 42
 const ISLAND_HEIGHT := 42
-const STARTING_WATER := 20
+const STARTING_WATER := 40
 
 # How much water we have.
 var water: int

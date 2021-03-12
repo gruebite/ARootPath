@@ -23,13 +23,6 @@ func remove_entity(ent) -> void:
 func get_entity(mpos: Vector2) -> Node2D:
     return lookup.get(mpos)
 
-func is_an_entity_near(mpos: Vector2) -> bool:
-    if get_entity(mpos) != null: return true
-    for d in range(0, Direction.COUNT, 2):
-        var check := mpos + Direction.delta(d)
-        if get_entity(check) != null: return true
-    return false
-
 func move_entity(ent, to: Vector2) -> void:
     assert(lookup.has(ent.map_position) and not lookup.has(to))
     lookup.erase(ent.map_position)

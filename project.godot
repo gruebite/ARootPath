@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "AtlasTexture",
+"class": "AnimatedAtlasTexture",
+"language": "GDScript",
+"path": "res://plugin/animated_atlas/animated_atlas_texture.gd"
+}, {
 "base": "Reference",
 "class": "Direction",
 "language": "GDScript",
@@ -100,6 +105,7 @@ _global_script_classes=[ {
 "path": "res://scripts/walker.gd"
 } ]
 _global_script_class_icons={
+"AnimatedAtlasTexture": "",
 "Direction": "",
 "Entities": "",
 "Entity": "",

@@ -25,3 +25,6 @@ export var watering_quantity := 2
 # How many runs this plant can go without water before dying.  An unwatered
 # plant gives 0 charges.
 export var drought_limit := 2
+
+# How many spaces it needs to grow.
+export var space_needed := 0

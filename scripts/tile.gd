@@ -6,7 +6,13 @@ enum {
     WALL,
     GROUND,
     WATER,
+    # Object tiles.
     GRAVEL,
+    GRASS,
+    LILLY,
+    SHIMMER,
+    # Air
+    FAIRY0,
 }
 
 static func walkable(t: int) -> bool:

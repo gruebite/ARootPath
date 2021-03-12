@@ -61,10 +61,11 @@ func target(dir: int) -> void:
     else:
         Global.space.targeting.set_cellv(location, 0)
 
-func perform(at: Vector2, index: int=0) -> void:
+func perform(at: Vector2, index: int=-1) -> void:
     grab_focus()
     active = true
-    selected = index
+    if index >= 0:
+        selected = index
     target_shape.origin = at
     _update_info()
 

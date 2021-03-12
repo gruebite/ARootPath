@@ -21,6 +21,8 @@ const CAVERN_PITS := [
     1, 1, 0,
 ]
 
+const MIDDLE_COORD := Vector2(2, 2)
+
 const PlayerScene = preload("res://player/player.tscn")
 const Spring = preload("res://entities/spring/spring.tscn")
 const PetrifiedTree = preload("res://entities/petrified_tree/petrified_tree.tscn")
@@ -29,22 +31,26 @@ const Pit = preload("res://entities/pit/pit.tscn")
 const Roots = preload("res://entities/roots/roots.tscn")
 
 export var turn_system_path := NodePath()
+var noise := OpenSimplexNoise.new()
 
 var player: Player
 var where: int
 var cavern_level: int
 
-var noise := OpenSimplexNoise.new()
-
 onready var turn_system := get_node(turn_system_path)
 onready var tiles := $Tiles
+onready var objects := $Objects
 onready var targeting := $Targeting
 onready var entities := $Entities
 onready var fog := $FOG
 onready var slime_brain = $SlimeBrain
 
+func _ready() -> void:
+    noise.period = 4
+
 func reset_everything() -> void:
     tiles.clear()
+    objects.clear()
     targeting.clear()
     entities.clear_all()
     fog.clear()
@@ -64,7 +70,7 @@ func warp_island() -> void:
             if c >= 0:
                 tiles.set_cell(x, y, c)
     tiles.update_bitmask_region()
-                
+    post_process(GameState.ISLAND_WIDTH, GameState.ISLAND_HEIGHT)
 
     player = PlayerScene.instance()
     player.map_position = GameState.return_location
@@ -107,6 +113,7 @@ func warp_cavern() -> void:
             var c: int = walker.grid[Vector2(x, y)]
             tiles.set_cell(x, y, c)
     tiles.update_bitmask_region(Vector2.ZERO, Vector2(size, size))
+    post_process(size, size)
 
     var pits_to_add: int = CAVERN_PITS[cavern_level]
     while pits_to_add > 0:
@@ -135,6 +142,17 @@ func warp_cavern() -> void:
     fog.show()
 
     slime_brain.spawn_slimes(walker)
+    
+func post_process(w: int, h: int) -> void:
+    for y in w:
+        for x in h:
+            var coord: Vector2 = tiles.get_cell_autotile_coord(x, y)
+            if tiles.get_cell(x, y) == Tile.GROUND and coord == MIDDLE_COORD:
+                var norm := noise.get_noise_2d(x + 0.5, y + 0.5)
+                var coord_x := 7
+                if norm < 0.0:
+                    coord_x = int(round((1+norm) * (1+norm) * 6))
+                objects.set_cell(x, y, Tile.GRAVEL, false, false, false, Vector2(coord_x, 0))
 
 func interact(index: int=0) -> void:
     var ent: Entity = entities.get_entity(player.map_position)

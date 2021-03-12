@@ -5,7 +5,8 @@ enum {
     EMPTY = -1,
     WALL,
     GROUND,
-    WATER,   
+    WATER,
+    GRAVEL,
 }
 
 static func walkable(t: int) -> bool:

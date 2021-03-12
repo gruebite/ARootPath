@@ -19,13 +19,16 @@ script = ExtResource( 6 )
 turn_system_path = NodePath("../TurnSystem")
 
 [node name="Tiles" type="TileMap" parent="Space"]
+z_index = -20
+z_as_relative = false
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 786451, 12, 0, 851982, 10, 0, 851986, 15, 0, 851987, 16, 0 )
 
 [node name="Objects" type="TileMap" parent="Space"]
-visible = false
+z_index = -10
+z_as_relative = false
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 16, 16 )
 format = 1

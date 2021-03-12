@@ -102,7 +102,6 @@ func grow_leech(at: Vector2) -> void:
     slime.connect("died", self, "_slime_died", [slime])
 
 func grow_slime(at: Vector2) -> void:
-    print("SLIME ", at)
     var slime := Slime.instance()
     space.entities.add_entity_at(slime, at)
     slimes[at] = SLIME_GROWING
@@ -112,10 +111,8 @@ func remove_slime(at: Vector2) -> int:
     # Entity removal/freeing should be handled separately.
     var kind = slimes.get(at)
     if kind == null:
-        print("SKIPPED")
         return -1
     slimes.erase(at)
-    print("REMOEVE ", at)
     return kind
 
 func _slime_died(slime: Entity) -> void:

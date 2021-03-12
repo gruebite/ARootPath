@@ -75,7 +75,7 @@ func warp_island() -> void:
     post_process(GameState.ISLAND_WIDTH, GameState.ISLAND_HEIGHT)
 
     var FAIRY_COUNT := 10
-    for i in range(FAIRY_COUNT):
+    for _i in range(FAIRY_COUNT):
         var x: int = Global.rng.randi_range(0, GameState.ISLAND_WIDTH - 1)
         var y: int = Global.rng.randi_range(0, GameState.ISLAND_HEIGHT - 1)
         air.set_cell(x, y, Tile.FAIRY0 + Global.rng.randi_range(0, 1))
@@ -234,6 +234,12 @@ func grow_plant(kind: int, at: Vector2) -> void:
     objects.set_cellv(at, -1)
     entities.add_entity_at(PlantScene.instance(), at)
 
+
+func can_cast_spell(kind: int, area: Array) -> bool:
+    return false
+
+func cast_spell(kind: int, area: Array) -> void:
+    pass
 
 func _has_space_for_plant(kind: int, at: Vector2) -> bool:
     if entities.get_entity(at) != null: return true

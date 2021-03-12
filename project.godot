@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Control",
+"class": "Action",
+"language": "GDScript",
+"path": "res://screens/game/hud/action.gd"
+}, {
 "base": "AtlasTexture",
 "class": "AnimatedAtlasTexture",
 "language": "GDScript",
@@ -105,6 +110,7 @@ _global_script_classes=[ {
 "path": "res://scripts/walker.gd"
 } ]
 _global_script_class_icons={
+"Action": "",
 "AnimatedAtlasTexture": "",
 "Direction": "",
 "Entities": "",
@@ -145,7 +151,7 @@ gdscript/warnings/integer_division=false
 
 [display]
 
-window/size/width=384
+window/size/width=309
 window/size/height=216
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"

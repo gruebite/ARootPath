@@ -103,7 +103,7 @@ func update_island() -> void:
         var state: Dictionary = plant_state[pos]
         
         var res: PlantResource = Plant.KIND_RESOURCES[state["kind"]]
-        Plant.state_age_plant(state)
+        Plant.state_age(state)
         var drought := Plant.state_drought_level(state)
         if drought >= res.drought_limit:
             pass

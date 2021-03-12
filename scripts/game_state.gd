@@ -101,14 +101,15 @@ func update_island() -> void:
     var surviving := {}
     for pos in plant_state:
         var state: Dictionary = plant_state[pos]
-        var arch: PlantArch = Plant.ARCHS[state["id"]]
-        state["age"] += 1
-        var drought: int = state["age"] - state["last_watered"]
-        if drought >= 0:
-            if drought < arch.drought_limit:
-                pass
-            else:
-                surviving[pos] = state
-        elif state["age"] >= arch.growth_period:
-            set_spell_charge(arch.kind, spell_charges[arch.kind] + arch.spell_charges)
+        
+        var res: PlantResource = Plant.KIND_RESOURCES[state["kind"]]
+        Plant.state_age_plant(state)
+        var drought := Plant.state_drought_level(state)
+        if drought >= res.drought_limit:
+            pass
+        else:
+            surviving[pos] = state
+            set_spell_charge(state["kind"], spell_charges[state["kind"]] + Plant.state_charges(state))
+    
+    plant_state = surviving
             

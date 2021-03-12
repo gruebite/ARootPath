@@ -8,7 +8,6 @@ onready var info_box: InfoBox = get_node(info_box_path)
 
 var active := false
 var selected := 0
-var subselected := 0
 
 var targeting := false
 var target_shape := ShapeCast.new()
@@ -34,19 +33,9 @@ func _gui_input(event: InputEvent) -> void:
         selected -= 1
         if selected < 0:
             selected += Plant.COUNT
-        subselected %= len(Plant.KIND_ARCH_IDS[selected])
         _update_info()
     elif event.is_action_pressed("ui_down"):
         selected = (selected + 1) % Plant.COUNT
-        subselected %= len(Plant.KIND_ARCH_IDS[selected])
-        _update_info()
-    elif event.is_action_pressed("ui_left"):
-        subselected -= 1
-        if subselected < 0:
-            subselected += len(Plant.KIND_ARCH_IDS[selected])
-        _update_info()
-    elif event.is_action_pressed("ui_right"):
-        subselected = (subselected + 1) % len(Plant.KIND_ARCH_IDS[selected])
         _update_info()
 
 func cancel() -> void:
@@ -59,15 +48,15 @@ func cancel() -> void:
 
 func confirm() -> void:
     var location: Vector2 = target_shape.cast()[0]
-    if Global.space.can_grow_plant(Plant.KIND_ARCH_IDS[selected][subselected], location):
-        Global.space.grow_plant(Plant.KIND_ARCH_IDS[selected][subselected], location)
+    if Global.space.can_grow_plant(selected, location):
+        Global.space.grow_plant(selected, location)
         cancel()
 
 func target(dir: int) -> void:
     Global.space.targeting.clear()
     target_shape.direction = dir
     var location: Vector2 = target_shape.cast()[0]
-    if Global.space.can_grow_plant(Plant.KIND_ARCH_IDS[selected][subselected], location):
+    if Global.space.can_grow_plant(selected, location):
         Global.space.targeting.set_cellv(location, 1)
     else:
         Global.space.targeting.set_cellv(location, 0)
@@ -93,7 +82,6 @@ func _do_targeting(event: InputEvent) -> void:
 
 func _update_info() -> void:
     resources.charges.select(selected)
-    var arch_id: String = Plant.KIND_ARCH_IDS[selected][subselected]
-    var arch: PlantArch = Plant.ARCHS[arch_id]
-    var can_afford := arch.grow_cost <= GameState.water
-    info_box.display_plant_arch_id(arch_id, can_afford)
+    var res: PlantResource = Plant.KIND_RESOURCES[selected]
+    var can_afford: bool = res.grow_cost <= GameState.water
+    info_box.display_plant_kind(selected, can_afford)

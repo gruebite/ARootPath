@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://entities/plant/plant_resource.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+name = "Water Shrub"
+description = "Dripping with water."
+spell_description = "Remove slime at a visible location."
+grow_cost = 15
+growth_period = 4
+spell_charges = 6
+watering_frequency = 1
+watering_quantity = 3
+drought_limit = 1

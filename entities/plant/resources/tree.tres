@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://entities/plant/plant_resource.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+name = "Wisty Tree"
+description = "Peircingly vibrant."
+spell_description = "Remove slime in a line."
+grow_cost = 10
+growth_period = 8
+spell_charges = 2
+watering_frequency = 5
+watering_quantity = 4
+drought_limit = 5

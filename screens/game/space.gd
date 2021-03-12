@@ -175,6 +175,7 @@ func interact(index: int=0) -> void:
 func move_player(to: Vector2) -> void:
     if unwalkable(to): return
     if turn_system.current_turn != TurnSystem.TURN_PLAYER:
+        print("NOT TURN ", turn_system.thinker_count)
         return
     GameState.stop_spell_chain()
         
@@ -192,17 +193,17 @@ func move_player(to: Vector2) -> void:
 func unwalkable(mpos: Vector2) -> bool:
     return not Tile.walkable(tiles.get_cellv(mpos))
     
-func can_afford_plant(arch_id: String) -> bool:
-    return GameState.water >= Plant.ARCHS[arch_id].grow_cost
+func can_afford_plant(kind: int) -> bool:
+    return GameState.water >= Plant.KIND_RESOURCES[kind].grow_cost
 
-func can_grow_plant(arch_id: String, at: Vector2) -> bool:
-    return can_afford_plant(arch_id) and not unwalkable(at) and tiles.get_cellv(at) != Tile.WATER and not entities.is_an_entity_near(at)
+func can_grow_plant(kind: int, at: Vector2) -> bool:
+    return can_afford_plant(kind) and not unwalkable(at) and tiles.get_cellv(at) != Tile.WATER and not entities.is_an_entity_near(at)
 
-func grow_plant(arch_id: String, at: Vector2) -> void:
-    assert(can_grow_plant(arch_id, at))
-    GameState.modify_water(-Plant.ARCHS[arch_id].grow_cost)
+func grow_plant(kind: int, at: Vector2) -> void:
+    assert(can_grow_plant(kind, at))
+    GameState.modify_water(-Plant.KIND_RESOURCES[kind].grow_cost)
     GameState.plant_state[at] = {
-        "id": arch_id,
+        "kind": kind,
         "age": 0,
         "last_watered": 0,
     }

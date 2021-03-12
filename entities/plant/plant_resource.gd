@@ -1,22 +1,11 @@
 extends Resource
-class_name PlantArch
-
-enum Kind {
-    TREE,
-    BUSH,
-    FLOWER,
-    FUNGUS,
-    MOSS,    
-}
+class_name PlantResource
 
 export var name := ""
 
 export(String, MULTILINE) var description := ""
 
-# Kind of plant.  Determines which spell they give charges for.
-export(Kind) var kind: int = Kind.TREE
-
-export(Texture) var texture
+export(String, MULTILINE) var spell_description := ""
 
 # How much water is needed to grow this plant.
 export var grow_cost := 5

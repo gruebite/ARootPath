@@ -22,7 +22,7 @@ func _gui_input(event: InputEvent) -> void:
         return
 
     if targeting:
-        do_targeting(event)
+        _do_targeting(event)
         return
 
     if event.is_action_pressed("ui_accept"):
@@ -35,23 +35,19 @@ func _gui_input(event: InputEvent) -> void:
         if selected < 0:
             selected += Plant.COUNT
         subselected %= len(Plant.KIND_ARCH_IDS[selected])
-        resources.charges.select(selected, subselected)
-        info_box.display_plant_arch_id(Plant.KIND_ARCH_IDS[selected][subselected])
+        _update_info()
     elif event.is_action_pressed("ui_down"):
         selected = (selected + 1) % Plant.COUNT
         subselected %= len(Plant.KIND_ARCH_IDS[selected])
-        resources.charges.select(selected, subselected)
-        info_box.display_plant_arch_id(Plant.KIND_ARCH_IDS[selected][subselected])
+        _update_info()
     elif event.is_action_pressed("ui_left"):
         subselected -= 1
         if subselected < 0:
             subselected += len(Plant.KIND_ARCH_IDS[selected])
-        resources.charges.select(selected, subselected)
-        info_box.display_plant_arch_id(Plant.KIND_ARCH_IDS[selected][subselected])
+        _update_info()
     elif event.is_action_pressed("ui_right"):
         subselected = (subselected + 1) % len(Plant.KIND_ARCH_IDS[selected])
-        resources.charges.select(selected, subselected)
-        info_box.display_plant_arch_id(Plant.KIND_ARCH_IDS[selected][subselected])
+        _update_info()
 
 func cancel() -> void:
     active = false
@@ -81,10 +77,9 @@ func perform(at: Vector2, index: int=0) -> void:
     active = true
     selected = index
     target_shape.origin = at
-    info_box.display_plant_arch_id(Plant.KIND_ARCH_IDS[selected][subselected])
-    resources.charges.select(selected, subselected)
+    _update_info()
 
-func do_targeting(event: InputEvent) -> void:
+func _do_targeting(event: InputEvent) -> void:
     if event.is_action_pressed("ui_accept"):
         confirm()
     elif event.is_action_pressed("ui_up"):
@@ -96,3 +91,9 @@ func do_targeting(event: InputEvent) -> void:
     elif event.is_action_pressed("ui_right"):
         target(Direction.EAST)
 
+func _update_info() -> void:
+    resources.charges.select(selected)
+    var arch_id: String = Plant.KIND_ARCH_IDS[selected][subselected]
+    var arch: PlantArch = Plant.ARCHS[arch_id]
+    var can_afford := arch.grow_cost <= GameState.water
+    info_box.display_plant_arch_id(arch_id, can_afford)

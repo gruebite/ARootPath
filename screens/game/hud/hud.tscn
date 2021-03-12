@@ -30,8 +30,8 @@ script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-resources_path = NodePath("../Root/Resources")
-info_box_path = NodePath("../Root/InfoBox")
+resources_path = NodePath("../Resources")
+info_box_path = NodePath("../InfoBox")
 
 [node name="Cast" type="Control" parent="Root"]
 margin_right = 40.0
@@ -41,8 +41,8 @@ script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-resources_path = NodePath("../Root/Resources")
-info_box_path = NodePath("../Root/InfoBox")
+resources_path = NodePath("../Resources")
+info_box_path = NodePath("../InfoBox")
 
 [node name="LoadIsland" type="Control" parent="Root"]
 visible = false

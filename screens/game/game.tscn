@@ -5,7 +5,7 @@
 [ext_resource path="res://screens/game/slime_brain.gd" type="Script" id=3]
 [ext_resource path="res://screens/game/entities.gd" type="Script" id=4]
 [ext_resource path="res://screens/game/turn_system.gd" type="Script" id=5]
-[ext_resource path="res://screens/game/world.gd" type="Script" id=6]
+[ext_resource path="res://screens/game/space.gd" type="Script" id=6]
 [ext_resource path="res://screens/game/fov.gd" type="Script" id=7]
 [ext_resource path="res://screens/game/hud/hud.tscn" type="PackedScene" id=8]
 [ext_resource path="res://screens/game/fog_tileset.tres" type="TileSet" id=9]
@@ -22,7 +22,13 @@ turn_system_path = NodePath("../TurnSystem")
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 16, 16 )
 format = 1
-tile_data = PoolIntArray( 786451, 12, 0, 851982, 10, 0, 851983, 3, 0, 851984, 3, 0, 851985, 3, 0, 851986, 15, 0, 851987, 16, 0 )
+tile_data = PoolIntArray( 786451, 12, 0, 851982, 10, 0, 851986, 15, 0, 851987, 16, 0 )
+
+[node name="Objects" type="TileMap" parent="Space"]
+visible = false
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 16, 16 )
+format = 1
 
 [node name="Entities" type="YSort" parent="Space"]
 script = ExtResource( 4 )
@@ -31,7 +37,6 @@ script = ExtResource( 4 )
 tile_set = ExtResource( 10 )
 cell_size = Vector2( 16, 16 )
 format = 1
-tile_data = PoolIntArray( 1441827, 0, 0 )
 
 [node name="FOG" type="TileMap" parent="Space"]
 tile_set = ExtResource( 9 )

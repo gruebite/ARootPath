@@ -97,3 +97,18 @@ func generate_island() -> void:
 func update_island() -> void:
     for i in Plant.COUNT:
         set_spell_charge(i, 1)
+    
+    var surviving := {}
+    for pos in plant_state:
+        var state: Dictionary = plant_state[pos]
+        var arch: PlantArch = Plant.ARCHS[state["id"]]
+        state["age"] += 1
+        var drought: int = state["age"] - state["last_watered"]
+        if drought >= 0:
+            if drought < arch.drought_limit:
+                pass
+            else:
+                surviving[pos] = state
+        elif state["age"] >= arch.growth_period:
+            set_spell_charge(arch.kind, spell_charges[arch.kind] + arch.spell_charges)
+            

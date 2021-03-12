@@ -22,7 +22,7 @@ func _unhandled_input(event: InputEvent) -> void:
         var desired := map_position + delta
         Global.space.move_player(desired)
         return
-        
+
     match event.get_class():
         "InputKeyEvent":
             var key := event as InputEventKey
@@ -37,3 +37,7 @@ func _unhandled_input(event: InputEvent) -> void:
                     Global.space.interact(3)
                 KEY_5:
                     Global.space.interact(4)
+
+func set_map_position(value: Vector2) -> void:
+    map_position = value
+    position = (value * 16) + Vector2(0, 1)

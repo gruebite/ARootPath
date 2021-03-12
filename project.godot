@@ -77,7 +77,7 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "Space",
 "language": "GDScript",
-"path": "res://screens/game/world.gd"
+"path": "res://screens/game/space.gd"
 }, {
 "base": "Node",
 "class": "Tile",

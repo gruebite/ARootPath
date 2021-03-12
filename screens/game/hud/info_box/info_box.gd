@@ -9,18 +9,22 @@ func display_simple(text: String) -> void:
     $Simple/NinePatch/Label.text = text
     $Simple.show()
 
-func display_plant_arch_id(id: String) -> void:
+func display_plant_arch_id(id: String, can_afford: bool) -> void:
     hide_all()
     var arch: PlantArch = Plant.ARCHS[id]
-    $Plant/NinePatch/MarginContainer/VBoxContainer/GridContainer/Name.text = arch.name
-    $Plant/NinePatch/MarginContainer/VBoxContainer/GridContainer/Cost/Label.text = str(arch.grow_cost)
-    $Plant/NinePatch/MarginContainer/VBoxContainer/GridContainer/Charges/Label.text = "%d @ %d days" % [arch.spell_charges, arch.growth_period]
-    $Plant/NinePatch/MarginContainer/VBoxContainer/GridContainer/Watering/Label.text = "%d / %d days" % [arch.watering_quantity, arch.watering_frequency]
-    $Plant/NinePatch/MarginContainer/VBoxContainer/Description.text = arch.description
-    $Plant.show()
+    $PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer/Name.text = arch.name
+    $PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer/Cost/Label.text = str(arch.grow_cost)
+    if can_afford:
+        $PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer/Cost/Label.modulate = Color.white
+    else:
+        $PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer/Cost/Label.modulate = Color.red
+    $PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer/Charges/Label.text = "%d @ %d days" % [arch.spell_charges, arch.growth_period]
+    $PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer/Watering/Label.text = "%d / %d days" % [arch.watering_quantity, arch.watering_frequency]
+    $PlantArch/NinePatch/MarginContainer/VBoxContainer/Description.text = arch.description
+    $PlantArch.show()
 
 func display_plant(plant: Plant) -> void:
-    display_plant_arch_id(plant.get_arch_id())
+    $Plant.show()
 
 func hide_all() -> void:
     for node in get_children():

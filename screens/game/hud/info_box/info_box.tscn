@@ -1,14 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/textures/tilesheet.png" type="Texture" id=1]
 [ext_resource path="res://screens/game/hud/info_box/info_box.gd" type="Script" id=2]
-[ext_resource path="res://assets/textures/9patch.png" type="Texture" id=3]
 [ext_resource path="res://ui/water_icon/water_icon.tscn" type="PackedScene" id=4]
 [ext_resource path="res://ui/theme.tres" type="Theme" id=5]
 [ext_resource path="res://ui/nine_patch/nine_patch.tscn" type="PackedScene" id=6]
-
-[sub_resource type="BitmapFont" id=1]
-height = 8.0
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 1 )
@@ -17,150 +13,139 @@ region = Rect2( 504, 464, 8, 8 )
 [node name="InfoBox" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 8.0
-margin_right = 8.0
-margin_bottom = 8.0
 theme = ExtResource( 5 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Plant" type="Control" parent="."]
-visible = false
+[node name="PlantArch" type="Control" parent="."]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -120.0
+margin_left = -216.0
 margin_top = -64.0
-rect_min_size = Vector2( 120, 64 )
+rect_min_size = Vector2( 216, 64 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="NinePatchRect" type="NinePatchRect" parent="Plant"]
+[node name="NinePatch" parent="PlantArch" instance=ExtResource( 6 )]
+
+[node name="MarginContainer" type="MarginContainer" parent="PlantArch/NinePatch"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = ExtResource( 3 )
-patch_margin_left = 2
-patch_margin_top = 2
-patch_margin_right = 2
-patch_margin_bottom = 2
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="Plant/NinePatchRect"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_constants/margin_right = 2
-custom_constants/margin_top = 2
-custom_constants/margin_left = 2
-custom_constants/margin_bottom = 2
+[node name="VBoxContainer" type="VBoxContainer" parent="PlantArch/NinePatch/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 206.0
+margin_bottom = 54.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Plant/NinePatchRect/MarginContainer"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 118.0
-margin_bottom = 62.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="GridContainer" type="GridContainer" parent="Plant/NinePatchRect/MarginContainer/VBoxContainer"]
-margin_right = 116.0
+[node name="GridContainer" type="GridContainer" parent="PlantArch/NinePatch/MarginContainer/VBoxContainer"]
+margin_right = 196.0
 margin_bottom = 28.0
 size_flags_vertical = 3
-custom_constants/vseparation = 0
 columns = 2
 
-[node name="Name" type="Label" parent="Plant/NinePatchRect/MarginContainer/VBoxContainer/GridContainer"]
-margin_right = 100.0
-margin_bottom = 8.0
+[node name="Name" type="Label" parent="PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer"]
+margin_top = 1.0
+margin_right = 152.0
+margin_bottom = 7.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 1 )
 text = "Name"
 uppercase = true
 
-[node name="Cost" type="HBoxContainer" parent="Plant/NinePatchRect/MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 104.0
-margin_right = 116.0
+[node name="Cost" type="HBoxContainer" parent="PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 156.0
+margin_right = 196.0
 margin_bottom = 8.0
 
-[node name="Label" type="Label" parent="Plant/NinePatchRect/MarginContainer/VBoxContainer/GridContainer/Cost"]
-margin_bottom = 8.0
+[node name="Label" type="Label" parent="PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer/Cost"]
+margin_top = 1.0
+margin_right = 18.0
+margin_bottom = 7.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 1 )
 text = "1"
 align = 2
 
-[node name="WaterIcon" parent="Plant/NinePatchRect/MarginContainer/VBoxContainer/GridContainer/Cost" instance=ExtResource( 4 )]
-margin_left = 4.0
-margin_right = 12.0
+[node name="WaterIcon" parent="PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer/Cost" instance=ExtResource( 4 )]
+margin_left = 22.0
+margin_right = 40.0
 size_flags_horizontal = 3
 texture = SubResource( 2 )
 
-[node name="ChargesLabel" type="Label" parent="Plant/NinePatchRect/MarginContainer/VBoxContainer/GridContainer"]
-margin_top = 8.0
-margin_right = 100.0
-margin_bottom = 16.0
+[node name="ChargesLabel" type="Label" parent="PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer"]
+margin_top = 12.0
+margin_right = 152.0
+margin_bottom = 18.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.752941, 0.752941, 0.752941, 1 )
 text = "Charges"
 uppercase = true
 
-[node name="Charges" type="HBoxContainer" parent="Plant/NinePatchRect/MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 104.0
-margin_top = 8.0
-margin_right = 116.0
-margin_bottom = 16.0
+[node name="Charges" type="HBoxContainer" parent="PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 156.0
+margin_top = 12.0
+margin_right = 196.0
+margin_bottom = 18.0
 
-[node name="Label" type="Label" parent="Plant/NinePatchRect/MarginContainer/VBoxContainer/GridContainer/Charges"]
-margin_right = 12.0
-margin_bottom = 8.0
+[node name="Label" type="Label" parent="PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer/Charges"]
+margin_right = 40.0
+margin_bottom = 6.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 1 )
 text = "1 @ 5"
 align = 2
 
-[node name="WateringLabel" type="Label" parent="Plant/NinePatchRect/MarginContainer/VBoxContainer/GridContainer"]
-margin_top = 16.0
-margin_right = 100.0
-margin_bottom = 24.0
+[node name="WateringLabel" type="Label" parent="PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer"]
+margin_top = 22.0
+margin_right = 152.0
+margin_bottom = 28.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.752941, 0.752941, 0.752941, 1 )
 text = "Watering"
 uppercase = true
 
-[node name="Watering" type="HBoxContainer" parent="Plant/NinePatchRect/MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 104.0
-margin_top = 16.0
-margin_right = 116.0
-margin_bottom = 24.0
+[node name="Watering" type="HBoxContainer" parent="PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 156.0
+margin_top = 22.0
+margin_right = 196.0
+margin_bottom = 28.0
 
-[node name="Label" type="Label" parent="Plant/NinePatchRect/MarginContainer/VBoxContainer/GridContainer/Watering"]
-margin_right = 12.0
-margin_bottom = 8.0
+[node name="Label" type="Label" parent="PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer/Watering"]
+margin_right = 40.0
+margin_bottom = 6.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 1 )
 text = "2 / 3"
 align = 2
 
-[node name="Description" type="Label" parent="Plant/NinePatchRect/MarginContainer/VBoxContainer"]
-margin_top = 42.0
-margin_right = 116.0
-margin_bottom = 50.0
+[node name="Description" type="Label" parent="PlantArch/NinePatch/MarginContainer/VBoxContainer"]
+margin_top = 35.0
+margin_right = 196.0
+margin_bottom = 41.0
 size_flags_vertical = 6
-custom_fonts/font = SubResource( 1 )
 text = "TREE"
 align = 1
 valign = 1
 uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Plant" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -170,9 +155,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -288.0
+margin_left = -216.0
 margin_top = -32.0
-rect_min_size = Vector2( 288, 32 )
+rect_min_size = Vector2( 216, 32 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -186,6 +171,7 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "PETRIFIED TREE, ITS ROOTS GO DEEP"
 align = 1
 valign = 1
+autowrap = true
 uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false

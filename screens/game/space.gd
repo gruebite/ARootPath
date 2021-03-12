@@ -21,10 +21,10 @@ const CAVERN_PITS := [
     1, 1, 0,
 ]
 
-const Player = preload("res://player/player.tscn")
+const PlayerScene = preload("res://player/player.tscn")
 const Spring = preload("res://entities/spring/spring.tscn")
 const PetrifiedTree = preload("res://entities/petrified_tree/petrified_tree.tscn")
-const Plant = preload("res://entities/plant/plant.tscn")
+const PlantScene = preload("res://entities/plant/plant.tscn")
 const Pit = preload("res://entities/pit/pit.tscn")
 const Roots = preload("res://entities/roots/roots.tscn")
 
@@ -66,7 +66,7 @@ func warp_island() -> void:
     tiles.update_bitmask_region()
                 
 
-    player = Player.instance()
+    player = PlayerScene.instance()
     player.map_position = GameState.return_location
     entities.add_child(player)
     emit_signal("player_entered", player.map_position)
@@ -125,14 +125,14 @@ func warp_cavern() -> void:
         entities.add_entity_at(Roots.instance(), mpos)
         roots_to_add -= 1
 
-    player = Player.instance()
+    player = PlayerScene.instance()
     player.map_position = Vector2(size / 2, size / 2)
     entities.add_child(player)
     emit_signal("player_entered", player.map_position)
 
     fog.unreveal_area(size, size)
     fog.recompute(player.map_position, player.map_position)
-    #fog.show()
+    fog.show()
 
     slime_brain.spawn_slimes(walker)
 
@@ -173,9 +173,20 @@ func move_player(to: Vector2) -> void:
 
 func unwalkable(mpos: Vector2) -> bool:
     return not Tile.walkable(tiles.get_cellv(mpos))
+    
+func can_afford_plant(arch_id: String) -> bool:
+    return GameState.water >= Plant.ARCHS[arch_id].grow_cost
 
 func can_grow_plant(arch_id: String, at: Vector2) -> bool:
-    return not unwalkable(at) and tiles.get_cellv(at) != Tile.WATER and entities.get_entity(at) == null
+    return can_afford_plant(arch_id) and not unwalkable(at) and tiles.get_cellv(at) != Tile.WATER and not entities.is_an_entity_near(at)
 
 func grow_plant(arch_id: String, at: Vector2) -> void:
-    pass
+    assert(can_grow_plant(arch_id, at))
+    GameState.modify_water(-Plant.ARCHS[arch_id].grow_cost)
+    GameState.plant_state[at] = {
+        "id": arch_id,
+        "age": 0,
+        "last_watered": 0,
+    }
+    entities.add_entity_at(PlantScene.instance(), at)
+    

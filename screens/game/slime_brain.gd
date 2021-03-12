@@ -42,13 +42,13 @@ func spawn_slimes(walker: Walker) -> void:
 func take_turn() -> void:
     if space.where != Space.CAVERN:
         return
-        
+
     var start_life: int = FOOD_LIFE[space.cavern_level]
     # Spawn food.
     for i in FOOD_RATE[space.cavern_level]:
         var d: int = Global.rng.randi_range(0, Direction.COUNT + 4)
         food[space.player.map_position + Direction.delta(d)] = start_life
-        
+
     # Upgrade growing slimes.
     for pos in slimes:
         if slimes[pos] == SLIME_GROWING:
@@ -56,7 +56,7 @@ func take_turn() -> void:
             emit_signal("slime_grew", pos)
             var slime: Entity = space.entities.get_entity(pos)
             slime.grow_up()
-    
+
     var new_food := {}
     var candidates := []
     for pos in food:
@@ -72,7 +72,7 @@ func take_turn() -> void:
             var delta := Direction.delta(d)
             var test := (pos as Vector2) + delta
             # Only grow slimes in cardinal direction, but move food in all.
-            if slimes.has(test) and Direction.is_cardinal(d) and not space.unwalkable(pos) and space.entities.get_entity(pos) == null:
+            if slimes.has(test) and slimes.get(test) != SLIME_GROWING and Direction.is_cardinal(d) and not space.unwalkable(pos) and space.entities.get_entity(pos) == null:
                 grow_slime(pos)
                 consumed = true
                 break
@@ -84,24 +84,25 @@ func take_turn() -> void:
                 candidates.shuffle()
                 new_pos = candidates[0]
             new_food[new_pos] = life
-        
+
     food = new_food
-    
+
 func grow_demon(at: Vector2) -> void:
     var slime := Leech.instance()
     space.entities.add_entity_at(slime, at)
     slimes[at] = SLIME_LEECH
     slime.connect("finished_thinking", self, "_finished_thinking")
     slime.connect("died", self, "_slime_died", [slime])
-    
+
 func grow_leech(at: Vector2) -> void:
     var slime := Leech.instance()
     space.entities.add_entity_at(slime, at)
     slimes[at] = SLIME_LEECH
     slime.connect("finished_thinking", self, "_finished_thinking")
     slime.connect("died", self, "_slime_died", [slime])
-    
+
 func grow_slime(at: Vector2) -> void:
+    print("SLIME ", at)
     var slime := Slime.instance()
     space.entities.add_entity_at(slime, at)
     slimes[at] = SLIME_GROWING
@@ -111,8 +112,10 @@ func remove_slime(at: Vector2) -> int:
     # Entity removal/freeing should be handled separately.
     var kind = slimes.get(at)
     if kind == null:
+        print("SKIPPED")
         return -1
     slimes.erase(at)
+    print("REMOEVE ", at)
     return kind
 
 func _slime_died(slime: Entity) -> void:

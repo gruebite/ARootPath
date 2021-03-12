@@ -12,4 +12,5 @@ func _ready() -> void:
 
 func _on_SlimeBrain_slime_grew(mpos: Vector2):
     if mpos == $Space.player.map_position:
-        get_tree().quit()
+        # We likely died in the middle of processing.  Keep state stable.
+        $Space.call_deferred("warp_island")

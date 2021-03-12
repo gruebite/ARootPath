@@ -72,6 +72,30 @@ func warp_island() -> void:
             if c >= 0:
                 tiles.set_cell(x, y, c)
     tiles.update_bitmask_region()
+    # TODO: Fix this through code.
+    
+    for y in GameState.ISLAND_HEIGHT:
+        for x in GameState.ISLAND_WIDTH:
+            var p := Vector2(x, y)
+            if tiles.get_cellv(p) == Tile.WATER:
+                var w: int = 0
+                for dir in Direction.COUNT:
+                    var t: int = tiles.get_cellv(p + Direction.delta(dir))
+                    if t == Tile.GROUND or t == -1:
+                        w |= 1 << dir
+                match w:
+                    # NorthEast
+                    2:
+                        $TileFix.set_cellv(p * 2 + Vector2(1, 0), 0)
+                    # SouthEast
+                    8:
+                        $TileFix.set_cellv(p * 2 + Vector2(1, 1), 1)
+                    # South/West
+                    32:
+                        $TileFix.set_cellv(p * 2 + Vector2(0, 1), 2)
+                    # North/West
+                    128:
+                        $TileFix.set_cellv(p * 2 + Vector2(0, 0), 3)
     post_process(GameState.ISLAND_WIDTH, GameState.ISLAND_HEIGHT)
 
     var FAIRY_COUNT := 10

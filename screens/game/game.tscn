@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://screens/game/game.gd" type="Script" id=1]
 [ext_resource path="res://screens/game/tileset.tres" type="TileSet" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://screens/game/hud/hud.tscn" type="PackedScene" id=8]
 [ext_resource path="res://screens/game/fog_tileset.tres" type="TileSet" id=9]
 [ext_resource path="res://screens/game/targeting_tileset.tres" type="TileSet" id=10]
+[ext_resource path="res://screens/game/ts_fix.tres" type="TileSet" id=11]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
@@ -24,7 +25,15 @@ z_as_relative = false
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 16, 16 )
 format = 1
-tile_data = PoolIntArray( 786451, 12, 0, 851982, 10, 0, 851986, 15, 0, 851987, 16, 0 )
+tile_data = PoolIntArray( 851986, 15, 0, 851987, 16, 0 )
+
+[node name="TileFix" type="TileMap" parent="Space"]
+z_index = -20
+z_as_relative = false
+tile_set = ExtResource( 11 )
+cell_size = Vector2( 8, 8 )
+format = 1
+tile_data = PoolIntArray( 786451, 12, 0, 851986, 15, 0, 851987, 16, 0 )
 
 [node name="Objects" type="TileMap" parent="Space"]
 z_index = -10

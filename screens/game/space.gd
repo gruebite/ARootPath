@@ -81,7 +81,7 @@ func warp_island() -> void:
     entities.add_entity_at(PetrifiedTree.instance(), GameState.petrified_tree_location)
 
     for mpos in GameState.plant_state:
-        entities.add_entity_at(Plant.instance(), mpos)
+        entities.add_entity_at(PlantScene.instance(), mpos)
 
     fog.hide()
 

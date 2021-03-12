@@ -33,8 +33,9 @@ __meta__ = {
 [node name="Water" parent="Resources/HBoxContainer" instance=ExtResource( 8 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 32.0
+margin_right = 64.0
 margin_bottom = 16.0
+size_flags_horizontal = 3
 
 [node name="Charges" parent="Resources" instance=ExtResource( 6 )]
 margin_top = 24.0

@@ -2,6 +2,7 @@ extends Entity
 class_name Player
 
 func _unhandled_input(event: InputEvent) -> void:
+    if $Tween.is_active(): return
     # Interact below us.
     if event.is_action_pressed("ui_accept"):
         Global.space.interact()
@@ -20,7 +21,15 @@ func _unhandled_input(event: InputEvent) -> void:
 
     if delta != Vector2.ZERO:
         var desired := map_position + delta
-        Global.space.move_player(desired)
+        if not Global.space.unwalkable(desired):
+            $Sprite.playing = false
+            $Sprite.frame = 3
+            $Tween.interpolate_property(self, "map_position",
+                map_position, desired, 0.08, Tween.TRANS_LINEAR, Tween.EASE_IN)
+            $Tween.start()
+            yield($Tween, "tween_all_completed")
+            $Sprite.playing = true
+            Global.space.move_player(desired)
         return
 
     match event.get_class():

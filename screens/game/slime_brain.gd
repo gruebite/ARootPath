@@ -120,6 +120,7 @@ func take_turn() -> void:
 func grow_demon(at: Vector2) -> void:
     assert(space.is_free(at))
     var slime := Demon.instance()
+    slime.visible = space.fog.is_revealed(at)
     slime.brain = self
     space.entities.add_entity_at(slime, at)
     slimes[at] = SLIME_DEMON
@@ -129,6 +130,7 @@ func grow_demon(at: Vector2) -> void:
 func grow_fiend(at: Vector2) -> void:
     assert(space.is_free(at))
     var slime := Fiend.instance()
+    slime.visible = space.fog.is_revealed(at)
     slime.brain = self
     space.entities.add_entity_at(slime, at)
     slimes[at] = SLIME_SPREADER
@@ -138,6 +140,7 @@ func grow_fiend(at: Vector2) -> void:
 func grow_slime(at: Vector2) -> void:
     assert(space.is_free(at))
     var slime := Slime.instance()
+    slime.visible = space.fog.is_revealed(at)
     space.entities.add_entity_at(slime, at)
     slimes[at] = SLIME_GROWING
     slime.connect("died", self, "_slime_died", [slime])

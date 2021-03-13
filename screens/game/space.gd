@@ -62,7 +62,7 @@ func reset_everything() -> void:
     air.clear()
     targeting.clear()
     entities.clear_all()
-    fog.clear()
+    fog.reset()
     slime_brain.cleanup()
 
 # FIXME: Finds broken corners and fills them with 8x8 subtiles.
@@ -212,7 +212,7 @@ func warp_cavern() -> void:
     emit_signal("player_entered", player.map_position)
 
     fog.unreveal_area(size, size)
-    fog.recompute(player.map_position, player.map_position)
+    fog.recompute(player.map_position)
     fog.show()
 
     slime_brain.spawn_slimes(walker)
@@ -225,7 +225,7 @@ func post_process(w: int, h: int) -> void:
                 if tiles.get_cell(x, y) == Tile.GROUND:
                     var norm := noise.get_noise_2d(x + 0.5, y + 0.5)
                     if norm < 0.0:
-                        var coord_x := int(round((1+norm) * (1+norm) * 6))
+                        var coord_x := int(round((1+norm) * (1+norm) * 10))
                         objects.set_cell(x, y, Tile.GRAVEL, false, false, false, Vector2(coord_x, 0))
                     elif norm >= 0.2:
                         norm = (norm - 0.2) * 2
@@ -242,8 +242,10 @@ func interact(index: int=-1) -> void:
     if ent:
         if ent.is_in_group("spring") or ent.is_in_group("pit"):
             warp_cavern()
+            return
         elif ent.is_in_group("roots"):
             warp_island()
+            return
         elif ent.is_in_group("plant"):
             var plant := ent as Plant
             if Input.is_key_pressed(KEY_SHIFT):
@@ -260,22 +262,24 @@ func interact(index: int=-1) -> void:
                     else:
                         # :(
                         pass
+            return
     elif objects.get_cellv(player.map_position) == Tile.SLIMY_WATER:
         objects.set_cellv(player.map_position, Tile.PURIFIED_WATER)
         GameState.modify_water(1)
         # Re-enter.
         emit_signal("player_entered", player.map_position)
+        return
     elif objects.get_cellv(player.map_position) == Tile.PURIFIED_WATER:
         if Input.is_key_pressed(KEY_SHIFT):
             GameState.modify_water(GameState.MAX_WATER)
+        return
+    if Input.is_key_pressed(KEY_SHIFT) and where == CAVERN:
+        warp_island()
     else:
-        if Input.is_key_pressed(KEY_SHIFT) and where == CAVERN:
-            warp_island()
-        else:
-            emit_signal("player_interacted", player.map_position, index)
+        emit_signal("player_interacted", player.map_position, index)
 
 func move_player(to: Vector2, is_turn: bool=true) -> void:
-    if unwalkable(to): return
+    assert(not unwalkable(to))
     if turn_system.current_turn != TurnSystem.TURN_PLAYER:
         print("NOT TURN ", turn_system.thinker_count)
         return
@@ -284,10 +288,9 @@ func move_player(to: Vector2, is_turn: bool=true) -> void:
     if ent and ent.is_in_group("slime"):
         ent.damage()
     else:
-        var from := player.map_position
         player.map_position = to
         if fog.visible:
-            fog.recompute(from, to)
+            fog.recompute(to)
         emit_signal("player_entered", to)
 
     if is_turn:

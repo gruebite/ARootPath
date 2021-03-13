@@ -11,9 +11,15 @@ const RADIUS := 7
 
 export var space_path := NodePath()
 
+var old = null
+
 onready var space: Space = get_node(space_path)
 onready var fov := ShadowCast.new(funcref(get_parent(), "unwalkable"), funcref(self, "reveal"))
 onready var unfov := ShadowCast.new(funcref(get_parent(), "unwalkable"), funcref(self, "unreveal"))
+
+func reset() -> void:
+    clear()
+    old = null
 
 func unreveal_area(width: int, height: int) -> void:
     for x in width:
@@ -23,9 +29,11 @@ func unreveal_area(width: int, height: int) -> void:
 func is_revealed(mpos: Vector2) -> bool:
     return not visible or get_cellv(mpos) == REVEALED
 
-func recompute(old: Vector2, new: Vector2) -> void:
-    unfov.compute(old, RADIUS)
-    fov.compute(new, RADIUS)
+func recompute(at: Vector2) -> void:
+    if old:
+        unfov.compute(old, RADIUS)
+    old = at
+    fov.compute(at, RADIUS)
 
 func unreveal(mpos: Vector2) -> void:
     set_cellv(mpos, SEEN)

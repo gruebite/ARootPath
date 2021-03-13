@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/evil_cast.wav-3ed5a5ea9cbcb6b6ae5fd0e1e4b5a721.sample"
+
+[deps]
+
+source_file="res://entities/slime/evil_cast.wav"
+dest_files=[ "res://.import/evil_cast.wav-3ed5a5ea9cbcb6b6ae5fd0e1e4b5a721.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

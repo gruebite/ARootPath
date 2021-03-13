@@ -43,6 +43,8 @@ var player: Player
 var where: int
 var cavern_level: int
 
+var island_music_pos := 0
+
 onready var turn_system := get_node(turn_system_path)
 onready var tiles := $Tiles
 onready var objects := $Objects
@@ -111,6 +113,9 @@ func _tile_hack() -> void:
                         $TileFix.set_cellv(p * 2 + Vector2(0, 0), 7)
 
 func warp_island() -> void:
+    $DemonMusic.stop()
+    $CavernMusic.stop()
+    $IslandMusic.play(island_music_pos)
     reset_everything()
     where = ISLAND
     cavern_level = -1
@@ -149,8 +154,11 @@ func warp_island() -> void:
     fog.hide()
 
 func warp_cavern() -> void:
-    reset_everything()
+    island_music_pos = $IslandMusic.get_playback_position()
+    $IslandMusic.stop()
     $CavernDrop.play()
+    $CavernMusic.play()
+    reset_everything()
     if where == ISLAND:
         GameState.delve_count += 1
     where = CAVERN
@@ -404,3 +412,7 @@ func _has_space_for_plant(kind: int, at: Vector2) -> bool:
             else:
                 return false
     return true
+
+func _on_SlimeBrain_demon_spotted():
+    $CavernMusic.stop()
+    $DemonMusic.play()

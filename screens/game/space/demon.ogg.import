@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/demon.ogg-776f85697440ceec99c2845e5765c6cf.oggstr"
+
+[deps]
+
+source_file="res://screens/game/space/demon.ogg"
+dest_files=[ "res://.import/demon.ogg-776f85697440ceec99c2845e5765c6cf.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

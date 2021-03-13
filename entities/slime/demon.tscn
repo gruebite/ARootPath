@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://entities/slime/demon.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/tilesheet.png" type="Texture" id=2]
+[ext_resource path="res://entities/slime/demon_teleport.ogg" type="AudioStream" id=3]
+[ext_resource path="res://entities/slime/evil_cast.wav" type="AudioStream" id=4]
 
 [sub_resource type="Animation" id=1]
 resource_name = "idle"
@@ -20,7 +22,7 @@ tracks/0/keys = {
 "values": [ 1, 0 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 resource_name = "teleport_in"
 length = 0.4
 tracks/0/type = "value"
@@ -36,8 +38,7 @@ tracks/0/keys = {
 "values": [ 6, 5, 4, 3 ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "teleport_out"
+[sub_resource type="Animation" id=3]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -87,6 +88,14 @@ region_rect = Rect2( 0, 432, 224, 32 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "idle"
 anims/idle = SubResource( 1 )
-anims/teleport_in = SubResource( 3 )
-anims/teleport_out = SubResource( 2 )
+anims/teleport_in = SubResource( 2 )
+anims/teleport_out = SubResource( 3 )
 anims/throw = SubResource( 4 )
+
+[node name="Teleport" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+bus = "SFX"
+
+[node name="Throw" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+bus = "SFX"

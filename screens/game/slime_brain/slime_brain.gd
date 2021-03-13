@@ -3,6 +3,7 @@ class_name SlimeBrain
 
 signal slime_grew(mpos)
 signal slime_finished_thinking()
+signal demon_spotted()
 
 enum {
     SLIME_DEMON,
@@ -147,6 +148,7 @@ func grow_demon(at: Vector2) -> void:
     space.entities.add_entity_at(slime, at)
     slimes[at] = SLIME_DEMON
     slime.connect("finished_thinking", self, "_finished_thinking")
+    slime.connect("demon_spotted", self, "_demon_spotted")
     slime.connect("died", self, "_slime_died", [slime])
 
 func grow_fiend(at: Vector2) -> void:
@@ -198,3 +200,6 @@ func _slime_died(slime: Entity) -> void:
 
 func _finished_thinking() -> void:
     emit_signal("slime_finished_thinking")
+
+func _demon_spotted() -> void:
+    emit_signal("demon_spotted")

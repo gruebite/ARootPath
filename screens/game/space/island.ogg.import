@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/island.ogg-6c845b50f6a20c621ae79790b7a109d4.oggstr"
+
+[deps]
+
+source_file="res://screens/game/space/island.ogg"
+dest_files=[ "res://.import/island.ogg-6c845b50f6a20c621ae79790b7a109d4.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

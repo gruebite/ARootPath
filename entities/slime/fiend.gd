@@ -19,6 +19,7 @@ func think() -> void:
         return
     
     if Global.rng.randf() < THROW_CHANCE:
+        $Throw.play()
         $Sprite.frame = 0
         $Sprite.play("throw")
         yield($Sprite, "animation_finished")

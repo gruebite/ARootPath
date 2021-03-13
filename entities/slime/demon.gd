@@ -1,9 +1,10 @@
 extends SlimeBase
 
+signal demon_spotted()
+signal finished_thinking()
+
 const TELEPORT_CHANCE := 0.3
 const THROW_CHANCE := 0.1
-
-signal finished_thinking()
 
 var seen := false
 
@@ -16,9 +17,11 @@ func think() -> void:
         hide()
         return
     show()
+    emit_signal("demon_spotted")
     seen = true
     
     if Global.rng.randf() < TELEPORT_CHANCE:
+        $Teleport.play()
         $AnimationPlayer.play("teleport_out")
         yield($AnimationPlayer, "animation_finished")
         _teleport_near_player()
@@ -26,6 +29,7 @@ func think() -> void:
         yield($AnimationPlayer, "animation_finished")
         $AnimationPlayer.play("idle")
     elif Global.rng.randf() < THROW_CHANCE:
+        $Throw.play()
         $AnimationPlayer.play("throw")
         yield($AnimationPlayer, "animation_finished")
         _throw_fiend_near_player()

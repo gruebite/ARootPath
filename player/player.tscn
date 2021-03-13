@@ -81,6 +81,7 @@ region_rect = Rect2( 0, 352, 16, 16 )
 position = Vector2( 0, -13 )
 frames = SubResource( 5 )
 animation = "idle"
+frame = 3
 playing = true
 centered = false
 

@@ -48,7 +48,7 @@ func damage() -> void:
 func _teleport_near_player() -> void:
     for i in 10:
         var found: Vector2 = brain.space.fog.random_revealed()
-        if found != Vector2.ZERO and brain.space.is_free(found):
+        if found != Vector2.ZERO and brain.space.is_free(found) and found != brain.space.player.map_position:
             brain.move_slime(map_position, found)
             return
 

@@ -12,7 +12,7 @@ enum {
     SLIMY_WATER,
     PURIFIED_WATER,
     # Animated tiles.
-    LILLY,
+    LILY,
     SHIMMER,
     # Air
     FAIRY0,

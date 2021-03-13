@@ -6,8 +6,8 @@ signal spell_charge_changed(kind, to)
 signal spell_chained(amount)
 signal spell_chain_stopped()
 
-const ISLAND_WIDTH := 42
-const ISLAND_HEIGHT := 42
+const ISLAND_WIDTH := 32
+const ISLAND_HEIGHT := 32
 const STARTING_WATER := 5
 const MAX_WATER := 99
 const MAX_CHAINS := 10

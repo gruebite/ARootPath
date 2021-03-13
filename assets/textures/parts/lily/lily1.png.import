@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/lilly1.png-b8eaaf9245f669dbf8b7529a3ce3308a.stex"
+path="res://.import/lily1.png-1bb68624f664c9e1e9fb19350b9ba893.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/parts/lilly/lilly1.png"
-dest_files=[ "res://.import/lilly1.png-b8eaaf9245f669dbf8b7529a3ce3308a.stex" ]
+source_file="res://assets/textures/parts/lily/lily1.png"
+dest_files=[ "res://.import/lily1.png-1bb68624f664c9e1e9fb19350b9ba893.stex" ]
 
 [params]
 

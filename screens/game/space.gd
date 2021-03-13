@@ -236,7 +236,7 @@ func post_process(w: int, h: int) -> void:
                     if Global.rng.randf() < 0.1:
                         objects.set_cell(x, y, Tile.SHIMMER)
                     elif Global.rng.randf() < 0.1:
-                        objects.set_cell(x, y, Tile.LILLY)
+                        objects.set_cell(x, y, Tile.LILY)
 
 func interact(index: int=-1) -> void:
     var ent: Entity = entities.get_entity(player.map_position)
@@ -272,10 +272,17 @@ func interact(index: int=-1) -> void:
         # Re-enter.
         emit_signal("player_entered", player.map_position)
         return
+    elif objects.get_cellv(player.map_position) == Tile.LILY:
+        if Input.is_key_pressed(KEY_SHIFT):
+            # Last level
+            cavern_level = 1
+            warp_cavern()
+            for i in Plant.COUNT:
+                GameState.set_spell_charge(i, 99)
+            return
     elif objects.get_cellv(player.map_position) == Tile.PURIFIED_WATER:
         if Input.is_key_pressed(KEY_SHIFT):
             GameState.modify_water(GameState.MAX_WATER)
-        return
     if Input.is_key_pressed(KEY_SHIFT) and where == CAVERN:
         warp_island()
     else:

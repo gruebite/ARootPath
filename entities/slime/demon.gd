@@ -31,6 +31,7 @@ func damage() -> void:
     health -= 1
     if health <= 0:
         emit_signal("died")
+        get_tree().change_scene("res://screens/win/win.tscn")
 
 func _teleport_near_player() -> void:
     for i in 10:

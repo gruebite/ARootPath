@@ -142,7 +142,7 @@ _global_script_class_icons={
 
 config/name="A Root Path"
 config/description="2021 7DRL Entry"
-run/main_scene="res://screens/game/game.tscn"
+run/main_scene="res://screens/title/title.tscn"
 
 [autoload]
 

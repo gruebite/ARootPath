@@ -12,6 +12,9 @@ const STARTING_WATER := 40
 const MAX_WATER := 99
 const MAX_CHAINS := 10
 
+# How many delves.
+var delve_count: int
+
 # How much water we have.
 var water: int
 
@@ -66,6 +69,7 @@ func stop_spell_chain() -> void:
     emit_signal("spell_chain_stopped")
 
 func new_game() -> void:
+    delve_count = 0
     set_water(STARTING_WATER)
     plant_state = {}
     island_tiles = {}

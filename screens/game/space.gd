@@ -126,11 +126,11 @@ func warp_island() -> void:
     _tile_hack()
     post_process(GameState.ISLAND_WIDTH, GameState.ISLAND_HEIGHT)
 
-    var FAIRY_COUNT := 10
-    for _i in range(FAIRY_COUNT):
+    var fairy_count := len(GameState.plant_state) + 1
+    for _i in range(fairy_count):
         var x: int = Global.rng.randi_range(0, GameState.ISLAND_WIDTH - 1)
         var y: int = Global.rng.randi_range(0, GameState.ISLAND_HEIGHT - 1)
-        air.set_cell(x, y, Tile.FAIRY0 + Global.rng.randi_range(0, 1))
+        air.set_cell(x, y, Tile.FAIRY0 + Global.rng.randi_range(0, 2))
 
     player = PlayerScene.instance()
     player.map_position = GameState.return_location
@@ -149,6 +149,8 @@ func warp_island() -> void:
 
 func warp_cavern() -> void:
     reset_everything()
+    if where == ISLAND:
+        GameState.delve_count += 1
     where = CAVERN
     cavern_level += 1
 

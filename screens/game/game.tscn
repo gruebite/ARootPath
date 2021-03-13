@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://screens/game/game.gd" type="Script" id=1]
 [ext_resource path="res://screens/game/tileset.tres" type="TileSet" id=2]
@@ -18,6 +18,7 @@
 [ext_resource path="res://screens/game/space/caves.ogg" type="AudioStream" id=16]
 [ext_resource path="res://screens/game/space/island.ogg" type="AudioStream" id=17]
 [ext_resource path="res://screens/game/space/demon.ogg" type="AudioStream" id=18]
+[ext_resource path="res://screens/game/space/roots.wav" type="AudioStream" id=19]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
@@ -89,6 +90,10 @@ bus = "SFX"
 
 [node name="Spell" type="AudioStreamPlayer" parent="Space"]
 stream = ExtResource( 15 )
+bus = "SFX"
+
+[node name="Roots" type="AudioStreamPlayer" parent="Space"]
+stream = ExtResource( 19 )
 bus = "SFX"
 
 [node name="IslandMusic" type="AudioStreamPlayer" parent="Space"]

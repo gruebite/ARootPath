@@ -258,6 +258,7 @@ func interact(index: int=-1) -> void:
             warp_cavern()
             return
         elif ent.is_in_group("roots"):
+            $Roots.play()
             warp_island()
             return
         elif ent.is_in_group("plant"):

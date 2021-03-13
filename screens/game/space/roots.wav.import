@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/roots.wav-03a68261766c216bf621679b0dd7871c.sample"
+
+[deps]
+
+source_file="res://screens/game/space/roots.wav"
+dest_files=[ "res://.import/roots.wav-03a68261766c216bf621679b0dd7871c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -42,6 +42,7 @@ func think() -> void:
 
 func damage() -> void:
     health -= 1
+    poof()
     if health <= 0:
         get_tree().change_scene("res://screens/win/win.tscn")
 

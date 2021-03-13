@@ -12,12 +12,12 @@ func init_target() -> void:
     target_shape.origin = start_pos
     match selected:
         Plant.Kind.TREE:
-            target_shape.size = 5
-            target_shape.kind = ShapeCast.Kind.LINE
+            target_shape.size = 4
+            target_shape.kind = ShapeCast.Kind.CONE
             update_target(Direction.NORTH)
         Plant.Kind.BUSH:
-            target_shape.size = 1
-            target_shape.kind = ShapeCast.Kind.POINT
+            target_shape.size = 7
+            target_shape.kind = ShapeCast.Kind.LINE
             update_target(Direction.NORTH)
         Plant.Kind.FLOWER:
             target_shape.size = 1
@@ -38,7 +38,7 @@ func update_target(dir: int) -> void:
         Plant.Kind.TREE:
             target_shape.direction = dir
         Plant.Kind.BUSH:
-            target_shape.origin += Direction.delta(dir)
+            target_shape.direction = dir
         Plant.Kind.FLOWER:
             target_shape.origin += Direction.delta(dir)
         Plant.Kind.FUNGUS:

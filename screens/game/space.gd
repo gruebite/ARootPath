@@ -161,7 +161,7 @@ func warp_cavern() -> void:
     $CavernDrop.play()
     reset_everything()
     if where == ISLAND:
-        GameState.delve_count += 1
+        GameState.dive_count += 1
         island_music_pos = $IslandMusic.get_playback_position()
         $IslandMusic.stop()
         $CavernMusic.play()
@@ -373,16 +373,12 @@ func cast_spell(kind: int, area: Array) -> void:
     assert(can_cast_spell(kind, area))
     $Spell.play()
     match kind:
-        Plant.Kind.TREE:
+        Plant.Kind.TREE, Plant.Kind.BUSH:
             for pos in area:
                 if fog.is_revealed(pos):
                     var slime = entities.get_entity(pos)
                     if slime and slime.is_in_group("slime"):
                         slime.damage()
-        Plant.Kind.BUSH:
-            var slime = entities.get_entity(area[0])
-            if slime and slime.is_in_group("slime"):
-                slime.damage()
         Plant.Kind.FLOWER:
             move_player(area[0], false)
         Plant.Kind.FUNGUS:

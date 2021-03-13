@@ -6,11 +6,11 @@
 script = ExtResource( 1 )
 name = "Wisty Tree"
 description = "Peircingly vibrant."
-spell_description = "Remove slime in a line."
+spell_description = "Remove slime in a cone."
 grow_cost = 4
 growth_period = 8
 spell_charges = 3
 watering_frequency = 4
-watering_quantity = 5
+watering_quantity = 2
 drought_limit = 5
 space_needed = 1

@@ -17,10 +17,10 @@ const DEBUG := false
 const FROST_TIMER := 3
 
 const DEMON_COUNT := [0, 0, 1]
-const FIEND_COUNT := [0, 6, 12]
+const FIEND_COUNT := [0, 12, 18]
 const SLIME_COUNT := [12, 18, 24]
 
-const FOOD_RATE := [1, 2, 2]
+const FOOD_RATE := [1, 2, 3]
 const FOOD_LIFE := [9, 11, 13]
 
 const Demon := preload("res://entities/slime/demon.tscn")

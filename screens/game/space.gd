@@ -310,7 +310,6 @@ func move_player(to: Vector2, is_turn: bool=true) -> void:
     assert(not unwalkable(to))
     if turn_system.current_turn != TurnSystem.TURN_PLAYER:
         print("NOT TURN ", turn_system.thinker_count)
-        return
 
     if will_bump(to):
         $Bump.play()

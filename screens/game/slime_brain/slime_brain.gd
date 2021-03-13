@@ -11,7 +11,7 @@ enum {
     SLIME_GROWN,
 }
 
-const DEBUG := true
+const DEBUG := false
 
 const FROST_TIMER := 3
 
@@ -92,7 +92,7 @@ func take_turn() -> void:
                 var slime: Entity = space.entities.get_entity(pos)
                 slime.grow_up()
                 grew = true
-    if grew and not $Grew.playing:
+    if grew:
         $Grew.play()
 
     var new_food := {}
@@ -161,7 +161,6 @@ func grow_fiend(at: Vector2) -> void:
 
 func grow_slime(at: Vector2) -> void:
     assert(space.is_free(at))
-    print("SLIME ", at)
     var slime := Slime.instance()
     slime.visible = space.fog.is_revealed(at)
     space.entities.add_entity_at(slime, at)

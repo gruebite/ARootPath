@@ -236,7 +236,7 @@ func post_process(w: int, h: int) -> void:
                 elif Vector2(x, y) != Vector2(w/2, h/2) and tiles.get_cell(x, y) == Tile.WATER and tiles.get_cell_autotile_coord(x, y) == MIDDLE_COORD:
                     if Global.rng.randf() < 0.1:
                         objects.set_cell(x, y, Tile.SHIMMER)
-                    elif Global.rng.randf() < 0.1:
+                    elif Global.rng.randf() < 0.05:
                         objects.set_cell(x, y, Tile.LILY)
 
 func interact(index: int=-1) -> void:

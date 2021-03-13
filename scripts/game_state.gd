@@ -110,7 +110,7 @@ func generate_island() -> void:
 func update_island() -> void:
     for i in Plant.COUNT:
         set_spell_charge(i, 0)
-    set_spell_charge(Plant.FLOWER, 0)
+    set_spell_charge(Plant.Kind.FLOWER, 0)
     
     var surviving := {}
     for pos in plant_state:

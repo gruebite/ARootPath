@@ -13,6 +13,10 @@ func think() -> void:
         hide()
         return
     show()
+    # The fiend does not throw stuff when frozen, the demon can still act.
+    if frozen:
+        emit_signal("finished_thinking")
+        return
     
     if Global.rng.randf() < THROW_CHANCE:
         _throw_slime_near_player()

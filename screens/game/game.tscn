@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://screens/game/game.gd" type="Script" id=1]
 [ext_resource path="res://screens/game/tileset.tres" type="TileSet" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://screens/game/space/cavern_drop.wav" type="AudioStream" id=12]
 [ext_resource path="res://screens/game/space/bump.wav" type="AudioStream" id=13]
 [ext_resource path="res://screens/game/space/plant_grow.wav" type="AudioStream" id=14]
+[ext_resource path="res://screens/game/space/spell.wav" type="AudioStream" id=15]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
@@ -83,6 +84,10 @@ bus = "SFX"
 stream = ExtResource( 14 )
 bus = "SFX"
 
+[node name="Spell" type="AudioStreamPlayer" parent="Space"]
+stream = ExtResource( 15 )
+bus = "SFX"
+
 [node name="TurnSystem" type="Node2D" parent="."]
 script = ExtResource( 5 )
 
@@ -90,3 +95,5 @@ script = ExtResource( 5 )
 space_path = NodePath("../Space")
 [connection signal="player_entered" from="Space" to="HUD" method="_on_Space_player_entered"]
 [connection signal="player_interacted" from="Space" to="HUD" method="_on_Space_player_interacted"]
+[connection signal="slime_finished_thinking" from="Space/SlimeBrain" to="TurnSystem" method="_on_SlimeBrain_slime_finished_thinking"]
+[connection signal="slime_grew" from="Space/SlimeBrain" to="." method="_on_SlimeBrain_slime_grew"]

@@ -347,6 +347,7 @@ func can_cast_spell(kind: int, area: Array) -> bool:
 
 func cast_spell(kind: int, area: Array) -> void:
     assert(can_cast_spell(kind, area))
+    $Spell.play()
     match kind:
         Plant.Kind.TREE:
             for pos in area:

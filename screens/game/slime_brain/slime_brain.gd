@@ -11,6 +11,8 @@ enum {
     SLIME_GROWN,
 }
 
+const DEBUG := true
+
 const FROST_TIMER := 3
 
 const DEMON_COUNT := [0, 0, 1]
@@ -18,7 +20,7 @@ const FIEND_COUNT := [0, 6, 12]
 const SLIME_COUNT := [12, 18, 24]
 
 const FOOD_RATE := [1, 2, 2]
-const FOOD_LIFE := [13, 13, 15]
+const FOOD_LIFE := [9, 11, 13]
 
 const Demon := preload("res://entities/slime/demon.tscn")
 const Fiend := preload("res://entities/slime/fiend.tscn")
@@ -31,6 +33,12 @@ var frost := {}
 var food := {}
 
 onready var space: Space = get_node(space_path)
+
+func _draw() -> void:
+    if not DEBUG:
+        return
+    for f in food:
+        draw_circle(f * 16 + Vector2(8, 8), 3, Color.brown)
 
 func cleanup() -> void:
     slimes.clear()
@@ -129,6 +137,7 @@ func take_turn() -> void:
             new_food[new_pos] = life
 
     food = new_food
+    update()
 
 func grow_demon(at: Vector2) -> void:
     assert(space.is_free(at))

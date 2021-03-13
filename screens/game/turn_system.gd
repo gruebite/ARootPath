@@ -21,7 +21,7 @@ func do_turn():
     get_tree().call_group("thinker", "think")
 
 func _set_thinker_count(value: int) -> void:
-    assert(current_turn == TURN_THINKERS)
+    #assert(current_turn == TURN_THINKERS)
     thinker_count = value
     if thinker_count == 0:
         current_turn = TURN_PLAYER

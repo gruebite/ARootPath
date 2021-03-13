@@ -3,7 +3,7 @@ extends SlimeBase
 signal demon_spotted()
 signal finished_thinking()
 
-const TELEPORT_CHANCE := 0.3
+const TELEPORT_CHANCE := 0.1
 const THROW_CHANCE := 0.1
 
 var seen := false
@@ -16,8 +16,9 @@ func think() -> void:
         emit_signal("finished_thinking")
         hide()
         return
+    if not seen:
+        emit_signal("demon_spotted")
     show()
-    emit_signal("demon_spotted")
     seen = true
     
     if Global.rng.randf() < TELEPORT_CHANCE:

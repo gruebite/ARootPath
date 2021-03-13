@@ -39,7 +39,7 @@ func _on_spell_charge_changed(kind: int, to: int) -> void:
     $Root/Resources.charges.change(kind, to)
 
 func _on_spell_chained(amount: int) -> void:
-    pass
+    $Root/Resources.chains.link_chains(amount)
 
 func _on_spell_chain_stopped() -> void:
-    pass
+    $Root/Resources.chains.link_chains(0)

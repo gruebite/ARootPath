@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://ui/theme.tres" type="Theme" id=1]
 [ext_resource path="res://screens/game/hud/resources/resources.gd" type="Script" id=2]
 [ext_resource path="res://screens/game/hud/resources/water/water.tscn" type="PackedScene" id=3]
 [ext_resource path="res://screens/game/hud/resources/charges/charges.tscn" type="PackedScene" id=4]
 [ext_resource path="res://ui/nine_patch/nine_patch.tscn" type="PackedScene" id=5]
+[ext_resource path="res://screens/game/hud/chains/chains.tscn" type="PackedScene" id=6]
 
 [node name="Resources" type="Control"]
 margin_left = -8.0
@@ -57,3 +58,5 @@ anchor_bottom = 0.0
 margin_top = 8.0
 margin_right = 24.0
 margin_bottom = 48.0
+
+[node name="Chains" parent="." instance=ExtResource( 6 )]

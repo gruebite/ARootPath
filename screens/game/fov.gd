@@ -29,3 +29,8 @@ func unreveal(mpos: Vector2) -> void:
 
 func reveal(mpos: Vector2) -> void:
     set_cellv(mpos, REVEALED)
+
+func random_revealed() -> Vector2:
+    var arr := get_used_cells_by_id(REVEALED)
+    if len(arr) == 0: return Vector2.ZERO
+    return arr[Global.rng.randi_range(0, len(arr) - 1)]

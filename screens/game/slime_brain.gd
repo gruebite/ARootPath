@@ -21,7 +21,7 @@ const FOOD_RATE := [2, 3, 5]
 const FOOD_LIFE := [13, 21, 34]
 
 const Demon := preload("res://entities/slime/demon.tscn")
-const Leech := preload("res://entities/slime/leech.tscn")
+const Fiend := preload("res://entities/slime/fiend.tscn")
 const Slime := preload("res://entities/slime/slime.tscn")
 
 export var space_path := NodePath()
@@ -43,7 +43,7 @@ func spawn_slimes(walker: Walker) -> void:
     var demons_to_add: int = DEMON_COUNT[space.cavern_level]
     while slime_to_add > 0 or spreaders_to_add > 0 or demons_to_add > 0:
         var pos: Vector2 = walker.opened_tiles.random(Global.rng)
-        if space.entities.get_entity(pos) == null:
+        if not space.entities.get_entity(pos):
             # Normalized distance based on map.  Demon can only be spawned far away from entrance.
             var dist_n: float = (((pos / Vector2(walker.width, walker.height)).normalized() * 2) - Vector2.ONE).length()
             if demons_to_add > 0 and dist_n > 0.5:
@@ -51,7 +51,7 @@ func spawn_slimes(walker: Walker) -> void:
                 grow_demon(pos)
             elif spreaders_to_add > 0 and dist_n > 0.2:
                 spreaders_to_add -= 1
-                grow_leech(pos)
+                grow_fiend(pos)
             elif slime_to_add > 0:
                 slime_to_add -= 1
                 grow_slime(pos)
@@ -89,7 +89,7 @@ func take_turn() -> void:
             var delta := Direction.delta(d)
             var neigh := (pos as Vector2) + delta
             # Only grow slimes in cardinal direction, but move food in all.
-            if slimes.has(neigh) and slimes.get(neigh) != SLIME_GROWING and Direction.is_cardinal(d) and not space.unwalkable(pos) and space.entities.get_entity(pos) == null:
+            if slimes.has(neigh) and slimes.get(neigh) != SLIME_GROWING and Direction.is_cardinal(d) and space.is_free(pos):
                 # Consume the food.
                 consumed = true
                 var f_amount = frost.get(neigh)
@@ -114,20 +114,25 @@ func take_turn() -> void:
     food = new_food
 
 func grow_demon(at: Vector2) -> void:
+    assert(space.is_free(at))
     var slime := Demon.instance()
+    slime.brain = self
     space.entities.add_entity_at(slime, at)
     slimes[at] = SLIME_DEMON
     slime.connect("finished_thinking", self, "_finished_thinking")
     slime.connect("died", self, "_slime_died", [slime])
 
-func grow_leech(at: Vector2) -> void:
-    var slime := Leech.instance()
+func grow_fiend(at: Vector2) -> void:
+    assert(space.is_free(at))
+    var slime := Fiend.instance()
+    slime.brain = self
     space.entities.add_entity_at(slime, at)
     slimes[at] = SLIME_SPREADER
     slime.connect("finished_thinking", self, "_finished_thinking")
     slime.connect("died", self, "_slime_died", [slime])
 
 func grow_slime(at: Vector2) -> void:
+    assert(space.is_free(at))
     var slime := Slime.instance()
     space.entities.add_entity_at(slime, at)
     slimes[at] = SLIME_GROWING
@@ -141,15 +146,16 @@ func remove_slime(at: Vector2) -> int:
     slimes.erase(at)
     frost.erase(at)
     return kind
-
-func splatter_slime(at: Vector2) -> bool:
-    if space.entities.get_entity(at): return false
-    if space.unwalkable(at): return false
-    grow_slime(at)
-    return true
+    
+func move_slime(at: Vector2, to: Vector2) -> void:
+    var slime = slimes.get(at)
+    assert(slime != null and space.is_free(to))
+    space.entities.move_entity(space.entities.get_entity(at), to)
+    slimes.erase(at)
+    slimes[to] = slime
 
 func freeze_spot(at: Vector2) -> void:
-    if not slimes.has(at): return
+    if not slimes.get(at): return
     # Definitely slime.
     space.entities.get_entity(at).freeze()
     frost[at] = FROST_TIMER

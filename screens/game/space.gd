@@ -10,7 +10,8 @@ enum {
 }
 
 const CAVERN_SIZES := [
-    70, 100, 141, 173,
+    # Keeping some to adjust.  These are length of a square where each area doubles.
+    50, 70, 100, 141, 173,
 ]
 
 const CAVERN_ROOTS := [
@@ -51,6 +52,7 @@ func _ready() -> void:
 
 func reset_everything() -> void:
     tiles.clear()
+    $TileFix.clear()
     objects.clear()
     air.clear()
     targeting.clear()
@@ -261,6 +263,9 @@ func move_player(to: Vector2, is_turn: bool=true) -> void:
 
 func unwalkable(mpos: Vector2) -> bool:
     return not Tile.walkable(tiles.get_cellv(mpos))
+    
+func is_free(at: Vector2) -> bool:
+    return not unwalkable(at) and not entities.get_entity(at)
 
 func can_afford_plant(kind: int) -> bool:
     return GameState.water >= Plant.KIND_RESOURCES[kind].grow_cost
@@ -314,8 +319,9 @@ func cast_spell(kind: int, area: Array) -> void:
         Plant.Kind.FLOWER:
             move_player(area[0], false)
         Plant.Kind.FUNGUS:
-            if fog.is_revealed(area[0]):
-                slime_brain.freeze_spot(area[0])
+            for pos in area:
+                if fog.is_revealed(pos):
+                    slime_brain.freeze_spot(pos)
         Plant.Kind.MOSS:
             for pos in area:
                 if fog.is_revealed(pos):

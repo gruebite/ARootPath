@@ -150,7 +150,7 @@ func remove_slime(at: Vector2) -> int:
     slimes.erase(at)
     frost.erase(at)
     return kind
-    
+
 func move_slime(at: Vector2, to: Vector2) -> void:
     var slime = slimes.get(at)
     assert(slime != null and space.is_free(to))

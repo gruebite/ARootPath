@@ -11,7 +11,11 @@ var health := 9
 
 func think() -> void:
     # Don't think unless we've been seen, then all hell breaks loss.
-    if not seen and not brain.space.fog.is_revealed(map_position): return
+    if not seen and not brain.space.fog.is_revealed(map_position): 
+        emit_signal("finished_thinking")
+        hide()
+        return
+    show()
     seen = true
     
     if Global.rng.randf() < TELEPORT_CHANCE:

@@ -5,7 +5,7 @@ signal finished_turn()
 
 enum {
     TURN_PLAYER,
-    TURN_THINKERS,    
+    TURN_THINKERS,
 }
 
 var current_turn := TURN_PLAYER
@@ -14,7 +14,7 @@ var thinker_count := 0 setget _set_thinker_count
 func do_turn():
     assert(current_turn == TURN_PLAYER)
     get_tree().call_group("turn_taker", "take_turn")
-    
+
     thinker_count = len(get_tree().get_nodes_in_group("thinker"))
     if thinker_count > 0:
         current_turn = TURN_THINKERS

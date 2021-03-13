@@ -9,6 +9,9 @@ enum {
 
 const RADIUS := 7
 
+export var space_path := NodePath()
+
+onready var space: Space = get_node(space_path)
 onready var fov := ShadowCast.new(funcref(get_parent(), "unwalkable"), funcref(self, "reveal"))
 onready var unfov := ShadowCast.new(funcref(get_parent(), "unwalkable"), funcref(self, "unreveal"))
 
@@ -26,9 +29,15 @@ func recompute(old: Vector2, new: Vector2) -> void:
 
 func unreveal(mpos: Vector2) -> void:
     set_cellv(mpos, SEEN)
+    var ent = space.entities.get_entity(mpos)
+    if ent:
+        ent.hide()
 
 func reveal(mpos: Vector2) -> void:
     set_cellv(mpos, REVEALED)
+    var ent = space.entities.get_entity(mpos)
+    if ent:
+        ent.show()
 
 func random_revealed() -> Vector2:
     var arr := get_used_cells_by_id(REVEALED)

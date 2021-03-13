@@ -8,7 +8,11 @@ var health := 3
 
 func think() -> void:
     # Don't think unless visible player.
-    if not brain.space.fog.is_revealed(map_position): return
+    if not brain.space.fog.is_revealed(map_position):
+        emit_signal("finished_thinking")
+        hide()
+        return
+    show()
     
     if Global.rng.randf() < THROW_CHANCE:
         _throw_slime_near_player()

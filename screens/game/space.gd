@@ -184,6 +184,7 @@ func warp_cavern() -> void:
         # Must be far from entrance.
         if entities.get_entity(mpos) or (mpos - Vector2(size / 2, size / 2)).length() < size / 4:
             continue
+        print("PIT_SPAWN ", mpos)
         entities.add_entity_at(Pit.instance(), mpos)
         objects.set_cellv(mpos, -1)
         pits_to_add -= 1
@@ -210,7 +211,7 @@ func warp_cavern() -> void:
 
     fog.unreveal_area(size, size)
     fog.recompute(player.map_position, player.map_position)
-    #fog.show()
+    fog.show()
 
     slime_brain.spawn_slimes(walker)
 
@@ -286,14 +287,14 @@ func move_player(to: Vector2, is_turn: bool=true) -> void:
         if fog.visible:
             fog.recompute(from, to)
         emit_signal("player_entered", to)
-    
+
     if is_turn:
         GameState.stop_spell_chain()
         turn_system.do_turn()
 
 func unwalkable(mpos: Vector2) -> bool:
     return not Tile.walkable(tiles.get_cellv(mpos))
-    
+
 func is_free(at: Vector2) -> bool:
     return not unwalkable(at) and not entities.get_entity(at)
 
@@ -301,7 +302,7 @@ func can_afford_plant(kind: int) -> bool:
     return GameState.water >= Plant.KIND_RESOURCES[kind].grow_cost
 
 func can_grow_plant(kind: int, at: Vector2) -> bool:
-    return can_afford_plant(kind) and not unwalkable(at) and tiles.get_cellv(at) != Tile.WATER and _has_space_for_plant(kind, at)
+    return can_afford_plant(kind) and is_free(at) and tiles.get_cellv(at) != Tile.WATER and _has_space_for_plant(kind, at)
 
 func grow_plant(kind: int, at: Vector2) -> void:
     assert(can_grow_plant(kind, at))

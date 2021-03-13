@@ -11,4 +11,4 @@ func unfreeze() -> void:
     frozen = false
 
 func freeze() -> void:
-    pass
+    frozen = true

@@ -89,6 +89,7 @@ func take_turn() -> void:
             var delta := Direction.delta(d)
             var neigh := (pos as Vector2) + delta
             # Only grow slimes in cardinal direction, but move food in all.
+            # Only grow from non-growing slime to prevent explosive growth.
             if slimes.has(neigh) and slimes.get(neigh) != SLIME_GROWING and Direction.is_cardinal(d) and space.is_free(pos):
                 # Consume the food.
                 consumed = true
@@ -99,11 +100,14 @@ func take_turn() -> void:
                     if f_amount == 0:
                         frost.erase(neigh)
                         space.entities.get_entity(neigh).unfreeze()
+                    else:
+                        frost[neigh] = f_amount
                 else:
                     grow_slime(pos)
                 break
             if not space.unwalkable(neigh):
                 candidates.append(neigh)
+        # If this food wasn't consumed, move it to a random location.
         if not consumed:
             var new_pos: Vector2 = pos
             if len(candidates) > 0:
@@ -153,6 +157,10 @@ func move_slime(at: Vector2, to: Vector2) -> void:
     space.entities.move_entity(space.entities.get_entity(at), to)
     slimes.erase(at)
     slimes[to] = slime
+    var f = frost.get(at)
+    if f:
+        frost.erase(at)
+        frost[to] = f
 
 func freeze_spot(at: Vector2) -> void:
     if not slimes.get(at): return

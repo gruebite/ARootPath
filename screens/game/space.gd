@@ -267,10 +267,12 @@ func interact(index: int=-1) -> void:
                         pass
             return
     elif objects.get_cellv(player.map_position) == Tile.SLIMY_WATER:
-        objects.set_cellv(player.map_position, Tile.PURIFIED_WATER)
-        GameState.modify_water(1)
-        # Re-enter.
-        emit_signal("player_entered", player.map_position)
+        # Only purify water if we can store it.
+        if GameState.water != GameState.MAX_WATER:
+            objects.set_cellv(player.map_position, Tile.PURIFIED_WATER)
+            GameState.modify_water(cavern_level + 1)
+            # Re-enter.
+            emit_signal("player_entered", player.map_position)
         return
     elif objects.get_cellv(player.map_position) == Tile.LILY:
         if Input.is_key_pressed(KEY_SHIFT):

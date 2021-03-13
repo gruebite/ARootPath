@@ -14,8 +14,8 @@ enum {
 const FROST_TIMER := 3
 
 const DEMON_COUNT := [0, 0, 1]
-const FIEND_COUNT := [0, 12, 24]
-const SLIME_COUNT := [12, 24, 36]
+const FIEND_COUNT := [0, 6, 12]
+const SLIME_COUNT := [12, 18, 24]
 
 const FOOD_RATE := [2, 3, 5]
 const FOOD_LIFE := [13, 21, 34]

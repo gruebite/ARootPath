@@ -9,6 +9,8 @@ signal spell_chain_stopped()
 const ISLAND_WIDTH := 42
 const ISLAND_HEIGHT := 42
 const STARTING_WATER := 40
+const MAX_WATER := 99
+const MAX_CHAINS := 10
 
 # How much water we have.
 var water: int
@@ -34,6 +36,8 @@ func _ready() -> void:
     pass
     
 func modify_water(by: int) -> void:
+    if by == 0: return
+    if by > 0 and water == MAX_WATER: return
     set_water(water + by)
     
 func set_water(to: int) -> void:
@@ -47,6 +51,11 @@ func set_spell_charge(kind: int, to: int) -> void:
 func use_spell_charge(kind: int) -> void:
     assert(spell_charges[kind] >= 0)
     set_spell_charge(kind, spell_charges[kind] - 1)
+
+func can_cast_spell(kind: int) -> bool:
+    if chain_count >= MAX_CHAINS or chain_count > water:
+        return false
+    return spell_charges[kind] != 0
 
 func chain_spell() -> void:
     chain_count += 1

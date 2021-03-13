@@ -9,10 +9,15 @@ enum {
     # Object tiles.
     GRAVEL,
     GRASS,
+    SLIMY_WATER,
+    PURIFIED_WATER,
+    # Animated tiles.
     LILLY,
     SHIMMER,
     # Air
     FAIRY0,
+    FIARY1,
+    FAIRY2,
 }
 
 static func walkable(t: int) -> bool:

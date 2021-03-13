@@ -14,7 +14,7 @@ enum {
 const FROST_TIMER := 2
 
 const DEMON_COUNT := [0, 0, 1]
-const SPREADER_COUNT := [0, 12, 24]
+const FIEND_COUNT := [0, 12, 24]
 const SLIME_COUNT := [12, 24, 36]
 
 const FOOD_RATE := [2, 3, 5]
@@ -39,9 +39,9 @@ func cleanup() -> void:
 
 func spawn_slimes(walker: Walker) -> void:
     var slime_to_add: int = SLIME_COUNT[space.cavern_level]
-    var spreaders_to_add: int = SPREADER_COUNT[space.cavern_level]
+    var fiends_to_add: int = FIEND_COUNT[space.cavern_level]
     var demons_to_add: int = DEMON_COUNT[space.cavern_level]
-    while slime_to_add > 0 or spreaders_to_add > 0 or demons_to_add > 0:
+    while slime_to_add > 0 or fiends_to_add > 0 or demons_to_add > 0:
         var pos: Vector2 = walker.opened_tiles.random(Global.rng)
         if not space.entities.get_entity(pos):
             # Normalized distance based on map.  Demon can only be spawned far away from entrance.
@@ -49,8 +49,8 @@ func spawn_slimes(walker: Walker) -> void:
             if demons_to_add > 0 and dist_n > 0.5:
                 demons_to_add -= 1
                 grow_demon(pos)
-            elif spreaders_to_add > 0 and dist_n > 0.2:
-                spreaders_to_add -= 1
+            elif fiends_to_add > 0 and dist_n > 0.2:
+                fiends_to_add -= 1
                 grow_fiend(pos)
             elif slime_to_add > 0:
                 slime_to_add -= 1

@@ -10,7 +10,7 @@ enum {
 }
 
 const CAVERN_SIZES := [
-    # Keeping some to adjust.  These are length of a square where each area doubles.
+    # Keeping some to adjust.  These are length of a square where each area doubles.  Could be difficulty?
     50, 70, 100, 141, 173,
 ]
 
@@ -20,6 +20,11 @@ const CAVERN_ROOTS := [
 
 const CAVERN_PITS := [
     1, 1, 0,
+]
+
+# Roughly ~100 per run, with some chance to gain some from fiends.
+const CAVERN_SLIMY_WATER := [
+    10, 30, 60,
 ]
 
 const MIDDLE_COORD := Vector2(2, 2)
@@ -60,22 +65,8 @@ func reset_everything() -> void:
     fog.clear()
     slime_brain.cleanup()
 
-func warp_island() -> void:
-    reset_everything()
-    where = ISLAND
-    cavern_level = -1
-
-    # Update plants, calculate spell counts.
-    GameState.update_island()
-
-    for y in GameState.ISLAND_HEIGHT:
-        for x in GameState.ISLAND_WIDTH:
-            var c = GameState.island_tiles[Vector2(x, y)]
-            if c >= 0:
-                tiles.set_cell(x, y, c)
-    tiles.update_bitmask_region()
-    # TODO: Fix this through code.
-    
+# FIXME: Finds broken corners and fills them with 8x8 subtiles.
+func _tile_hack() -> void:
     for y in GameState.ISLAND_HEIGHT:
         for x in GameState.ISLAND_WIDTH:
             var p := Vector2(x, y)
@@ -117,6 +108,22 @@ func warp_island() -> void:
                     # North/West
                     128:
                         $TileFix.set_cellv(p * 2 + Vector2(0, 0), 7)
+
+func warp_island() -> void:
+    reset_everything()
+    where = ISLAND
+    cavern_level = -1
+
+    # Update plants, calculate spell counts.
+    GameState.update_island()
+
+    for y in GameState.ISLAND_HEIGHT:
+        for x in GameState.ISLAND_WIDTH:
+            var c = GameState.island_tiles[Vector2(x, y)]
+            if c >= 0:
+                tiles.set_cell(x, y, c)
+    tiles.update_bitmask_region()
+    _tile_hack()
     post_process(GameState.ISLAND_WIDTH, GameState.ISLAND_HEIGHT)
 
     var FAIRY_COUNT := 10
@@ -168,6 +175,7 @@ func warp_cavern() -> void:
             var c: int = walker.grid[Vector2(x, y)]
             tiles.set_cell(x, y, c)
     tiles.update_bitmask_region(Vector2.ZERO, Vector2(size, size))
+    _tile_hack()
     post_process(size, size)
 
     var pits_to_add: int = CAVERN_PITS[cavern_level]
@@ -188,6 +196,12 @@ func warp_cavern() -> void:
         entities.add_entity_at(Roots.instance(), mpos)
         objects.set_cellv(mpos, -1)
         roots_to_add -= 1
+
+    var slimy_water_to_add: int = CAVERN_SLIMY_WATER[cavern_level]
+    while slimy_water_to_add > 0:
+        var mpos := walker.opened_tiles.random(Global.rng)
+        objects.set_cellv(mpos, Tile.SLIMY_WATER)
+        slimy_water_to_add -= 1
 
     player = PlayerScene.instance()
     player.map_position = Vector2(size / 2, size / 2)
@@ -236,8 +250,11 @@ func interact(index: int=-1) -> void:
                 else:
                     # :(
                     pass
-        elif ent.is_in_group("tainted_water"):
-            pass
+    elif objects.get_cellv(player.map_position) == Tile.SLIMY_WATER:
+        objects.set_cellv(player.map_position, Tile.PURIFIED_WATER)
+        GameState.modify_water(1)
+        # Re-enter.
+        emit_signal("player_entered", player.map_position)
     else:
         emit_signal("player_interacted", player.map_position, index)
 
@@ -286,10 +303,7 @@ func grow_plant(kind: int, at: Vector2) -> void:
 
 
 func can_cast_spell(kind: int, area: Array) -> bool:
-    if GameState.spell_charges[kind] == 0:
-        return false
-    if GameState.chain_count >= GameState.water:
-        return false
+    if not GameState.can_cast_spell(kind): return false
     match kind:
         Plant.Kind.TREE:
             return true

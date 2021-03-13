@@ -18,6 +18,10 @@ func _on_Space_player_entered(at: Vector2) -> void:
             $Root/InfoBox.display_simple("DEEP PIT. ONE WAY.")
         elif ent.is_in_group("plant"):
             $Root/InfoBox.display_plant(ent as Plant)
+    elif space.objects.get_cellv(at) == Tile.SLIMY_WATER:
+        $Root/InfoBox.display_simple("SLIMY WATER.")
+    elif space.objects.get_cellv(at) == Tile.PURIFIED_WATER:
+        $Root/InfoBox.display_simple("PURIFIED WATER.")
     else:
         $Root/InfoBox.hide_all()
 

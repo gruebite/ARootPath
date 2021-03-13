@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/spell.wav-139e9614dba454fa50965186bc433d46.sample"
+
+[deps]
+
+source_file="res://screens/game/space/spell.wav"
+dest_files=[ "res://.import/spell.wav-139e9614dba454fa50965186bc433d46.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

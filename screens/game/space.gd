@@ -368,7 +368,7 @@ func cast_spell(kind: int, area: Array) -> void:
         Plant.Kind.MOSS:
             for pos in area:
                 if fog.is_revealed(pos):
-                    var slime = entities.get_entity(area[0])
+                    var slime = entities.get_entity(pos)
                     if slime and slime.is_in_group("slime"):
                         slime.damage()
                     elif tiles.get_cellv(pos) == -1:

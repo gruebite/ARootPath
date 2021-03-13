@@ -8,7 +8,7 @@ signal spell_chain_stopped()
 
 const ISLAND_WIDTH := 42
 const ISLAND_HEIGHT := 42
-const STARTING_WATER := 40
+const STARTING_WATER := 5
 const MAX_WATER := 99
 const MAX_CHAINS := 10
 
@@ -113,7 +113,7 @@ func generate_island() -> void:
 
 func update_island() -> void:
     for i in Plant.COUNT:
-        set_spell_charge(i, 10)
+        set_spell_charge(i, 0)
     set_spell_charge(Plant.Kind.FLOWER, 1)
     
     var surviving := {}

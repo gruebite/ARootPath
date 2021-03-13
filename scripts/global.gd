@@ -7,7 +7,7 @@ var rng := RandomNumberGenerator.new()
 var _muted := false
 
 func _ready() -> void:
-    pass#rng.randomize()
+    rng.randomize()
 
 func _unhandled_input(event: InputEvent) -> void:
     if event is InputEventKey:

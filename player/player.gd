@@ -2,7 +2,7 @@ extends Entity
 class_name Player
 
 func _unhandled_input(event: InputEvent) -> void:
-    if $Tween.is_active(): return
+    if $Tween.is_active() or $Water.playing: return
     # Interact below us.
     if event.is_action_pressed("ui_accept"):
         Global.space.interact()
@@ -51,3 +51,16 @@ func _unhandled_input(event: InputEvent) -> void:
 func set_map_position(value: Vector2) -> void:
     map_position = value.floor()
     position = (value * 16) + Vector2(0, 1)
+
+func be_water() -> void:
+    $Sprite.hide()
+    $Shadow.hide()
+    $Water.show()
+    $Water.frame = 0
+    $Water.play()
+    yield($Water, "animation_finished")
+    $Water.playing = false
+    $Water.hide()
+    $Sprite.show()
+    $Shadow.show()
+    

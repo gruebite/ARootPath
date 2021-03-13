@@ -49,6 +49,7 @@ onready var objects := $Objects
 onready var air := $Air
 onready var targeting := $Targeting
 onready var entities := $Entities
+onready var effects := $Effects
 onready var fog := $FOG
 onready var slime_brain = $SlimeBrain
 
@@ -260,6 +261,7 @@ func interact(index: int=-1) -> void:
                 if needed > 0:
                     if GameState.water >= needed:
                         plant.water()
+                        player.be_water()
                         GameState.set_water(GameState.water - needed)
                         emit_signal("player_entered", player.map_position)
                     else:
@@ -269,6 +271,7 @@ func interact(index: int=-1) -> void:
     elif objects.get_cellv(player.map_position) == Tile.SLIMY_WATER:
         # Only purify water if we can store it.
         if GameState.water != GameState.MAX_WATER:
+            player.be_water()
             objects.set_cellv(player.map_position, Tile.PURIFIED_WATER)
             GameState.modify_water(cavern_level + 1)
             # Re-enter.

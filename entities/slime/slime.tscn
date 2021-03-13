@@ -92,3 +92,4 @@ visible = false
 frames = SubResource( 10 )
 animation = "spawn"
 centered = false
+offset = Vector2( 0, -4 )

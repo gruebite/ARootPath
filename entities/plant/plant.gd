@@ -57,6 +57,11 @@ static func state_charges(state: Dictionary) -> int:
     return KIND_RESOURCES[state["kind"]].spell_charges * state_stage(state)
 
 func _ready() -> void:
+    assume_stage()
+
+func assume_stage() -> void:
+    if get_child_count() > 0:
+        get_child(0).queue_free()
     var stage := min(MAX_STAGE, floor(get_age() / get_resource().growth_period))
     add_child(KIND_STAGES[get_kind()][stage].instance())
 

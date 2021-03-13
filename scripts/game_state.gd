@@ -36,13 +36,13 @@ func _ready() -> void:
     pass
     
 func modify_water(by: int) -> void:
-    if by == 0: return
-    if by > 0 and water == MAX_WATER: return
     set_water(water + by)
     
 func set_water(to: int) -> void:
-    water = int(max(0, to))
-    emit_signal("water_changed", water)
+    var new := int(clamp(to, 0, MAX_WATER))
+    if new != water:
+        water = new
+        emit_signal("water_changed", water)
 
 func set_spell_charge(kind: int, to: int) -> void:
     spell_charges[kind] = to

@@ -243,20 +243,33 @@ func interact(index: int=-1) -> void:
             warp_island()
         elif ent.is_in_group("plant"):
             var plant := ent as Plant
-            var needed := plant.get_water_needed()
-            if needed > 0:
-                if GameState.water >= needed:
-                    GameState.set_water(GameState.water - needed)
-                else:
-                    # :(
-                    pass
+            if Input.is_key_pressed(KEY_SHIFT):
+                GameState.plant_state[player.map_position]["age"] += 1
+                GameState.plant_state[player.map_position]["last_watered"] += 1
+                plant.assume_stage()
+                # Re-enter.
+                emit_signal("player_entered", player.map_position)
+            else:
+                var needed := plant.get_water_needed()
+                if needed > 0:
+                    if GameState.water >= needed:
+                        GameState.set_water(GameState.water - needed)
+                    else:
+                        # :(
+                        pass
     elif objects.get_cellv(player.map_position) == Tile.SLIMY_WATER:
         objects.set_cellv(player.map_position, Tile.PURIFIED_WATER)
         GameState.modify_water(1)
         # Re-enter.
         emit_signal("player_entered", player.map_position)
+    elif objects.get_cellv(player.map_position) == Tile.PURIFIED_WATER:
+        if Input.is_key_pressed(KEY_SHIFT):
+            GameState.modify_water(GameState.MAX_WATER)
     else:
-        emit_signal("player_interacted", player.map_position, index)
+        if Input.is_key_pressed(KEY_SHIFT) and where == CAVERN:
+            warp_island()
+        else:
+            emit_signal("player_interacted", player.map_position, index)
 
 func move_player(to: Vector2, is_turn: bool=true) -> void:
     if unwalkable(to): return

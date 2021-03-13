@@ -19,9 +19,17 @@ func think() -> void:
     seen = true
     
     if Global.rng.randf() < TELEPORT_CHANCE:
+        $AnimationPlayer.play("teleport_out")
+        yield($AnimationPlayer, "animation_finished")
         _teleport_near_player()
+        $AnimationPlayer.play("teleport_in")
+        yield($AnimationPlayer, "animation_finished")
+        $AnimationPlayer.play("idle")
     elif Global.rng.randf() < THROW_CHANCE:
+        $AnimationPlayer.play("throw")
+        yield($AnimationPlayer, "animation_finished")
         _throw_fiend_near_player()
+        $AnimationPlayer.play("idle")
     else:
         # ??? scream?
         pass

@@ -15,7 +15,7 @@ const CAVERN_SIZES := [
 ]
 
 const CAVERN_ROOTS := [
-    6, 3, 2,
+    3, 2, 2,
 ]
 
 const CAVERN_PITS := [

@@ -17,8 +17,8 @@ const DEMON_COUNT := [0, 0, 1]
 const FIEND_COUNT := [0, 6, 12]
 const SLIME_COUNT := [12, 18, 24]
 
-const FOOD_RATE := [2, 3, 5]
-const FOOD_LIFE := [13, 21, 34]
+const FOOD_RATE := [2, 2, 3]
+const FOOD_LIFE := [13, 15, 15]
 
 const Demon := preload("res://entities/slime/demon.tscn")
 const Fiend := preload("res://entities/slime/fiend.tscn")
@@ -152,6 +152,7 @@ func grow_fiend(at: Vector2) -> void:
 
 func grow_slime(at: Vector2) -> void:
     assert(space.is_free(at))
+    print("SLIME ", at)
     var slime := Slime.instance()
     slime.visible = space.fog.is_revealed(at)
     space.entities.add_entity_at(slime, at)

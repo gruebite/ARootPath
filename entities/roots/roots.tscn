@@ -12,4 +12,4 @@ script = ExtResource( 1 )
 texture = ExtResource( 2 )
 centered = false
 region_enabled = true
-region_rect = Rect2( 64, 160, 16, 16 )
+region_rect = Rect2( 64, 320, 16, 16 )

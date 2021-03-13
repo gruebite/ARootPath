@@ -49,5 +49,5 @@ func _unhandled_input(event: InputEvent) -> void:
                     Global.space.interact(4)
 
 func set_map_position(value: Vector2) -> void:
-    map_position = value
+    map_position = value.floor()
     position = (value * 16) + Vector2(0, 1)

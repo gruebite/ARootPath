@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/cavern_drop.wav-8aa8b86baa16d52c870725678e117e11.sample"
+
+[deps]
+
+source_file="res://screens/game/space/cavern_drop.wav"
+dest_files=[ "res://.import/cavern_drop.wav-8aa8b86baa16d52c870725678e117e11.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

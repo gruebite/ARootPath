@@ -1,6 +1,8 @@
 extends Control
 class_name Action
 
+signal changed_selection()
+
 enum {
     STATE_INACTIVE,
     STATE_ACTIVE,
@@ -37,9 +39,11 @@ func _gui_input(event: InputEvent) -> void:
                 if selected < 0:
                     selected += Plant.COUNT
                 update_info()
+                emit_signal("changed_selection")
             elif event.is_action_pressed("ui_down"):
                 selected = (selected + 1) % Plant.COUNT
                 update_info()
+                emit_signal("changed_selection")
         STATE_TARGETING:
             if event.is_action_pressed("ui_accept"):
                 if try_confirm():

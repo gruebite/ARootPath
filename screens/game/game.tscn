@@ -1,8 +1,8 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://screens/game/game.gd" type="Script" id=1]
 [ext_resource path="res://screens/game/tileset.tres" type="TileSet" id=2]
-[ext_resource path="res://screens/game/slime_brain.gd" type="Script" id=3]
+[ext_resource path="res://screens/game/slime_brain/slime_brain.tscn" type="PackedScene" id=3]
 [ext_resource path="res://screens/game/entities.gd" type="Script" id=4]
 [ext_resource path="res://screens/game/turn_system.gd" type="Script" id=5]
 [ext_resource path="res://screens/game/space.gd" type="Script" id=6]
@@ -11,6 +11,9 @@
 [ext_resource path="res://screens/game/fog_tileset.tres" type="TileSet" id=9]
 [ext_resource path="res://screens/game/targeting_tileset.tres" type="TileSet" id=10]
 [ext_resource path="res://screens/game/ts_fix.tres" type="TileSet" id=11]
+[ext_resource path="res://screens/game/space/cavern_drop.wav" type="AudioStream" id=12]
+[ext_resource path="res://screens/game/space/bump.wav" type="AudioStream" id=13]
+[ext_resource path="res://screens/game/space/plant_grow.wav" type="AudioStream" id=14]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
@@ -64,11 +67,21 @@ format = 1
 script = ExtResource( 7 )
 space_path = NodePath("..")
 
-[node name="SlimeBrain" type="Node2D" parent="Space" groups=[
-"turn_taker",
-]]
-script = ExtResource( 3 )
-space_path = NodePath("..")
+[node name="SlimeBrain" parent="Space" instance=ExtResource( 3 )]
+
+[node name="CavernDrop" type="AudioStreamPlayer" parent="Space"]
+stream = ExtResource( 12 )
+volume_db = -6.0
+bus = "SFX"
+
+[node name="Bump" type="AudioStreamPlayer" parent="Space"]
+stream = ExtResource( 13 )
+volume_db = -6.0
+bus = "SFX"
+
+[node name="PlantGrow" type="AudioStreamPlayer" parent="Space"]
+stream = ExtResource( 14 )
+bus = "SFX"
 
 [node name="TurnSystem" type="Node2D" parent="."]
 script = ExtResource( 5 )
@@ -77,5 +90,3 @@ script = ExtResource( 5 )
 space_path = NodePath("../Space")
 [connection signal="player_entered" from="Space" to="HUD" method="_on_Space_player_entered"]
 [connection signal="player_interacted" from="Space" to="HUD" method="_on_Space_player_interacted"]
-[connection signal="slime_finished_thinking" from="Space/SlimeBrain" to="TurnSystem" method="_on_SlimeBrain_slime_finished_thinking"]
-[connection signal="slime_grew" from="Space/SlimeBrain" to="." method="_on_SlimeBrain_slime_grew"]

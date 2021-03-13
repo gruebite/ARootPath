@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://screens/game/hud/hud.gd" type="Script" id=1]
 [ext_resource path="res://screens/game/hud/info_box/info_box.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://screens/game/hud/cast.gd" type="Script" id=4]
 [ext_resource path="res://screens/game/hud/grow.gd" type="Script" id=5]
 [ext_resource path="res://screens/game/hud/resources/resources.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/audio/ui/tap.wav" type="AudioStream" id=7]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 1 )
@@ -67,3 +68,10 @@ anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Tap" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+volume_db = -6.0
+bus = "SFX"
+[connection signal="changed_selection" from="Root/Grow" to="." method="_on_Grow_changed_selection"]
+[connection signal="changed_selection" from="Root/Cast" to="." method="_on_Cast_changed_selection"]

@@ -149,6 +149,7 @@ func warp_island() -> void:
 
 func warp_cavern() -> void:
     reset_everything()
+    $CavernDrop.play()
     if where == ISLAND:
         GameState.delve_count += 1
     where = CAVERN
@@ -284,8 +285,9 @@ func move_player(to: Vector2, is_turn: bool=true) -> void:
         print("NOT TURN ", turn_system.thinker_count)
         return
 
-    var ent: Entity = entities.get_entity(to)
-    if ent and ent.is_in_group("slime"):
+    if will_bump(to):
+        $Bump.play()
+        var ent: Entity = entities.get_entity(to)
         ent.damage()
     else:
         player.map_position = to
@@ -296,6 +298,10 @@ func move_player(to: Vector2, is_turn: bool=true) -> void:
     if is_turn:
         GameState.stop_spell_chain()
         turn_system.do_turn()
+
+func will_bump(at: Vector2) -> bool:
+    var ent: Entity = entities.get_entity(at)
+    return ent and ent.is_in_group("slime")
 
 func unwalkable(mpos: Vector2) -> bool:
     return not Tile.walkable(tiles.get_cellv(mpos))
@@ -311,6 +317,7 @@ func can_grow_plant(kind: int, at: Vector2) -> bool:
 
 func grow_plant(kind: int, at: Vector2) -> void:
     assert(can_grow_plant(kind, at))
+    $PlantGrow.play()
     GameState.modify_water(-Plant.KIND_RESOURCES[kind].grow_cost)
     GameState.plant_state[at] = {
         "kind": kind,

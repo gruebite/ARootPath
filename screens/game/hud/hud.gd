@@ -43,3 +43,11 @@ func _on_spell_chained(amount: int) -> void:
 
 func _on_spell_chain_stopped() -> void:
     $Root/Resources.chains.link_chains(0)
+
+
+func _on_Grow_changed_selection():
+    $Tap.play()
+
+
+func _on_Cast_changed_selection():
+    $Tap.play()

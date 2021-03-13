@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/grew.wav-b13ff449c28c6f613408e55ffe18248c.sample"
+
+[deps]
+
+source_file="res://screens/game/slime_brain/grew.wav"
+dest_files=[ "res://.import/grew.wav-b13ff449c28c6f613408e55ffe18248c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

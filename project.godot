@@ -87,7 +87,7 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "SlimeBrain",
 "language": "GDScript",
-"path": "res://screens/game/slime_brain.gd"
+"path": "res://screens/game/slime_brain/slime_brain.gd"
 }, {
 "base": "Node2D",
 "class": "Space",

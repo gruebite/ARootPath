@@ -67,12 +67,16 @@ func take_turn() -> void:
         food[space.player.map_position + Direction.delta(d)] = start_life
 
     # Upgrade growing slimes.
+    var grew := false
     for pos in slimes:
         if slimes[pos] == SLIME_GROWING:
             slimes[pos] = SLIME_GROWN
             emit_signal("slime_grew", pos)
             var slime: Entity = space.entities.get_entity(pos)
             slime.grow_up()
+            grew = true
+    if grew:
+        $Grew.play()
 
     var new_food := {}
     var candidates := []

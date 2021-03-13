@@ -2,7 +2,7 @@
 
 [ext_resource path="res://entities/slime/demon.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/tilesheet.png" type="Texture" id=2]
-[ext_resource path="res://entities/slime/demon_teleport.ogg" type="AudioStream" id=3]
+[ext_resource path="res://entities/slime/demon_teleport.wav" type="AudioStream" id=3]
 [ext_resource path="res://entities/slime/evil_cast.wav" type="AudioStream" id=4]
 
 [sub_resource type="Animation" id=1]

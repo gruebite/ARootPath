@@ -17,8 +17,8 @@ const DEMON_COUNT := [0, 0, 1]
 const FIEND_COUNT := [0, 6, 12]
 const SLIME_COUNT := [12, 18, 24]
 
-const FOOD_RATE := [2, 2, 3]
-const FOOD_LIFE := [13, 15, 15]
+const FOOD_RATE := [1, 2, 2]
+const FOOD_LIFE := [13, 13, 15]
 
 const Demon := preload("res://entities/slime/demon.tscn")
 const Fiend := preload("res://entities/slime/fiend.tscn")

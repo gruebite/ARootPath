@@ -1,7 +1,9 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://player/player.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/tilesheet.png" type="Texture" id=2]
+[ext_resource path="res://player/purify.wav" type="AudioStream" id=3]
+[ext_resource path="res://player/slap.wav" type="AudioStream" id=4]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 2 )
@@ -79,7 +81,6 @@ region_rect = Rect2( 0, 352, 16, 16 )
 position = Vector2( 0, -13 )
 frames = SubResource( 5 )
 animation = "idle"
-frame = 2
 playing = true
 centered = false
 
@@ -91,3 +92,11 @@ frames = SubResource( 12 )
 frame = 5
 centered = false
 offset = Vector2( 0, -16 )
+
+[node name="Droplet" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+bus = "SFX"
+
+[node name="Purify" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+bus = "SFX"

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/purify.wav-3a926e1d887ca18d716a8507284c76bc.sample"
+
+[deps]
+
+source_file="res://player/purify.wav"
+dest_files=[ "res://.import/purify.wav-3a926e1d887ca18d716a8507284c76bc.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

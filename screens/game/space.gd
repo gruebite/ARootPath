@@ -271,7 +271,7 @@ func interact(index: int=-1) -> void:
     elif objects.get_cellv(player.map_position) == Tile.SLIMY_WATER:
         # Only purify water if we can store it.
         if GameState.water != GameState.MAX_WATER:
-            player.be_water()
+            player.be_water(true)
             objects.set_cellv(player.map_position, Tile.PURIFIED_WATER)
             GameState.modify_water(cavern_level + 1)
             # Re-enter.

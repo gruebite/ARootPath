@@ -12,6 +12,6 @@ func _ready() -> void:
 
 func _on_SlimeBrain_slime_grew(mpos: Vector2):
     if mpos == $Space.player.map_position:
-        GameState.water = int(GameState.water / 2)
+        GameState.set_water(GameState.water / 2)
         # We likely died in the middle of processing.  Keep state stable.
         $Space.call_deferred("warp_island")

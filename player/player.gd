@@ -52,7 +52,11 @@ func set_map_position(value: Vector2) -> void:
     map_position = value.floor()
     position = (value * 16) + Vector2(0, 1)
 
-func be_water() -> void:
+func be_water(purify: bool=false) -> void:
+    if purify:
+        $Purify.play()
+    else:
+        $Droplet.play()
     $Sprite.hide()
     $Shadow.hide()
     $Water.show()

@@ -24,7 +24,11 @@ const CAVERN_PITS := [
 
 # Roughly ~100 per run, with some chance to gain some from fiends.
 const CAVERN_SLIMY_WATER := [
-    10, 30, 60,
+    10, 20, 30,
+]
+
+const CAVERN_PURIFY_WATER := [
+    1, 1, 2,
 ]
 
 const MIDDLE_COORD := Vector2(2, 2)
@@ -154,13 +158,13 @@ func warp_island() -> void:
     fog.hide()
 
 func warp_cavern() -> void:
-    island_music_pos = $IslandMusic.get_playback_position()
-    $IslandMusic.stop()
     $CavernDrop.play()
-    $CavernMusic.play()
     reset_everything()
     if where == ISLAND:
         GameState.delve_count += 1
+        island_music_pos = $IslandMusic.get_playback_position()
+        $IslandMusic.stop()
+        $CavernMusic.play()
     where = CAVERN
     cavern_level += 1
 
@@ -281,7 +285,7 @@ func interact(index: int=-1) -> void:
         if GameState.water != GameState.MAX_WATER:
             player.be_water(true)
             objects.set_cellv(player.map_position, Tile.PURIFIED_WATER)
-            GameState.modify_water(cavern_level + 1)
+            GameState.modify_water(CAVERN_PURIFY_WATER[cavern_level])
             # Re-enter.
             emit_signal("player_entered", player.map_position)
         return

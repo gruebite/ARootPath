@@ -16,3 +16,13 @@ func grow_up() -> void:
     $Grown.play("spawn")
     yield($Grown, "animation_finished")
     $Grown.play("idle")
+
+func unfreeze() -> void:
+    .unfreeze()
+    $Growing.playing = true
+    $Grown.playing = true
+
+func freeze() -> void:
+    .freeze()
+    $Growing.playing = false
+    $Grown.playing = false

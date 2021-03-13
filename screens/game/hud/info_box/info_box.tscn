@@ -206,7 +206,7 @@ __meta__ = {
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 154.0
-margin_bottom = 44.0
+margin_bottom = 40.0
 custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false

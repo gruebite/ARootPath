@@ -43,3 +43,11 @@ func _throw_slime_near_player() -> void:
         if brain.space.is_free(check):
             brain.grow_slime(check)
             return
+
+func unfreeze() -> void:
+    .unfreeze()
+    $Sprite.playing = true
+
+func freeze() -> void:
+    .freeze()
+    $Sprite.playing = false

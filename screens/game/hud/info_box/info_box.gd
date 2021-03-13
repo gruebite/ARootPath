@@ -28,6 +28,10 @@ func display_plant(plant: Plant) -> void:
     hide_all()
     var res: PlantResource = plant.get_resource()
     $Plant/NinePatch/MarginContainer/VBoxContainer/Title/Name.text = res.name
+    if plant.get_water_needed() <= GameState.water:
+        $Plant/NinePatch/MarginContainer/VBoxContainer/Title/WaterNeeded.modulate = Color.white
+    else:
+        $Plant/NinePatch/MarginContainer/VBoxContainer/Title/WaterNeeded.modulate = Color.red
     $Plant/NinePatch/MarginContainer/VBoxContainer/Title/WaterNeeded.text = str(plant.get_water_needed())
     if plant.needs_water():
         $Plant/NinePatch/MarginContainer/VBoxContainer/Title/Name.modulate = Color.red

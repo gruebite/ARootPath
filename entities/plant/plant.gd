@@ -65,6 +65,9 @@ func assume_stage() -> void:
     var stage := min(MAX_STAGE, floor(get_age() / get_resource().growth_period))
     add_child(KIND_STAGES[get_kind()][stage].instance())
 
+func water() -> void:
+    get_state()["last_watered"] = get_age()
+
 func get_state() -> Dictionary:
     var state = GameState.plant_state[map_position]
     return state

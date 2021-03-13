@@ -259,7 +259,9 @@ func interact(index: int=-1) -> void:
                 var needed := plant.get_water_needed()
                 if needed > 0:
                     if GameState.water >= needed:
+                        plant.water()
                         GameState.set_water(GameState.water - needed)
+                        emit_signal("player_entered", player.map_position)
                     else:
                         # :(
                         pass

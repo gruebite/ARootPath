@@ -37,7 +37,7 @@ _global_script_classes=[ {
 "base": "TileMap",
 "class": "FOG",
 "language": "GDScript",
-"path": "res://screens/game/fov.gd"
+"path": "res://screens/game/fog.gd"
 }, {
 "base": "Node2D",
 "class": "Game",

@@ -232,7 +232,7 @@ func post_process(w: int, h: int) -> void:
                         norm = (norm - 0.2) * 2
                         var coord_x := int(round(norm * 5))
                         objects.set_cell(x, y, Tile.GRASS, false, false, false, Vector2(coord_x, 0))
-                elif tiles.get_cell(x, y) == Tile.WATER:
+                elif Vector2(x, y) != Vector2(w/2, h/2) and tiles.get_cell(x, y) == Tile.WATER and tiles.get_cell_autotile_coord(x, y) == MIDDLE_COORD:
                     if Global.rng.randf() < 0.1:
                         objects.set_cell(x, y, Tile.SHIMMER)
                     elif Global.rng.randf() < 0.1:

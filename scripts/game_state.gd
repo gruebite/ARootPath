@@ -92,6 +92,7 @@ func generate_island() -> void:
         walker.commit()
         walker.forget()
     walker.goto(ISLAND_WIDTH / 2, ISLAND_HEIGHT / 2)
+    walker.mark_circle(2, Tile.WATER)
     for i in 40:
         walker.step_random()
         walker.mark_circle(2, Tile.WATER)

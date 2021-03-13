@@ -157,7 +157,7 @@ gdscript/warnings/integer_division=false
 
 [display]
 
-window/size/width=309
+window/size/width=384
 window/size/height=216
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"

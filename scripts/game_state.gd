@@ -81,7 +81,7 @@ func generate_island() -> void:
 
     walker.start(ISLAND_WIDTH, ISLAND_HEIGHT)
     walker.goto(ISLAND_WIDTH / 2, ISLAND_HEIGHT / 2)
-    walker.mark_circle(6, Tile.WATER)
+    walker.mark_circle(6, Tile.GROUND)
     walker.commit()
     while walker.percent_opened() < 0.6:
         walker.remember()
@@ -91,6 +91,11 @@ func generate_island() -> void:
             walker.mark_plus(Tile.GROUND)
         walker.commit()
         walker.forget()
+    walker.goto(ISLAND_WIDTH / 2, ISLAND_HEIGHT / 2)
+    for i in 40:
+        walker.step_random()
+        walker.mark_circle(2, Tile.WATER)
+    walker.commit()
 
     # Save island state.
     island_tiles.clear()

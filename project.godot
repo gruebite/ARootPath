@@ -149,6 +149,7 @@ _global_script_class_icons={
 config/name="A Root Path"
 config/description="2021 7DRL Entry"
 run/main_scene="res://screens/title/title.tscn"
+config/icon="res://assets/textures/icon.png"
 
 [autoload]
 
@@ -193,5 +194,7 @@ texture={
 
 [rendering]
 
+quality/2d/use_pixel_snap=true
+batching/precision/uv_contract=true
 environment/default_clear_color=Color( 0, 0, 0, 1 )
 quality/dynamic_fonts/use_oversampling=false

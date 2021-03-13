@@ -11,7 +11,7 @@ enum {
     SLIME_GROWN,
 }
 
-const FROST_TIMER := 2
+const FROST_TIMER := 3
 
 const DEMON_COUNT := [0, 0, 1]
 const FIEND_COUNT := [0, 12, 24]
@@ -70,12 +70,21 @@ func take_turn() -> void:
     var grew := false
     for pos in slimes:
         if slimes[pos] == SLIME_GROWING:
-            slimes[pos] = SLIME_GROWN
-            emit_signal("slime_grew", pos)
-            var slime: Entity = space.entities.get_entity(pos)
-            slime.grow_up()
-            grew = true
-    if grew:
+            var f_amount = frost.get(pos)
+            if f_amount != null:
+                f_amount = int(max(0, f_amount - 1))
+                if f_amount == 0:
+                    frost.erase(pos)
+                    space.entities.get_entity(pos).unfreeze()
+                else:
+                    frost[pos] = f_amount
+            if f_amount == null or f_amount == 0:
+                slimes[pos] = SLIME_GROWN
+                emit_signal("slime_grew", pos)
+                var slime: Entity = space.entities.get_entity(pos)
+                slime.grow_up()
+                grew = true
+    if grew and not $Grew.playing:
         $Grew.play()
 
     var new_food := {}

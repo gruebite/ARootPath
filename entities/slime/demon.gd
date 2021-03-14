@@ -30,14 +30,12 @@ func think() -> void:
         yield($AnimationPlayer, "animation_finished")
         $AnimationPlayer.play("idle")
     elif Global.rng.randf() < THROW_CHANCE:
-        $Throw.play()
-        $AnimationPlayer.play("throw")
-        yield($AnimationPlayer, "animation_finished")
-        _throw_fiend_near_player()
-        $AnimationPlayer.play("idle")
-    else:
-        # ??? scream?
-        pass
+        if brain.space.fog.is_revealed(map_position):
+            $Throw.play()
+            $AnimationPlayer.play("throw")
+            yield($AnimationPlayer, "animation_finished")
+            _throw_fiend_near_player()
+            $AnimationPlayer.play("idle")
     emit_signal("finished_thinking")
 
 func damage() -> void:

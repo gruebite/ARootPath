@@ -26,6 +26,7 @@ func cast() -> Array:
             var arr := []
             var dirv := Direction.delta(direction)
             var iter := origin
+            arr.append(iter)
             for i in size:
                 iter += dirv
                 arr.append(iter)
@@ -60,7 +61,9 @@ func cast() -> Array:
                     var dy: int = y - size
                     var dx: int = x - size
                     var v := Vector2(dx, dy)
-                    if v.length_squared() <= size * size and abs(v.angle_to(dirv)) <= deg2rad(60):
+                    if v == Vector2.ZERO:
+                        continue
+                    if v.length_squared() < size * size and abs(v.angle_to(dirv)) <= deg2rad(60):
                         arr.append(origin + v)
             return arr
     assert(false)

@@ -12,7 +12,7 @@ func damage() -> void:
     if growing:
         release_water(0.0)
     else:
-        release_water(0.5)
+        release_water(0.2)
 
 func grow_up() -> void:
     assert(growing)

@@ -38,7 +38,7 @@ func display_plant(plant: Plant) -> void:
     else:
         $Plant/NinePatch/MarginContainer/VBoxContainer/Title/Name.modulate = Color.white
     $Plant/NinePatch/MarginContainer/VBoxContainer/GridContainer/Age.text = str(plant.get_age())
-    $Plant/NinePatch/MarginContainer/VBoxContainer/GridContainer/Stage.text = str(plant.get_stage())
+    $Plant/NinePatch/MarginContainer/VBoxContainer/GridContainer/LastWatered.text = str(plant.get_last_watered())
     $Plant/NinePatch/MarginContainer/VBoxContainer/GridContainer/Charges.text = str(plant.get_charges())
     $Plant/NinePatch/MarginContainer/VBoxContainer/Description.text = res.description
     $Plant.show()

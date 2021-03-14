@@ -22,14 +22,6 @@ func _unhandled_input(event: InputEvent) -> void:
     if delta != Vector2.ZERO:
         var desired := map_position + delta
         if not Global.space.unwalkable(desired):
-            if not Global.space.will_bump(desired):
-                $Sprite.playing = false
-                $Sprite.frame = 3
-                $Tween.interpolate_property(self, "map_position",
-                    map_position, desired, 0.08, Tween.TRANS_LINEAR, Tween.EASE_IN)
-                $Tween.start()
-                yield($Tween, "tween_all_completed")
-                $Sprite.playing = true
             Global.space.move_player(desired)
         return
 

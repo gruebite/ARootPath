@@ -28,7 +28,7 @@ const CAVERN_SLIMY_WATER := [
 ]
 
 const CAVERN_PURIFY_WATER := [
-    1, 2, 3,
+    1, 1, 2,
 ]
 
 const MIDDLE_COORD := Vector2(2, 2)
@@ -136,12 +136,6 @@ func warp_island() -> void:
     _tile_hack()
     post_process(GameState.ISLAND_WIDTH, GameState.ISLAND_HEIGHT)
 
-    var fairy_count := len(GameState.plant_state) + 1
-    for _i in range(fairy_count):
-        var x: int = Global.rng.randi_range(0, GameState.ISLAND_WIDTH - 1)
-        var y: int = Global.rng.randi_range(0, GameState.ISLAND_HEIGHT - 1)
-        air.set_cell(x, y, Tile.FAIRY0 + Global.rng.randi_range(0, 2))
-
     player = PlayerScene.instance()
     player.map_position = GameState.return_location
     entities.add_child(player)
@@ -154,7 +148,10 @@ func warp_island() -> void:
     for mpos in GameState.plant_state:
         entities.add_entity_at(PlantScene.instance(), mpos)
         objects.set_cellv(mpos, -1)
-
+        var st = GameState.plant_state[mpos]
+        if Plant.state_water_needed(st) == 0:
+            air.set_cellv(mpos + Vector2(0, -Plant.KIND_RESOURCES[st["kind"]].space_needed), Tile.FAIRY0 + Global.rng.randi_range(0, 2))
+            
     fog.hide()
 
 func warp_cavern() -> void:
@@ -277,6 +274,7 @@ func interact(index: int=-1) -> void:
                         player.be_water()
                         GameState.set_water(GameState.water - needed)
                         emit_signal("player_entered", player.map_position)
+                        air.set_cellv(player.map_position + Vector2(0, -plant.get_resource().space_needed), Tile.FAIRY0 + Global.rng.randi_range(0, 2))
                     else:
                         # :(
                         pass
@@ -296,7 +294,7 @@ func interact(index: int=-1) -> void:
             cavern_level = 1
             warp_cavern()
             for i in Plant.COUNT:
-                GameState.set_spell_charge(i, 99)
+                GameState.set_spell_charges(i, 99)
             return
     elif objects.get_cellv(player.map_position) == Tile.PURIFIED_WATER:
         if Input.is_key_pressed(KEY_SHIFT):
@@ -352,6 +350,7 @@ func grow_plant(kind: int, at: Vector2) -> void:
         "age": 0,
         "last_watered": 0,
     }
+    air.set_cellv(at + Vector2(0, -res.space_needed), Tile.FAIRY0 + Global.rng.randi_range(0, 2))
     objects.set_cellv(at, -1)
     entities.add_entity_at(PlantScene.instance(), at)
 

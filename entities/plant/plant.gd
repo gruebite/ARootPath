@@ -58,7 +58,7 @@ static func state_stage(state: Dictionary) -> int:
 
 static func state_charges(state: Dictionary) -> int:
     var res: PlantResource = KIND_RESOURCES[state["kind"]]
-    return res.initial_charges + res.spell_charges * state_stage(state)
+    return state_stage(state) + 1
 
 func _ready() -> void:
     assume_stage()

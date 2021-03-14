@@ -17,8 +17,8 @@ const DEBUG := false
 const FROST_TIMER := 3
 
 const DEMON_COUNT := [0, 0, 1]
-const FIEND_COUNT := [0, 12, 18]
-const SLIME_COUNT := [12, 18, 24]
+const FIEND_COUNT := [0, 12, 24]
+const SLIME_COUNT := [12, 24, 36]
 
 const FOOD_RATE := [1, 2, 3]
 const FOOD_LIFE := [9, 11, 13]
@@ -74,7 +74,7 @@ func take_turn() -> void:
     for i in FOOD_RATE[space.cavern_level]:
         var d: int = Global.rng.randi_range(0, Direction.COUNT + 4)
         food[space.player.map_position + Direction.delta(d)] = start_life
-
+    
     # Upgrade growing slimes.
     var grew := false
     for pos in slimes:
@@ -138,6 +138,7 @@ func take_turn() -> void:
             new_food[new_pos] = life
 
     food = new_food
+    
     update()
 
 func grow_demon(at: Vector2) -> void:

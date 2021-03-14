@@ -21,7 +21,7 @@ func release_water(chance: float) -> void:
 
 func damage() -> void:
     poof()
-    release_water(0.1)
+    release_water(0.5)
 
 func unfreeze() -> void:
     frozen = false

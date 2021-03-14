@@ -9,8 +9,8 @@ signal spell_chain_stopped()
 const ISLAND_WIDTH := 32
 const ISLAND_HEIGHT := 32
 const STARTING_WATER := 5
-const MAX_WATER := 99
-const MAX_CHAINS := 10
+const MAX_WATER := 999
+const MAX_CHAINS := 11
 
 # How many dives.
 var dive_count: int

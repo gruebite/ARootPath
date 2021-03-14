@@ -32,7 +32,7 @@ func damage() -> void:
     health -= 1
     poof()
     if health <= 0:
-        release_water(0.5)
+        release_water(1.0)
 
 func _throw_slime_near_player() -> void:
     var ppos: Vector2 = brain.space.player.map_position

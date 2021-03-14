@@ -76,6 +76,7 @@ margin_left = 20.0
 margin_top = 56.0
 margin_right = 28.0
 margin_bottom = 64.0
+rect_pivot_offset = Vector2( 2, -12 )
 custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -97,45 +98,49 @@ margin_right = 8.0
 margin_bottom = 8.0
 texture = SubResource( 3 )
 
-[node name="4" type="TextureRect" parent="."]
-material = ExtResource( 2 )
+[node name="4" type="HBoxContainer" parent="."]
 margin_left = 28.0
+margin_top = 56.0
+margin_right = 36.0
+margin_bottom = 64.0
+rect_pivot_offset = Vector2( 2, -12 )
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="4"]
+material = ExtResource( 2 )
+margin_right = 4.0
+margin_bottom = 8.0
+texture = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect2" type="TextureRect" parent="4"]
+material = ExtResource( 2 )
+margin_left = 4.0
+margin_right = 8.0
+margin_bottom = 8.0
+texture = SubResource( 3 )
+
+[node name="5" type="TextureRect" parent="."]
+material = ExtResource( 2 )
+margin_left = 36.0
 margin_top = 52.0
-margin_right = 40.0
+margin_right = 48.0
 margin_bottom = 65.0
 texture = SubResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="5" type="VBoxContainer" parent="."]
-margin_left = 32.0
-margin_top = 44.0
-margin_right = 40.0
-margin_bottom = 52.0
-custom_constants/separation = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TextureRect" type="TextureRect" parent="5"]
-material = ExtResource( 2 )
-margin_right = 8.0
-margin_bottom = 4.0
-texture = SubResource( 5 )
-
-[node name="TextureRect2" type="TextureRect" parent="5"]
-material = ExtResource( 2 )
-margin_top = 4.0
-margin_right = 8.0
-margin_bottom = 8.0
-texture = SubResource( 6 )
-
 [node name="6" type="VBoxContainer" parent="."]
-margin_left = 32.0
-margin_top = 36.0
-margin_right = 40.0
-margin_bottom = 44.0
+margin_left = 40.0
+margin_top = 44.0
+margin_right = 48.0
+margin_bottom = 52.0
 custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -155,10 +160,10 @@ margin_bottom = 8.0
 texture = SubResource( 6 )
 
 [node name="7" type="VBoxContainer" parent="."]
-margin_left = 32.0
-margin_top = 28.0
-margin_right = 40.0
-margin_bottom = 36.0
+margin_left = 40.0
+margin_top = 36.0
+margin_right = 48.0
+margin_bottom = 44.0
 custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -178,10 +183,10 @@ margin_bottom = 8.0
 texture = SubResource( 6 )
 
 [node name="8" type="VBoxContainer" parent="."]
-margin_left = 32.0
-margin_top = 20.0
-margin_right = 40.0
-margin_bottom = 28.0
+margin_left = 40.0
+margin_top = 28.0
+margin_right = 48.0
+margin_bottom = 36.0
 custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -201,10 +206,10 @@ margin_bottom = 8.0
 texture = SubResource( 6 )
 
 [node name="9" type="VBoxContainer" parent="."]
-margin_left = 32.0
-margin_top = 12.0
-margin_right = 40.0
-margin_bottom = 20.0
+margin_left = 40.0
+margin_top = 20.0
+margin_right = 48.0
+margin_bottom = 28.0
 custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -224,10 +229,10 @@ margin_bottom = 8.0
 texture = SubResource( 6 )
 
 [node name="10" type="VBoxContainer" parent="."]
-margin_left = 32.0
-margin_top = 4.0
-margin_right = 40.0
-margin_bottom = 12.0
+margin_left = 40.0
+margin_top = 12.0
+margin_right = 48.0
+margin_bottom = 20.0
 custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -240,6 +245,29 @@ margin_bottom = 4.0
 texture = SubResource( 5 )
 
 [node name="TextureRect2" type="TextureRect" parent="10"]
+material = ExtResource( 2 )
+margin_top = 4.0
+margin_right = 8.0
+margin_bottom = 8.0
+texture = SubResource( 6 )
+
+[node name="12" type="VBoxContainer" parent="."]
+margin_left = 40.0
+margin_top = 4.0
+margin_right = 48.0
+margin_bottom = 12.0
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="12"]
+material = ExtResource( 2 )
+margin_right = 8.0
+margin_bottom = 4.0
+texture = SubResource( 5 )
+
+[node name="TextureRect2" type="TextureRect" parent="12"]
 material = ExtResource( 2 )
 margin_top = 4.0
 margin_right = 8.0

@@ -47,13 +47,16 @@ func set_water(to: int) -> void:
         water = new
         emit_signal("water_changed", water)
 
-func set_spell_charge(kind: int, to: int) -> void:
+func set_spell_charges(kind: int, to: int) -> void:
     spell_charges[kind] = to
     emit_signal("spell_charge_changed", kind, to)
+
+func inc_spell_charges(kind: int) -> void:
+    set_spell_charges(kind, spell_charges[kind] + 1)
     
 func use_spell_charge(kind: int) -> void:
     assert(spell_charges[kind] >= 0)
-    set_spell_charge(kind, spell_charges[kind] - 1)
+    set_spell_charges(kind, spell_charges[kind] - 1)
 
 func can_cast_spell(kind: int) -> bool:
     if chain_count >= MAX_CHAINS or chain_count > water:
@@ -122,7 +125,7 @@ func generate_island() -> void:
 
 func update_island() -> void:
     for i in Plant.COUNT:
-        set_spell_charge(i, 0)
+        set_spell_charges(i, 0)
     
     var surviving := {}
     for pos in plant_state:
@@ -135,7 +138,7 @@ func update_island() -> void:
             pass
         else:
             surviving[pos] = state
-            set_spell_charge(state["kind"], spell_charges[state["kind"]] + Plant.state_charges(state))
+            set_spell_charges(state["kind"], spell_charges[state["kind"]] + Plant.state_charges(state))
     
     plant_state = surviving
             

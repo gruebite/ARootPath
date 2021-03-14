@@ -54,7 +54,7 @@ func spawn_slimes(walker: Walker) -> void:
         var pos: Vector2 = walker.opened_tiles.random(Global.rng)
         if not space.entities.get_entity(pos):
             # Normalized distance based on map.  Demon can only be spawned far away from entrance.
-            var dist_n: float = (((pos / Vector2(walker.width, walker.height)).normalized() * 2) - Vector2.ONE).length()
+            var dist_n: float = (pos / Vector2(walker.width / 2, walker.height / 2)).normalized().length()
             if demons_to_add > 0 and dist_n > 0.5:
                 demons_to_add -= 1
                 grow_demon(pos)

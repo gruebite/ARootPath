@@ -9,6 +9,7 @@ description = "Dripping with water."
 spell_description = "Remove slime in a line."
 grow_cost = 3
 growth_period = 2
+initial_charges = 1
 spell_charges = 2
 watering_frequency = 1
 watering_quantity = 3

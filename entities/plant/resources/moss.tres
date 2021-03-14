@@ -9,6 +9,7 @@ description = "Stiff and craggy."
 spell_description = "Remove slime and walls in an area."
 grow_cost = 2
 growth_period = 2
+initial_charges = 1
 spell_charges = 2
 watering_frequency = 2
 watering_quantity = 4

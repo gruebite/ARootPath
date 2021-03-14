@@ -3,11 +3,11 @@
 [ext_resource path="res://assets/textures/tilesheet.png" type="Texture" id=1]
 [ext_resource path="res://ui/plant_icon/plant_icon.gd" type="Script" id=2]
 
-[sub_resource type="StreamTexture" id=8]
+[sub_resource type="StreamTexture" id=1]
 load_path = "res://.import/tilesheet.png-6582dba65ae8aa6eb8b77c0a98e49130.stex"
 
 [sub_resource type="AtlasTexture" id=2]
-atlas = SubResource( 8 )
+atlas = SubResource( 1 )
 region = Rect2( 504, 472, 8, 8 )
 
 [sub_resource type="AtlasTexture" id=3]

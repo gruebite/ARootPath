@@ -45,7 +45,10 @@ static func state_drought_level(state: Dictionary) -> int:
 
 static func state_water_needed(state: Dictionary) -> int:
     var quant: int = KIND_RESOURCES[state["kind"]].watering_quantity
-    return int(max(0, state_drought_level(state) + 1) * quant)
+    var dought: int = state_drought_level(state) + 1
+    if dought >= 1:
+        return quant + dought - 1
+    return 0
 
 static func state_inc_age(state: Dictionary) -> void:
     state["age"] += 1
@@ -54,7 +57,8 @@ static func state_stage(state: Dictionary) -> int:
     return int(min(MAX_STAGE, floor(state["age"] / KIND_RESOURCES[state["kind"]].growth_period)))
 
 static func state_charges(state: Dictionary) -> int:
-    return KIND_RESOURCES[state["kind"]].spell_charges * state_stage(state)
+    var res: PlantResource = KIND_RESOURCES[state["kind"]]
+    return res.initial_charges + res.spell_charges * state_stage(state)
 
 func _ready() -> void:
     assume_stage()

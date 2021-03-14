@@ -344,7 +344,9 @@ func can_grow_plant(kind: int, at: Vector2) -> bool:
 func grow_plant(kind: int, at: Vector2) -> void:
     assert(can_grow_plant(kind, at))
     $PlantGrow.play()
-    GameState.modify_water(-Plant.KIND_RESOURCES[kind].grow_cost)
+    var res: PlantResource = Plant.KIND_RESOURCES[kind]
+    GameState.modify_water(-res.grow_cost)
+    GameState.inc_spell_charges(kind)
     GameState.plant_state[at] = {
         "kind": kind,
         "age": 0,

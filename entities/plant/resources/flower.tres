@@ -9,6 +9,7 @@ description = "Burning yellow."
 spell_description = "Teleport to a location."
 grow_cost = 3
 growth_period = 2
+initial_charges = 1
 spell_charges = 2
 watering_frequency = 1
 watering_quantity = 2

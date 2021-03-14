@@ -13,6 +13,9 @@ export var grow_cost := 5
 # How many runs before the plant matures.
 export var growth_period := 5
 
+# Initial charges at stage 0.
+export var initial_charges := 1
+
 # How many spell charges this grants once mature.
 export var spell_charges := 3
 

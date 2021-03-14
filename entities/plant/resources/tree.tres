@@ -9,6 +9,7 @@ description = "Peircingly vibrant."
 spell_description = "Remove slime in a cone."
 grow_cost = 4
 growth_period = 6
+initial_charges = 1
 spell_charges = 3
 watering_frequency = 4
 watering_quantity = 2

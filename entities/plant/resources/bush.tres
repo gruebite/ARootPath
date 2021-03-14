@@ -6,7 +6,7 @@
 script = ExtResource( 1 )
 name = "Water Shrub"
 description = "Dripping with water."
-spell_description = "Remove slime at a location."
+spell_description = "Remove slime in a line."
 grow_cost = 3
 growth_period = 2
 spell_charges = 2

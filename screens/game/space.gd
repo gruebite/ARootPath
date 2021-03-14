@@ -274,7 +274,6 @@ func interact(index: int=-1) -> void:
                         player.be_water()
                         GameState.set_water(GameState.water - needed)
                         emit_signal("player_entered", player.map_position)
-                        air.set_cellv(player.map_position + Vector2(0, -plant.get_resource().space_needed), Tile.FAIRY0 + Global.rng.randi_range(0, 2))
                     else:
                         # :(
                         pass

@@ -57,7 +57,6 @@ static func state_stage(state: Dictionary) -> int:
     return int(min(MAX_STAGE, floor(state["age"] / KIND_RESOURCES[state["kind"]].growth_period)))
 
 static func state_charges(state: Dictionary) -> int:
-    var res: PlantResource = KIND_RESOURCES[state["kind"]]
     return state_stage(state) + 1
 
 func _ready() -> void:

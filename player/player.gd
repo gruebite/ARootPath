@@ -37,7 +37,6 @@ func _unhandled_input(event: InputEvent) -> void:
     if event is InputEventKey and event.pressed:
         match event.scancode:
             KEY_1:
-                print("HERE")
                 Global.space.interact(0)
             KEY_2:
                 Global.space.interact(1)
@@ -71,4 +70,4 @@ func be_water(purify: bool=false) -> void:
 func consume_anim() -> void:
     $AnimationPlayer.play("consume")
     yield($AnimationPlayer, "animation_finished")
-    return    
+    return

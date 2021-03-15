@@ -4,7 +4,7 @@ signal demon_spotted()
 signal finished_thinking()
 
 const TELEPORT_CHANCE := 0.1
-const THROW_CHANCE := 0.1
+const THROW_CHANCE := 0.2
 
 var seen := false
 
@@ -25,8 +25,14 @@ func think() -> void:
     else:
         hide()
     seen = true
-    
-    if Global.rng.randf() < TELEPORT_CHANCE:
+
+    if brain.space.fog.is_revealed(map_position) and Global.rng.randf() < THROW_CHANCE:
+        $Throw.play()
+        $AnimationPlayer.play("throw")
+        yield($AnimationPlayer, "animation_finished")
+        _throw_fiend_near_player()
+        $AnimationPlayer.play("idle")
+    elif Global.rng.randf() < TELEPORT_CHANCE:
         $Teleport.play()
         $AnimationPlayer.play("teleport_out")
         yield($AnimationPlayer, "animation_finished")
@@ -34,13 +40,6 @@ func think() -> void:
         $AnimationPlayer.play("teleport_in")
         yield($AnimationPlayer, "animation_finished")
         $AnimationPlayer.play("idle")
-    elif Global.rng.randf() < THROW_CHANCE:
-        if brain.space.fog.is_revealed(map_position):
-            $Throw.play()
-            $AnimationPlayer.play("throw")
-            yield($AnimationPlayer, "animation_finished")
-            _throw_fiend_near_player()
-            $AnimationPlayer.play("idle")
     emit_signal("finished_thinking")
 
 func damage() -> void:

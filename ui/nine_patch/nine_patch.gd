@@ -1,6 +1,6 @@
 extends NinePatchRect
 
-const X_PAD := 12
+const X_PAD := 9
 const Y_PAD := 8
 const HEIGHT := 15
 

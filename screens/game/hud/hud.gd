@@ -11,7 +11,10 @@ func _on_Space_player_entered(at: Vector2) -> void:
         if ent.is_in_group("spring"):
             $Root/InfoBox.display_simple("SPRING. CAVERN ENTRANCE.")
         elif ent.is_in_group("petrified_tree"):
-            $Root/InfoBox.display_simple("PETRIFIED TREE. ITS ROOTS GO DEEP.")
+            if GameState.watered_petrified_tree:
+                $Root/InfoBox.display_simple("PETRIFIED TREE. ITS ROOTS GO DEEP.")
+            else:
+                $Root/InfoBox.display_simple("PETRIFIED TREE. LOOKS DRY.")
         elif ent.is_in_group("roots"):
             $Root/InfoBox.display_simple("PETRIFIED ROOTS. REACHES SURFACE.")
         elif ent.is_in_group("pit"):

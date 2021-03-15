@@ -26,14 +26,16 @@ var island_tiles: Dictionary
 
 # Location of the petrified tree.
 var petrified_tree_location: Vector2
-# Player spawn location, near the petrified tree.
-var return_location: Vector2
 
 # Refreshed when we return from the cavern.
 var spell_charges: Array
 
 # Reset when moving, set when casting a spell.
 var chain_count := 0
+
+# How many times the petrified tree has been invested.
+var petrified_water := 0
+var watered_petrified_tree := true
 
 func _ready() -> void:
     pass
@@ -120,7 +122,6 @@ func generate_island() -> void:
             var below := pos + Vector2.DOWN
             if island_rect.has_point(below) and island_tiles[below] == Tile.GROUND:
                 petrified_tree_location = pos
-                return_location = below
                 break
 
 func update_island() -> void:

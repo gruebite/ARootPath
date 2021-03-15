@@ -34,6 +34,7 @@ const CAVERN_PURIFY_WATER := [
 
 const MIDDLE_COORD := Vector2(2, 2)
 
+const Droplet = preload("res://entities/slime/droplet/droplet.tscn")
 const PlayerScene = preload("res://player/player.tscn")
 const Spring = preload("res://entities/spring/spring.tscn")
 const PetrifiedTree = preload("res://entities/petrified_tree/petrified_tree.tscn")
@@ -119,11 +120,12 @@ func _tile_hack() -> void:
                     128:
                         $TileFix.set_cellv(p * 2 + Vector2(0, 0), 7)
 
-func warp_island() -> void:
+func warp_island(through_roots: bool) -> void:
     $DemonMusic.stop()
     $CavernMusic.stop()
     $IslandMusic.play(island_music_pos)
     reset_everything()
+
     where = ISLAND
     cavern_level = -1
 
@@ -139,10 +141,6 @@ func warp_island() -> void:
     _tile_hack()
     post_process(GameState.ISLAND_WIDTH, GameState.ISLAND_HEIGHT)
 
-    player = PlayerScene.instance()
-    entities.add_child(player)
-    move_player(GameState.return_location, false)
-
     entities.add_entity_at(Spring.instance(), Vector2(GameState.ISLAND_WIDTH / 2, GameState.ISLAND_HEIGHT / 2))
     entities.add_entity_at(PetrifiedTree.instance(), GameState.petrified_tree_location)
     objects.set_cellv(GameState.petrified_tree_location, -1)
@@ -154,7 +152,18 @@ func warp_island() -> void:
         if Plant.state_water_needed(st) == 0:
             air.set_cellv(mpos + Vector2(0, -(1 + Plant.KIND_RESOURCES[st["kind"]].space_needed)), Tile.FAIRY0 + Global.rng.randi_range(0, 2))
 
+    player = PlayerScene.instance()
+    entities.add_child(player)
+    move_player(GameState.petrified_tree_location, false)
+    
     fog.hide()
+
+    GameState.watered_petrified_tree = false
+    if through_roots:
+        for i in GameState.petrified_water:
+            var drop := Droplet.instance()
+            drop.position = player.position + Vector2(64, 0).rotated(Global.rng.randf() * TAU)
+            effects.add_child(drop)
 
 func warp_cavern() -> void:
     $CavernDrop.play()
@@ -209,9 +218,14 @@ func warp_cavern() -> void:
         var mpos := walker.opened_tiles.random(Global.rng)
         if entities.get_entity(mpos):
             continue
-        entities.add_entity_at(Roots.instance(), mpos)
+        var roots = Roots.instance()
+        if roots_to_add == 1:
+            roots.add_to_group("watered")
+            air.set_cellv(mpos + Vector2(0, -1), Tile.FAIRY0 + Global.rng.randi_range(0, 2))
+        entities.add_entity_at(roots, mpos)
         objects.set_cellv(mpos, -1)
         roots_to_add -= 1
+            
 
     var slimy_water_to_add: int = CAVERN_SLIMY_WATER[cavern_level]
     while slimy_water_to_add > 0:
@@ -252,11 +266,16 @@ func interact(index: int=-1) -> void:
     if ent:
         if ent.is_in_group("spring") or ent.is_in_group("pit"):
             warp_cavern()
-            return
+        elif ent.is_in_group("petrified_tree"):
+            if GameState.water > 0 and not GameState.watered_petrified_tree:
+                GameState.petrified_water += 1
+                GameState.set_water(GameState.water - 1)
+                GameState.watered_petrified_tree = true
+                player.be_water()
+                move_player(player.map_position, false)
         elif ent.is_in_group("roots"):
             $Roots.play()
-            warp_island()
-            return
+            warp_island(ent.is_in_group("watered"))
         elif ent.is_in_group("plant"):
             var plant := ent as Plant
             if Input.is_key_pressed(KEY_SHIFT):
@@ -270,13 +289,12 @@ func interact(index: int=-1) -> void:
                 if needed > 0:
                     if GameState.water >= needed:
                         plant.water()
-                        player.be_water()
                         GameState.set_water(GameState.water - needed)
+                        player.be_water()
                         move_player(player.map_position, false)
                     else:
                         # :(
                         pass
-            return
     elif objects.get_cellv(player.map_position) == Tile.SLIMY_WATER:
         # Only purify water if we can store it.
         if GameState.water != GameState.MAX_WATER:
@@ -285,20 +303,16 @@ func interact(index: int=-1) -> void:
             GameState.modify_water(CAVERN_PURIFY_WATER[cavern_level])
             # Re-enter.
             move_player(player.map_position, true)
-        return
-    elif objects.get_cellv(player.map_position) == Tile.LILY:
-        if Input.is_key_pressed(KEY_SHIFT):
-            # Last level
-            cavern_level = 1
-            warp_cavern()
-            for i in Plant.COUNT:
-                GameState.set_spell_charges(i, 99)
-            return
-    elif objects.get_cellv(player.map_position) == Tile.PURIFIED_WATER:
-        if Input.is_key_pressed(KEY_SHIFT):
-            GameState.modify_water(GameState.MAX_WATER)
-    if Input.is_key_pressed(KEY_SHIFT) and where == CAVERN:
-        warp_island()
+    elif Input.is_key_pressed(KEY_SHIFT) and objects.get_cellv(player.map_position) == Tile.LILY:
+        # Last level
+        cavern_level = 1
+        warp_cavern()
+        for i in Plant.COUNT:
+            GameState.set_spell_charges(i, 99)
+    elif Input.is_key_pressed(KEY_SHIFT) and objects.get_cellv(player.map_position) == Tile.PURIFIED_WATER:
+        GameState.modify_water(GameState.MAX_WATER)
+    elif Input.is_key_pressed(KEY_SHIFT) and where == CAVERN:
+        warp_island(true)
     else:
         emit_signal("player_interacted", player.map_position, index)
 
@@ -418,18 +432,18 @@ func _on_TurnSystem_finished_turn() -> void:
         var check: Vector2 = player.map_position + Direction.delta(d)
         if can_move_to(check):
             return
-    
+
     # Any damage spell works.
     var spells = GameState.spell_charges
     if spells[Plant.Kind.TREE] > 0 or spells[Plant.Kind.BUSH] > 0 or spells[Plant.Kind.MOSS] > 0:
         return
-    
+
     # If we have a flower, check if somewhere empty is visible.
     if spells[Plant.Kind.FLOWER] > 0:
         for pos in fog.all_revealed():
             if pos != player.map_position and can_move_to(pos):
                 return
-    
+
     # Exhausted all options.
     yield(player.consume_anim(), "completed")
     emit_signal("player_died")

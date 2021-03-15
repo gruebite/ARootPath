@@ -15,5 +15,6 @@ func _ready() -> void:
 
 
 func _on_player_died():
+    GameState.set_water(GameState.water / 2)
     # We likely died in the middle of processing.  Keep state stable.
     $Space.call_deferred("warp_island", false)

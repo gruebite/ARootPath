@@ -16,7 +16,7 @@ const CAVERN_SIZES := [
 ]
 
 const CAVERN_ROOTS := [
-    3, 2, 2,
+    3, 3, 2,
 ]
 
 const CAVERN_PITS := [
@@ -25,11 +25,11 @@ const CAVERN_PITS := [
 
 # Roughly ~100 per run, with some chance to gain some from fiends.
 const CAVERN_SLIMY_WATER := [
-    10, 20, 30,
+    20, 20, 30,
 ]
 
 const CAVERN_PURIFY_WATER := [
-    1, 1, 2,
+    1, 2, 3,
 ]
 
 const MIDDLE_COORD := Vector2(2, 2)
@@ -152,7 +152,7 @@ func warp_island() -> void:
         objects.set_cellv(mpos, -1)
         var st = GameState.plant_state[mpos]
         if Plant.state_water_needed(st) == 0:
-            air.set_cellv(mpos + Vector2(0, -Plant.KIND_RESOURCES[st["kind"]].space_needed), Tile.FAIRY0 + Global.rng.randi_range(0, 2))
+            air.set_cellv(mpos + Vector2(0, -(1 + Plant.KIND_RESOURCES[st["kind"]].space_needed)), Tile.FAIRY0 + Global.rng.randi_range(0, 2))
 
     fog.hide()
 
@@ -344,7 +344,6 @@ func grow_plant(kind: int, at: Vector2) -> void:
         "age": 0,
         "last_watered": 0,
     }
-    air.set_cellv(at + Vector2(0, -res.space_needed), Tile.FAIRY0 + Global.rng.randi_range(0, 2))
     objects.set_cellv(at, -1)
     entities.add_entity_at(PlantScene.instance(), at)
 

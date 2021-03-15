@@ -18,7 +18,7 @@ func display_plant_kind(kind: int, can_afford: bool) -> void:
         $PlantArch/NinePatch/MarginContainer/VBoxContainer/Title/Cost.modulate = Color.white
     else:
         $PlantArch/NinePatch/MarginContainer/VBoxContainer/Title/Cost.modulate = Color.red
-    $PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer/GrowthPeriod.text = str(res.growth_period)
+    $PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer/GrowthPeriod.text = str(res.stage_period * res.mature_stage)
     $PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer/WateringQuantity.text = str(res.watering_quantity)
     $PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer/WateringFrequency.text = str(res.watering_frequency)
     $PlantArch/NinePatch/MarginContainer/VBoxContainer/Description.text = res.description

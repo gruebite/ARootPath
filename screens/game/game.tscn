@@ -52,17 +52,17 @@ format = 1
 [node name="Entities" type="YSort" parent="Space"]
 script = ExtResource( 4 )
 
-[node name="Effects" type="YSort" parent="Space"]
-
-[node name="Targeting" type="TileMap" parent="Space"]
-tile_set = ExtResource( 10 )
-cell_size = Vector2( 16, 16 )
-format = 1
-
 [node name="Air" type="TileMap" parent="Space"]
 z_index = -10
 z_as_relative = false
 tile_set = ExtResource( 2 )
+cell_size = Vector2( 16, 16 )
+format = 1
+
+[node name="Effects" type="YSort" parent="Space"]
+
+[node name="Targeting" type="TileMap" parent="Space"]
+tile_set = ExtResource( 10 )
 cell_size = Vector2( 16, 16 )
 format = 1
 

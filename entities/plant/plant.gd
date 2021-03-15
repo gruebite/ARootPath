@@ -54,10 +54,15 @@ static func state_inc_age(state: Dictionary) -> void:
     state["age"] += 1
 
 static func state_stage(state: Dictionary) -> int:
-    return int(min(MAX_STAGE, floor(state["age"] / KIND_RESOURCES[state["kind"]].growth_period)))
+    return int(min(MAX_STAGE, floor(state["age"] / KIND_RESOURCES[state["kind"]].stage_period)))
+
+static func state_mature(state: Dictionary) -> bool:
+    return state_stage(state) >= KIND_RESOURCES[state["kind"]].mature_stage
 
 static func state_charges(state: Dictionary) -> int:
-    return state_stage(state) + 1
+    if state_mature(state):
+        return 2
+    return 1
 
 func _ready() -> void:
     assume_stage()
@@ -65,7 +70,7 @@ func _ready() -> void:
 func assume_stage() -> void:
     if get_child_count() > 0:
         get_child(0).queue_free()
-    var stage := min(MAX_STAGE, floor(get_age() / get_resource().growth_period))
+    var stage := min(MAX_STAGE, get_stage())
     add_child(KIND_STAGES[get_kind()][stage].instance())
 
 func water() -> void:

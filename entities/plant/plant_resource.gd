@@ -11,7 +11,10 @@ export(String, MULTILINE) var spell_description := ""
 export var grow_cost := 5
 
 # How many runs before the plant matures.
-export var growth_period := 5
+export var stage_period := 5
+
+# Stage of maturity.
+export var mature_stage := 1
 
 # How often watering is needed, in runs.
 export var watering_frequency := 3

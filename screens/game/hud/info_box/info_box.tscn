@@ -20,7 +20,6 @@ __meta__ = {
 }
 
 [node name="PlantArch" type="Control" parent="."]
-visible = false
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -109,15 +108,15 @@ custom_constants/hseparation = 0
 columns = 2
 
 [node name="GrowthPeriodLabel" type="Label" parent="PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer"]
-margin_right = 88.0
+margin_right = 104.0
 margin_bottom = 6.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0.752941, 0.752941, 0.752941, 1 )
-text = "Grow Time"
+text = "Growth Period"
 uppercase = true
 
 [node name="GrowthPeriod" type="Label" parent="PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 88.0
+margin_left = 104.0
 margin_right = 146.0
 margin_bottom = 6.0
 size_flags_horizontal = 3
@@ -126,7 +125,7 @@ align = 2
 
 [node name="WateringQuanityLabel" type="Label" parent="PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer"]
 margin_top = 7.0
-margin_right = 88.0
+margin_right = 104.0
 margin_bottom = 13.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0.752941, 0.752941, 0.752941, 1 )
@@ -134,7 +133,7 @@ text = "Water req."
 uppercase = true
 
 [node name="WateringQuantity" type="Label" parent="PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 88.0
+margin_left = 104.0
 margin_top = 7.0
 margin_right = 146.0
 margin_bottom = 13.0
@@ -144,7 +143,7 @@ align = 2
 
 [node name="WateringFrequencyLabel" type="Label" parent="PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer"]
 margin_top = 14.0
-margin_right = 88.0
+margin_right = 104.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0.752941, 0.752941, 0.752941, 1 )
@@ -152,7 +151,7 @@ text = "Water Freq."
 uppercase = true
 
 [node name="WateringFrequency" type="Label" parent="PlantArch/NinePatch/MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 88.0
+margin_left = 104.0
 margin_top = 14.0
 margin_right = 146.0
 margin_bottom = 20.0
@@ -175,6 +174,7 @@ __meta__ = {
 }
 
 [node name="Plant" type="Control" parent="."]
+visible = false
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -311,7 +311,7 @@ margin_top = 14.0
 margin_right = 146.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
-text = "1"
+text = "2"
 align = 2
 
 [node name="Description" type="Label" parent="Plant/NinePatch/MarginContainer/VBoxContainer"]

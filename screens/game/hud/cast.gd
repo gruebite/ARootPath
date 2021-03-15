@@ -14,15 +14,15 @@ func init_target() -> void:
         Plant.Kind.TREE:
             target_shape.size = 3
             target_shape.kind = ShapeCast.Kind.CONE
-            update_target(Direction.NORTH)
+            update_target(Global.space.player.facing)
         Plant.Kind.BUSH:
             target_shape.size = 7
             target_shape.kind = ShapeCast.Kind.LINE
-            update_target(Direction.NORTH)
+            update_target(Global.space.player.facing)
         Plant.Kind.FLOWER:
             target_shape.size = 1
             target_shape.kind = ShapeCast.Kind.POINT
-            update_target(Direction.NORTH)
+            update_target(Global.space.player.facing)
         Plant.Kind.FUNGUS:
             target_shape.size = 3
             target_shape.kind = ShapeCast.Kind.CIRCLE

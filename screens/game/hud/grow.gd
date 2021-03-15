@@ -9,7 +9,7 @@ func try_confirm() -> bool:
     
 func init_target() -> void:
     target_shape.origin = start_pos
-    update_target(Direction.NORTH)
+    update_target(Global.space.player.facing)
 
 func update_target(dir: int) -> void:
     Global.space.targeting.clear()

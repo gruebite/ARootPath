@@ -1,6 +1,8 @@
 extends Entity
 class_name Player
 
+var facing := Direction.NORTH
+
 func _unhandled_input(event: InputEvent) -> void:
     if $Tween.is_active() or $Water.playing or $AnimationPlayer.current_animation != "": return
     # Interact below us.
@@ -11,12 +13,16 @@ func _unhandled_input(event: InputEvent) -> void:
     # Move.
     var delta := Vector2.ZERO
     if event.is_action_pressed("ui_up", true):
+        facing = Direction.NORTH
         delta = Vector2(0, -1)
     elif event.is_action_pressed("ui_down", true):
+        facing = Direction.SOUTH
         delta = Vector2(0, 1)
     elif event.is_action_pressed("ui_left", true):
+        facing = Direction.WEST
         delta = Vector2(-1, 0)
     elif event.is_action_pressed("ui_right", true):
+        facing = Direction.EAST
         delta = Vector2(1, 0)
     elif event is InputEventKey and event.pressed and event.scancode == KEY_PERIOD:
         # Debug wait.

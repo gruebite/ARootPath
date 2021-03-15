@@ -65,7 +65,7 @@ func perform(at: Vector2, index: int=-1) -> void:
     if index >= 0:
         selected = index
         _state = STATE_TARGETING
-        update_target(Direction.NORTH)
+        update_target(Global.space.player.facing)
         init_target()
     update_info()
 

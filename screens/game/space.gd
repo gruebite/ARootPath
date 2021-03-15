@@ -72,6 +72,8 @@ func reset_everything() -> void:
     entities.clear_all()
     fog.reset()
     slime_brain.cleanup()
+    # FIXME
+    get_node("../TurnSystem").reset()
 
 # FIXME: Finds broken corners and fills them with 8x8 subtiles.
 func _tile_hack() -> void:
@@ -302,6 +304,7 @@ func interact(index: int=-1) -> void:
 
 func move_player(to: Vector2, is_turn: bool=true) -> void:
     if is_turn and turn_system.current_turn != TurnSystem.TURN_PLAYER:
+        print("NOTTURN ", turn_system.current_turn)
         return
 
     if not can_move_to(to):

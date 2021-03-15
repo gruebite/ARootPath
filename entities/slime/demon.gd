@@ -18,7 +18,10 @@ func think() -> void:
         return
     if not seen:
         emit_signal("demon_spotted")
-    show()
+    if brain.space.fog.is_revealed(map_position):
+        show()
+    else:
+        hide()
     seen = true
     
     if Global.rng.randf() < TELEPORT_CHANCE:

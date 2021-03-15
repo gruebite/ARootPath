@@ -54,11 +54,13 @@ func spawn_slimes(walker: Walker) -> void:
         var pos: Vector2 = walker.opened_tiles.random(Global.rng)
         if not space.entities.get_entity(pos):
             # Normalized distance based on map.  Demon can only be spawned far away from entrance.
-            var dist_n: float = (pos / Vector2(walker.width / 2, walker.height / 2)).normalized().length()
-            if demons_to_add > 0 and dist_n > 0.5:
+            var off: Vector2 = pos / Vector2(walker.width, walker.height) - Vector2(0.5, 0.5)
+            var dist_n: float = off.length()
+            if demons_to_add > 0 and dist_n > 0.3:
+                print("D ", pos, off, dist_n)
                 demons_to_add -= 1
                 grow_demon(pos)
-            elif fiends_to_add > 0 and dist_n > 0.2:
+            elif fiends_to_add > 0 and (slime_to_add == 0 or Global.rng.randf() < 0.5):
                 fiends_to_add -= 1
                 grow_fiend(pos)
             elif slime_to_add > 0:
@@ -152,7 +154,11 @@ func grow_slime(at: Vector2, growing: bool=true) -> void:
     var slime := Slime.instance()
     slime.visible = space.fog.is_revealed(at)
     space.entities.add_entity_at(slime, at)
-    slimes[at] = SLIME_GROWING if growing else SLIME_GROWN
+    if growing:
+        slimes[at] = SLIME_GROWING
+    else:
+        slimes[at] = SLIME_GROWN
+        slime.grow_up()
     slime.connect("died", self, "_slime_died", [slime])
 
 func remove_slime(at: Vector2) -> int:

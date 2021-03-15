@@ -11,6 +11,10 @@ enum {
 var current_turn := TURN_PLAYER
 var thinker_count := 0 setget _set_thinker_count
 
+func reset() -> void:
+    thinker_count = 0
+    current_turn = TURN_PLAYER
+
 func do_turn():
     assert(current_turn == TURN_PLAYER)
     thinker_count = len(get_tree().get_nodes_in_group("turn_taker"))

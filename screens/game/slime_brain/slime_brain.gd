@@ -194,7 +194,7 @@ func defrost(at: Vector2) -> bool:
     frost[at] -= 1
     if frost[at] == 0:
         frost.erase(at)
-        slime.unfreeze()
+        space.entities.get_entity(at).unfreeze()
         return true
     return false
     

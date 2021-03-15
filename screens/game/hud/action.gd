@@ -61,9 +61,12 @@ func _gui_input(event: InputEvent) -> void:
 func perform(at: Vector2, index: int=-1) -> void:
     grab_focus()
     _state = STATE_ACTIVE
+    start_pos = at
     if index >= 0:
         selected = index
-    start_pos = at
+        _state = STATE_TARGETING
+        update_target(Direction.NORTH)
+        init_target()
     update_info()
 
 func try_confirm() -> bool:

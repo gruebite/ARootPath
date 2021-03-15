@@ -28,20 +28,19 @@ func _unhandled_input(event: InputEvent) -> void:
         Global.space.move_player(desired)
         return
 
-    match event.get_class():
-        "InputKeyEvent":
-            var key := event as InputEventKey
-            match key.scancode:
-                KEY_1:
-                    Global.space.interact(0)
-                KEY_2:
-                    Global.space.interact(1)
-                KEY_3:
-                    Global.space.interact(2)
-                KEY_4:
-                    Global.space.interact(3)
-                KEY_5:
-                    Global.space.interact(4)
+    if event is InputEventKey and event.pressed:
+        match event.scancode:
+            KEY_1:
+                print("HERE")
+                Global.space.interact(0)
+            KEY_2:
+                Global.space.interact(1)
+            KEY_3:
+                Global.space.interact(2)
+            KEY_4:
+                Global.space.interact(3)
+            KEY_5:
+                Global.space.interact(4)
 
 func set_map_position(value: Vector2) -> void:
     map_position = value.floor()

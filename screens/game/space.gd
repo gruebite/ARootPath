@@ -301,11 +301,10 @@ func interact(index: int=-1) -> void:
         emit_signal("player_interacted", player.map_position, index)
 
 func move_player(to: Vector2, is_turn: bool=true) -> void:
-    assert(not unwalkable(to))
     if is_turn and turn_system.current_turn != TurnSystem.TURN_PLAYER:
         return
 
-    if not slime_brain.can_move_to(to):
+    if not can_move_to(to):
         return
     player.map_position = to
     if fog.visible:
@@ -321,6 +320,9 @@ func unwalkable(mpos: Vector2) -> bool:
 
 func is_free(at: Vector2) -> bool:
     return not unwalkable(at) and not entities.get_entity(at)
+
+func can_move_to(mpos: Vector2) -> bool:
+    return not unwalkable(mpos) and slime_brain.can_move_to(mpos)
 
 func can_afford_plant(kind: int) -> bool:
     return GameState.water >= Plant.KIND_RESOURCES[kind].grow_cost
@@ -350,9 +352,9 @@ func can_cast_spell(kind: int, area: Array) -> bool:
         Plant.Kind.TREE:
             return true
         Plant.Kind.BUSH:
-            return not unwalkable(area[0]) and fog.is_revealed(area[0])
+            return true
         Plant.Kind.FLOWER:
-            return area[0] != player.map_position and not unwalkable(area[0]) and not entities.get_entity(area[0]) and fog.is_revealed(area[0])
+            return area[0] != player.map_position and can_move_to(area[0]) and fog.is_revealed(area[0])
         Plant.Kind.FUNGUS:
             return true
         Plant.Kind.MOSS:
@@ -412,7 +414,8 @@ func _on_TurnSystem_finished_turn() -> void:
     # Check if we lost by being unable to move.
     for d in range(0, Direction.COUNT, 2):
         var check: Vector2 = player.map_position + Direction.delta(d)
-        if slime_brain.can_move_to(check):
+        if can_move_to(check):
+            print(d)
             return
     
     # Any damage spell works.
@@ -423,7 +426,7 @@ func _on_TurnSystem_finished_turn() -> void:
     # If we have a flower, check if somewhere empty is visible.
     if spells[Plant.Kind.FLOWER] > 0:
         for pos in fog.all_revealed():
-            if pos != player.map_position and slime_brain.can_move_to(pos):
+            if pos != player.map_position and can_move_to(pos):
                 return
     
     # Exhausted all options.

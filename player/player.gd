@@ -2,7 +2,7 @@ extends Entity
 class_name Player
 
 func _unhandled_input(event: InputEvent) -> void:
-    if $Tween.is_active() or $Water.playing: return
+    if $Tween.is_active() or $Water.playing or $AnimationPlayer.current_animation != "": return
     # Interact below us.
     if event.is_action_pressed("ui_accept"):
         Global.space.interact()
@@ -18,11 +18,14 @@ func _unhandled_input(event: InputEvent) -> void:
         delta = Vector2(-1, 0)
     elif event.is_action_pressed("ui_right", true):
         delta = Vector2(1, 0)
+    elif event is InputEventKey and event.pressed and event.scancode == KEY_PERIOD:
+        # Debug wait.
+        Global.space.move_player(map_position)
+        return
 
     if delta != Vector2.ZERO:
         var desired := map_position + delta
-        if not Global.space.unwalkable(desired):
-            Global.space.move_player(desired)
+        Global.space.move_player(desired)
         return
 
     match event.get_class():

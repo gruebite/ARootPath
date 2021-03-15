@@ -67,6 +67,7 @@ func spawn_slimes(walker: Walker) -> void:
 
 func take_turn() -> void:
     if space.where != Space.CAVERN:
+        emit_signal("slime_finished_thinking")
         return
 
     var start_life: int = FOOD_LIFE[space.cavern_level]
@@ -121,6 +122,7 @@ func take_turn() -> void:
             new_food[new_pos] = life
 
     food = new_food
+    emit_signal("slime_finished_thinking")
     
     update()
 

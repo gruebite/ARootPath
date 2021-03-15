@@ -159,7 +159,7 @@ func warp_island(through_roots: bool) -> void:
     if through_roots:
         for i in GameState.petrified_water * 2:
             var drop := Droplet.instance()
-            drop.position = player.position + Vector2(64, 0).rotated(Global.rng.randf() * TAU)
+            drop.position = GameState.petrified_tree_location * 16 + Vector2(Global.rng.randf_range(16, 64), 0).rotated(Global.rng.randf() * TAU)
             effects.add_child(drop)
             
     move_player(GameState.petrified_tree_location, false)

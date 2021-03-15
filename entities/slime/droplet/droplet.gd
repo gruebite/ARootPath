@@ -17,5 +17,5 @@ func _process(delta: float) -> void:
         
         var dist: float = position.distance_to(pos_center)
         if dist <= NEAR:
-            queue_free()
             GameState.modify_water(1)
+            queue_free()

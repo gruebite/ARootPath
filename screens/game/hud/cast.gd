@@ -40,6 +40,7 @@ func update_target(dir: int) -> void:
         Plant.Kind.BUSH:
             target_shape.direction = dir
         Plant.Kind.FLOWER:
+            target_shape.direction = -1
             target_shape.origin += Direction.delta(dir)
         Plant.Kind.FUNGUS:
             target_shape.direction = -1

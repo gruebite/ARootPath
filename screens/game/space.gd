@@ -25,11 +25,11 @@ const CAVERN_PITS := [
 
 # Roughly ~100 per run, with some chance to gain some from fiends.
 const CAVERN_SLIMY_WATER := [
-    20, 40, 80,
+    15, 30, 60,
 ]
 
 const CAVERN_PURIFY_WATER := [
-    1, 1, 2,
+    2, 2, 2,
 ]
 
 const MIDDLE_COORD := Vector2(2, 2)
@@ -295,6 +295,7 @@ func interact(index: int=-1) -> void:
                     else:
                         # :(
                         pass
+        emit_signal("player_interacted", player.map_position, index)
     elif objects.get_cellv(player.map_position) == Tile.SLIMY_WATER:
         # Only purify water if we can store it.
         if GameState.water != GameState.MAX_WATER:

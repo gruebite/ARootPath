@@ -1,9 +1,10 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://player/player.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/tilesheet.png" type="Texture" id=2]
 [ext_resource path="res://player/purify.wav" type="AudioStream" id=3]
 [ext_resource path="res://player/slap.wav" type="AudioStream" id=4]
+[ext_resource path="res://player/consumed.wav" type="AudioStream" id=5]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 2 )
@@ -58,8 +59,50 @@ animations = [ {
 "frames": [ SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ) ],
 "loop": false,
 "name": "default",
-"speed": 12.0
+"speed": 20.0
 } ]
+
+[sub_resource type="Animation" id=13]
+resource_name = "consume"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Consumed:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Consumed:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( -0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 1, 0 ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("ConsumedAudio")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
 
 [node name="Player" type="Node2D" groups=[
 "player",
@@ -81,7 +124,6 @@ region_rect = Rect2( 0, 352, 16, 16 )
 position = Vector2( 0, -13 )
 frames = SubResource( 5 )
 animation = "idle"
-frame = 1
 playing = true
 centered = false
 
@@ -100,4 +142,20 @@ bus = "SFX"
 
 [node name="Purify" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
+bus = "SFX"
+
+[node name="Consumed" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 2 )
+offset = Vector2( 8, -4 )
+hframes = 2
+frame = 1
+region_enabled = true
+region_rect = Rect2( 160, 432, 64, 32 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/consume = SubResource( 13 )
+
+[node name="ConsumedAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
 bus = "SFX"

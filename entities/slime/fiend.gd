@@ -4,7 +4,7 @@ const THROW_CHANCE := 0.1
 
 signal finished_thinking()
 
-var health := 3
+var health := 1
 
 func think() -> void:
     # Don't think unless visible player.
@@ -14,7 +14,7 @@ func think() -> void:
         return
     show()
     # The fiend does not throw stuff when frozen, the demon can still act.
-    if frozen:
+    if frozen and not brain.defrost(map_position):
         emit_signal("finished_thinking")
         return
     

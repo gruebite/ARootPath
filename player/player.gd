@@ -59,4 +59,8 @@ func be_water(purify: bool=false) -> void:
     $Water.hide()
     $Sprite.show()
     $Shadow.show()
-    
+
+func consume_anim() -> void:
+    $AnimationPlayer.play("consume")
+    yield($AnimationPlayer, "animation_finished")
+    return    

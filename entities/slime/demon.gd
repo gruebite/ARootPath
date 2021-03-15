@@ -8,7 +8,7 @@ const THROW_CHANCE := 0.1
 
 var seen := false
 
-var health := 9
+var health := 18
 
 func think() -> void:
     # Don't think unless we've been seen, then all hell breaks loss.

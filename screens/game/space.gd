@@ -3,6 +3,7 @@ class_name Space
 
 signal player_entered(at)
 signal player_interacted(at, index)
+signal player_died()
 
 enum {
     ISLAND,
@@ -137,9 +138,8 @@ func warp_island() -> void:
     post_process(GameState.ISLAND_WIDTH, GameState.ISLAND_HEIGHT)
 
     player = PlayerScene.instance()
-    player.map_position = GameState.return_location
     entities.add_child(player)
-    emit_signal("player_entered", player.map_position)
+    move_player(GameState.return_location, false)
 
     entities.add_entity_at(Spring.instance(), Vector2(GameState.ISLAND_WIDTH / 2, GameState.ISLAND_HEIGHT / 2))
     entities.add_entity_at(PetrifiedTree.instance(), GameState.petrified_tree_location)
@@ -151,7 +151,7 @@ func warp_island() -> void:
         var st = GameState.plant_state[mpos]
         if Plant.state_water_needed(st) == 0:
             air.set_cellv(mpos + Vector2(0, -Plant.KIND_RESOURCES[st["kind"]].space_needed), Tile.FAIRY0 + Global.rng.randi_range(0, 2))
-            
+
     fog.hide()
 
 func warp_cavern() -> void:
@@ -217,14 +217,11 @@ func warp_cavern() -> void:
         objects.set_cellv(mpos, Tile.SLIMY_WATER)
         slimy_water_to_add -= 1
 
-    player = PlayerScene.instance()
-    player.map_position = Vector2(size / 2, size / 2)
-    entities.add_child(player)
-    emit_signal("player_entered", player.map_position)
-
     fog.unreveal_area(size, size)
-    fog.recompute(player.map_position)
     fog.show()
+    player = PlayerScene.instance()
+    entities.add_child(player)
+    move_player(Vector2(size / 2, size / 2), false)
 
     slime_brain.spawn_slimes(walker)
 
@@ -265,7 +262,7 @@ func interact(index: int=-1) -> void:
                 GameState.plant_state[player.map_position]["last_watered"] += 1
                 plant.assume_stage()
                 # Re-enter.
-                emit_signal("player_entered", player.map_position)
+                move_player(player.map_position, false)
             else:
                 var needed := plant.get_water_needed()
                 if needed > 0:
@@ -273,7 +270,7 @@ func interact(index: int=-1) -> void:
                         plant.water()
                         player.be_water()
                         GameState.set_water(GameState.water - needed)
-                        emit_signal("player_entered", player.map_position)
+                        move_player(player.map_position, false)
                     else:
                         # :(
                         pass
@@ -285,7 +282,7 @@ func interact(index: int=-1) -> void:
             objects.set_cellv(player.map_position, Tile.PURIFIED_WATER)
             GameState.modify_water(CAVERN_PURIFY_WATER[cavern_level])
             # Re-enter.
-            emit_signal("player_entered", player.map_position)
+            move_player(player.map_position, true)
         return
     elif objects.get_cellv(player.map_position) == Tile.LILY:
         if Input.is_key_pressed(KEY_SHIFT):
@@ -305,26 +302,19 @@ func interact(index: int=-1) -> void:
 
 func move_player(to: Vector2, is_turn: bool=true) -> void:
     assert(not unwalkable(to))
-    if turn_system.current_turn != TurnSystem.TURN_PLAYER:
-        print("NOT TURN ", turn_system.thinker_count)
+    if is_turn and turn_system.current_turn != TurnSystem.TURN_PLAYER:
+        return
 
-    if will_bump(to):
-        $Bump.play()
-        var ent: Entity = entities.get_entity(to)
-        ent.damage()
-    else:
-        player.map_position = to
-        if fog.visible:
-            fog.recompute(to)
-        emit_signal("player_entered", to)
+    if not slime_brain.can_move_to(to):
+        return
+    player.map_position = to
+    if fog.visible:
+        fog.recompute(to)
+    emit_signal("player_entered", to)
 
     if is_turn:
         GameState.stop_spell_chain()
         turn_system.do_turn()
-
-func will_bump(at: Vector2) -> bool:
-    var ent: Entity = entities.get_entity(at)
-    return ent and ent.is_in_group("slime")
 
 func unwalkable(mpos: Vector2) -> bool:
     return not Tile.walkable(tiles.get_cellv(mpos))
@@ -362,7 +352,7 @@ func can_cast_spell(kind: int, area: Array) -> bool:
         Plant.Kind.BUSH:
             return not unwalkable(area[0]) and fog.is_revealed(area[0])
         Plant.Kind.FLOWER:
-            return not unwalkable(area[0]) and not entities.get_entity(area[0]) and fog.is_revealed(area[0])
+            return area[0] != player.map_position and not unwalkable(area[0]) and not entities.get_entity(area[0]) and fog.is_revealed(area[0])
         Plant.Kind.FUNGUS:
             return true
         Plant.Kind.MOSS:
@@ -413,6 +403,34 @@ func _has_space_for_plant(kind: int, at: Vector2) -> bool:
                 return false
     return true
 
-func _on_SlimeBrain_demon_spotted():
+func _on_SlimeBrain_demon_spotted() -> void:
     $CavernMusic.stop()
     $DemonMusic.play()
+
+
+func _on_TurnSystem_finished_turn() -> void:
+    # Check if we lost by being unable to move.
+    for d in range(0, Direction.COUNT, 2):
+        var check: Vector2 = player.map_position + Direction.delta(d)
+        if slime_brain.can_move_to(check):
+            return
+    
+    # Any damage spell works.
+    var spells = GameState.spell_charges
+    if spells[Plant.Kind.TREE] > 0 or spells[Plant.Kind.BUSH] > 0 or spells[Plant.Kind.MOSS] > 0:
+        return
+    
+    # If we have a flower, check if somewhere empty is visible.
+    if spells[Plant.Kind.FLOWER] > 0:
+        for pos in fog.all_revealed():
+            if pos != player.map_position and slime_brain.can_move_to(pos):
+                return
+    
+    # Exhausted all options.
+    yield(player.consume_anim(), "completed")
+    emit_signal("player_died")
+
+func _on_SlimeBrain_slime_grew(mpos: Vector2) -> void:
+    if mpos == player.map_position:
+        yield(player.consume_anim(), "completed")
+        emit_signal("player_died")

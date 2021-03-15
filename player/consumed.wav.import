@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/bump.wav-949e020bc64024a9f88cdbae8792d855.sample"
+path="res://.import/consumed.wav-e3d468590e007620a2b7eea7211cb1fb.sample"
 
 [deps]
 
-source_file="res://screens/game/space/bump.wav"
-dest_files=[ "res://.import/bump.wav-949e020bc64024a9f88cdbae8792d855.sample" ]
+source_file="res://player/consumed.wav"
+dest_files=[ "res://.import/consumed.wav-e3d468590e007620a2b7eea7211cb1fb.sample" ]
 
 [params]
 

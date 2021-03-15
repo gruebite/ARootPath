@@ -6,10 +6,10 @@ signal slime_finished_thinking()
 signal demon_spotted()
 
 enum {
-    SLIME_DEMON,
-    SLIME_SPREADER,
     SLIME_GROWING,
     SLIME_GROWN,
+    SLIME_SPREADER,
+    SLIME_DEMON,
 }
 
 const DEBUG := false
@@ -79,15 +79,7 @@ func take_turn() -> void:
     var grew := false
     for pos in slimes:
         if slimes[pos] == SLIME_GROWING:
-            var f_amount = frost.get(pos)
-            if f_amount != null:
-                f_amount = int(max(0, f_amount - 1))
-                if f_amount == 0:
-                    frost.erase(pos)
-                    space.entities.get_entity(pos).unfreeze()
-                else:
-                    frost[pos] = f_amount
-            if f_amount == null or f_amount == 0:
+            if defrost(pos):
                 slimes[pos] = SLIME_GROWN
                 emit_signal("slime_grew", pos)
                 var slime: Entity = space.entities.get_entity(pos)
@@ -115,16 +107,7 @@ func take_turn() -> void:
             if slimes.has(neigh) and slimes.get(neigh) != SLIME_GROWING and Direction.is_cardinal(d) and space.is_free(pos):
                 # Consume the food.
                 consumed = true
-                var f_amount = frost.get(neigh)
-                # Skip if this slime is frozen, but lower freeze level.
-                if f_amount != null:
-                    f_amount = int(max(0, f_amount - 1))
-                    if f_amount == 0:
-                        frost.erase(neigh)
-                        space.entities.get_entity(neigh).unfreeze()
-                    else:
-                        frost[neigh] = f_amount
-                else:
+                if defrost(neigh):
                     grow_slime(pos)
                 break
             if not space.unwalkable(neigh):
@@ -195,6 +178,20 @@ func freeze_spot(at: Vector2) -> void:
     # Definitely slime.
     space.entities.get_entity(at).freeze()
     frost[at] = FROST_TIMER
+    
+func defrost(at: Vector2) -> bool:
+    var slime = slimes.get(at)
+    if not slime: return true
+    if not frost.has(at): return true
+    frost[at] -= 1
+    if frost[at] == 0:
+        frost.erase(at)
+        slime.unfreeze()
+        return true
+    return false
+    
+func can_move_to(at: Vector2) -> bool:
+    return not slimes.has(at) or slimes[at] == SLIME_GROWING
 
 func _slime_died(slime: Entity) -> void:
     remove_slime(slime.map_position)

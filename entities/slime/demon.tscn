@@ -7,7 +7,7 @@
 
 [sub_resource type="Animation" id=1]
 resource_name = "idle"
-length = 0.4
+length = 0.5
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -16,15 +16,15 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0.2, 0.4 ),
+"times": PoolRealArray( 0.1, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ 1, 0 ]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=5]
 resource_name = "teleport_in"
-length = 0.4
+length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -39,7 +39,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=3]
-length = 0.4
+length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -55,7 +55,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=4]
 resource_name = "throw"
-length = 0.3
+length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -81,14 +81,13 @@ position = Vector2( -8, -16 )
 texture = ExtResource( 2 )
 centered = false
 hframes = 7
-frame = 6
 region_enabled = true
 region_rect = Rect2( 0, 432, 224, 32 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "idle"
 anims/idle = SubResource( 1 )
-anims/teleport_in = SubResource( 2 )
+anims/teleport_in = SubResource( 5 )
 anims/teleport_out = SubResource( 3 )
 anims/throw = SubResource( 4 )
 

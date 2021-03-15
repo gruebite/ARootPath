@@ -25,12 +25,12 @@ animations = [ {
 "frames": [ SubResource( 1 ), SubResource( 2 ) ],
 "loop": true,
 "name": "idle",
-"speed": 5.0
+"speed": 4.0
 }, {
-"frames": [ SubResource( 3 ), SubResource( 4 ) ],
+"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 4 ) ],
 "loop": false,
 "name": "throw",
-"speed": 5.0
+"speed": 6.0
 } ]
 
 [node name="Leech" type="Node2D" groups=[
@@ -44,6 +44,7 @@ script = ExtResource( 2 )
 position = Vector2( 0, -4 )
 frames = SubResource( 5 )
 animation = "idle"
+frame = 1
 playing = true
 centered = false
 

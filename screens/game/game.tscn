@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://screens/game/game.gd" type="Script" id=1]
 [ext_resource path="res://screens/game/tileset.tres" type="TileSet" id=2]
@@ -12,7 +12,6 @@
 [ext_resource path="res://screens/game/targeting_tileset.tres" type="TileSet" id=10]
 [ext_resource path="res://screens/game/ts_fix.tres" type="TileSet" id=11]
 [ext_resource path="res://screens/game/space/cavern_drop.wav" type="AudioStream" id=12]
-[ext_resource path="res://screens/game/space/bump.wav" type="AudioStream" id=13]
 [ext_resource path="res://screens/game/space/plant_grow.wav" type="AudioStream" id=14]
 [ext_resource path="res://screens/game/space/spell.wav" type="AudioStream" id=15]
 [ext_resource path="res://screens/game/space/caves.ogg" type="AudioStream" id=16]
@@ -80,10 +79,6 @@ space_path = NodePath("..")
 stream = ExtResource( 12 )
 bus = "SFX"
 
-[node name="Bump" type="AudioStreamPlayer" parent="Space"]
-stream = ExtResource( 13 )
-bus = "SFX"
-
 [node name="PlantGrow" type="AudioStreamPlayer" parent="Space"]
 stream = ExtResource( 14 )
 bus = "SFX"
@@ -111,8 +106,10 @@ script = ExtResource( 5 )
 
 [node name="HUD" parent="." instance=ExtResource( 8 )]
 space_path = NodePath("../Space")
+[connection signal="player_died" from="Space" to="." method="_on_player_died"]
 [connection signal="player_entered" from="Space" to="HUD" method="_on_Space_player_entered"]
 [connection signal="player_interacted" from="Space" to="HUD" method="_on_Space_player_interacted"]
 [connection signal="demon_spotted" from="Space/SlimeBrain" to="Space" method="_on_SlimeBrain_demon_spotted"]
 [connection signal="slime_finished_thinking" from="Space/SlimeBrain" to="TurnSystem" method="_on_SlimeBrain_slime_finished_thinking"]
-[connection signal="slime_grew" from="Space/SlimeBrain" to="." method="_on_SlimeBrain_slime_grew"]
+[connection signal="slime_grew" from="Space/SlimeBrain" to="Space" method="_on_SlimeBrain_slime_grew"]
+[connection signal="finished_turn" from="TurnSystem" to="Space" method="_on_TurnSystem_finished_turn"]

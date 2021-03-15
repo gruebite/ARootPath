@@ -18,8 +18,6 @@ func think() -> void:
         return
     if not seen:
         emit_signal("demon_spotted")
-        $CanvasLayer/Health.show()
-        $CanvasLayer/Health.health = health
     if brain.space.fog.is_revealed(map_position):
         show()
     else:
@@ -44,8 +42,6 @@ func think() -> void:
 
 func damage() -> void:
     health -= 1
-    $CanvasLayer/Health.health = health
-    $CanvasLayer/Health.update()
     poof()
     if health <= 0:
         get_tree().change_scene("res://screens/win/win.tscn")

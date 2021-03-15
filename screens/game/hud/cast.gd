@@ -24,7 +24,7 @@ func init_target() -> void:
             target_shape.kind = ShapeCast.Kind.POINT
             update_target(Direction.NORTH)
         Plant.Kind.FUNGUS:
-            target_shape.size = 5
+            target_shape.size = 3
             target_shape.kind = ShapeCast.Kind.CIRCLE
             update_target(-1)
         Plant.Kind.MOSS:

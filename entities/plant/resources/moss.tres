@@ -6,7 +6,7 @@
 script = ExtResource( 1 )
 name = "Rock Moss"
 description = "Stiff and craggy."
-spell_description = "Remove slime and walls in an area."
+spell_description = "Remove slime and walls in a small area."
 grow_cost = 6
 growth_period = 3
 watering_frequency = 2

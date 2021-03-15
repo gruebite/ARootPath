@@ -26,11 +26,10 @@ func cast() -> Array:
         Kind.LINE:
             var arr := []
             var dirv := Direction.delta(direction)
-            var iter := origin
-            arr.append(iter)
+            var iter := origin + dirv
             for i in size:
-                iter += dirv
                 arr.append(iter)
+                iter += dirv
             return arr
         Kind.SQUARE:
             var arr := []

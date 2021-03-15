@@ -25,11 +25,11 @@ const CAVERN_PITS := [
 
 # Roughly ~100 per run, with some chance to gain some from fiends.
 const CAVERN_SLIMY_WATER := [
-    15, 30, 60,
+    12, 18, 24,
 ]
 
 const CAVERN_PURIFY_WATER := [
-    2, 2, 2,
+    3, 5, 7,
 ]
 
 const MIDDLE_COORD := Vector2(2, 2)
@@ -152,18 +152,18 @@ func warp_island(through_roots: bool) -> void:
         if Plant.state_water_needed(st) == 0:
             air.set_cellv(mpos + Vector2(0, -(1 + Plant.KIND_RESOURCES[st["kind"]].space_needed)), Tile.FAIRY0 + Global.rng.randi_range(0, 2))
 
+    GameState.watered_petrified_tree = false
+    if through_roots:
+        for i in GameState.petrified_water * 2:
+            var drop := Droplet.instance()
+            drop.position = player.position + Vector2(64, 0).rotated(Global.rng.randf() * TAU)
+            effects.add_child(drop)
+            
     player = PlayerScene.instance()
     entities.add_child(player)
     move_player(GameState.petrified_tree_location, false)
     
     fog.hide()
-
-    GameState.watered_petrified_tree = false
-    if through_roots:
-        for i in GameState.petrified_water:
-            var drop := Droplet.instance()
-            drop.position = player.position + Vector2(64, 0).rotated(Global.rng.randf() * TAU)
-            effects.add_child(drop)
 
 func warp_cavern() -> void:
     $CavernDrop.play()
@@ -305,7 +305,7 @@ func interact(index: int=-1) -> void:
         if GameState.water != GameState.MAX_WATER:
             player.be_water(true)
             objects.set_cellv(player.map_position, Tile.PURIFIED_WATER)
-            GameState.modify_water(CAVERN_PURIFY_WATER[cavern_level])
+            GameState.modify_water(Global.rng.randi_range(1, CAVERN_PURIFY_WATER[cavern_level]))
             # Re-enter.
             move_player(player.map_position, true)
     elif Input.is_key_pressed(KEY_SHIFT) and objects.get_cellv(player.map_position) == Tile.LILY:

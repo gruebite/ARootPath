@@ -147,12 +147,12 @@ func grow_fiend(at: Vector2) -> void:
     slime.connect("finished_thinking", self, "_finished_thinking")
     slime.connect("died", self, "_slime_died", [slime])
 
-func grow_slime(at: Vector2) -> void:
+func grow_slime(at: Vector2, growing: bool=true) -> void:
     assert(space.is_free(at))
     var slime := Slime.instance()
     slime.visible = space.fog.is_revealed(at)
     space.entities.add_entity_at(slime, at)
-    slimes[at] = SLIME_GROWING
+    slimes[at] = SLIME_GROWING if growing else SLIME_GROWN
     slime.connect("died", self, "_slime_died", [slime])
 
 func remove_slime(at: Vector2) -> int:

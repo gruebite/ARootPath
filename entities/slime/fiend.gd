@@ -42,7 +42,7 @@ func _throw_slime_near_player() -> void:
         var check := Vector2(x, y)
         print("CHECK ", check, " ", ppos)
         if brain.space.is_free(check):
-            brain.grow_slime(check)
+            brain.grow_slime(check, false)
             return
 
 func unfreeze() -> void:

@@ -415,7 +415,6 @@ func _on_TurnSystem_finished_turn() -> void:
     for d in range(0, Direction.COUNT, 2):
         var check: Vector2 = player.map_position + Direction.delta(d)
         if can_move_to(check):
-            print(d)
             return
     
     # Any damage spell works.

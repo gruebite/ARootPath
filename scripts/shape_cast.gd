@@ -6,6 +6,7 @@ enum Kind {
     LINE,
     SQUARE,
     CIRCLE,
+    PLUS,
     CONE,
 }
 
@@ -50,8 +51,15 @@ func cast() -> Array:
                     var dy: int = y - size
                     var dx: int = x - size
                     var v := Vector2(dx, dy)
-                    if v.length_squared() < size * size:
+                    if kind == Kind.CIRCLE and v.length_squared() < size * size:
                         arr.append(center + v)
+            return arr
+        Kind.PLUS:
+            var dirv := Direction.delta(direction)
+            var center := origin + (dirv * size)
+            var arr := [center]
+            for d in range(0, Direction.COUNT, 2):
+                arr.append(center + Direction.delta(d))
             return arr
         Kind.CONE:
             var arr := []

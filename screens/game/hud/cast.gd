@@ -12,7 +12,7 @@ func init_target() -> void:
     target_shape.origin = start_pos
     match selected:
         Plant.Kind.TREE:
-            target_shape.size = 4
+            target_shape.size = 3
             target_shape.kind = ShapeCast.Kind.CONE
             update_target(Direction.NORTH)
         Plant.Kind.BUSH:
@@ -28,8 +28,8 @@ func init_target() -> void:
             target_shape.kind = ShapeCast.Kind.CIRCLE
             update_target(-1)
         Plant.Kind.MOSS:
-            target_shape.size = 2
-            target_shape.kind = ShapeCast.Kind.CIRCLE
+            target_shape.size = 1
+            target_shape.kind = ShapeCast.Kind.PLUS
             update_target(-1)
 
 func update_target(dir: int) -> void:

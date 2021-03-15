@@ -266,6 +266,7 @@ func interact(index: int=-1) -> void:
     if ent:
         if ent.is_in_group("spring") or ent.is_in_group("pit"):
             warp_cavern()
+            return
         elif ent.is_in_group("petrified_tree"):
             if GameState.water > 0 and not GameState.watered_petrified_tree:
                 GameState.petrified_water += 1
@@ -273,9 +274,11 @@ func interact(index: int=-1) -> void:
                 GameState.watered_petrified_tree = true
                 player.be_water()
                 move_player(player.map_position, false)
+            return
         elif ent.is_in_group("roots"):
             $Roots.play()
             warp_island(ent.is_in_group("watered"))
+            return
         elif ent.is_in_group("plant"):
             var plant := ent as Plant
             if Input.is_key_pressed(KEY_SHIFT):
@@ -295,6 +298,7 @@ func interact(index: int=-1) -> void:
                     else:
                         # :(
                         pass
+            return
         emit_signal("player_interacted", player.map_position, index)
     elif objects.get_cellv(player.map_position) == Tile.SLIMY_WATER:
         # Only purify water if we can store it.

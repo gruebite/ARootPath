@@ -12,5 +12,4 @@ stage_period = 4
 mature_stage = 2
 watering_frequency = 3
 watering_quantity = 6
-drought_limit = 5
 space_needed = 1

@@ -39,10 +39,10 @@ var watered_petrified_tree := true
 
 func _ready() -> void:
     pass
-    
+
 func modify_water(by: int) -> void:
     set_water(water + by)
-    
+
 func set_water(to: int) -> void:
     var new := int(clamp(to, 0, MAX_WATER))
     if new != water:
@@ -55,7 +55,7 @@ func set_spell_charges(kind: int, to: int) -> void:
 
 func inc_spell_charges(kind: int) -> void:
     set_spell_charges(kind, spell_charges[kind] + 1)
-    
+
 func use_spell_charge(kind: int) -> void:
     assert(spell_charges[kind] >= 0)
     set_spell_charges(kind, spell_charges[kind] - 1)
@@ -112,7 +112,7 @@ func generate_island() -> void:
         for x in ISLAND_WIDTH:
             var c = walker.grid[Vector2(x, y)]
             island_tiles[Vector2(x, y)] = c
-    
+
     var island_rect := Rect2(Vector2.ZERO, Vector2(ISLAND_WIDTH, ISLAND_HEIGHT))
     while true:
         var x = Global.rng.randi_range(0, ISLAND_WIDTH - 1)
@@ -127,19 +127,19 @@ func generate_island() -> void:
 func update_island() -> void:
     for i in Plant.COUNT:
         set_spell_charges(i, 0)
-    
+
     var surviving := {}
     for pos in plant_state:
         var state: Dictionary = plant_state[pos]
-        
+
         var res: PlantResource = Plant.KIND_RESOURCES[state["kind"]]
         state["age"] += 1
         var drought := Plant.state_drought_level(state)
-        if drought >= res.drought_limit:
+        if drought >= res.watering_frequency:
             pass
         else:
             surviving[pos] = state
             set_spell_charges(state["kind"], spell_charges[state["kind"]] + Plant.state_charges(state))
-    
+
     plant_state = surviving
-            
+

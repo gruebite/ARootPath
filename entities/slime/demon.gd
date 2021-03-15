@@ -8,7 +8,7 @@ const THROW_CHANCE := 0.1
 
 var seen := false
 
-var health := 18
+var health := 27
 
 func think() -> void:
     # Don't think unless we've been seen, then all hell breaks loss.
@@ -18,6 +18,8 @@ func think() -> void:
         return
     if not seen:
         emit_signal("demon_spotted")
+        $CanvasLayer/Health.show()
+        $CanvasLayer/Health.health = health
     if brain.space.fog.is_revealed(map_position):
         show()
     else:
@@ -43,6 +45,8 @@ func think() -> void:
 
 func damage() -> void:
     health -= 1
+    $CanvasLayer/Health.health = health
+    $CanvasLayer/Health.update()
     poof()
     if health <= 0:
         get_tree().change_scene("res://screens/win/win.tscn")
@@ -52,6 +56,8 @@ func _teleport_near_player() -> void:
         var found: Vector2 = brain.space.fog.random_revealed()
         if found != Vector2.ZERO and brain.space.is_free(found) and found != brain.space.player.map_position:
             brain.move_slime(map_position, found)
+            if brain.space.fog.is_revealed(found):
+                show()
             return
 
 func _throw_fiend_near_player() -> void:

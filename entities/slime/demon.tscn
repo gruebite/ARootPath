@@ -1,9 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://entities/slime/demon.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/tilesheet.png" type="Texture" id=2]
 [ext_resource path="res://entities/slime/demon_teleport.wav" type="AudioStream" id=3]
 [ext_resource path="res://entities/slime/evil_cast.wav" type="AudioStream" id=4]
+[ext_resource path="res://ui/nine_patch/nine_patch.tscn" type="PackedScene" id=5]
+[ext_resource path="res://ui/nine_patch/nine_patch.gd" type="Script" id=6]
 
 [sub_resource type="Animation" id=1]
 resource_name = "idle"
@@ -22,7 +24,7 @@ tracks/0/keys = {
 "values": [ 1, 0 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=2]
 resource_name = "teleport_in"
 length = 0.6
 tracks/0/type = "value"
@@ -87,7 +89,7 @@ region_rect = Rect2( 0, 432, 224, 32 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "idle"
 anims/idle = SubResource( 1 )
-anims/teleport_in = SubResource( 5 )
+anims/teleport_in = SubResource( 2 )
 anims/teleport_out = SubResource( 3 )
 anims/throw = SubResource( 4 )
 
@@ -98,3 +100,15 @@ bus = "SFX"
 [node name="Throw" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
 bus = "SFX"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Health" parent="CanvasLayer" instance=ExtResource( 5 )]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.0
+margin_left = -96.0
+margin_top = -16.0
+margin_right = 96.0
+margin_bottom = 16.0
+script = ExtResource( 6 )

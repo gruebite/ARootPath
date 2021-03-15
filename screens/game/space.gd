@@ -16,7 +16,7 @@ const CAVERN_SIZES := [
 ]
 
 const CAVERN_ROOTS := [
-    3, 3, 2,
+    4, 4, 3,
 ]
 
 const CAVERN_PITS := [
@@ -25,11 +25,11 @@ const CAVERN_PITS := [
 
 # Roughly ~100 per run, with some chance to gain some from fiends.
 const CAVERN_SLIMY_WATER := [
-    20, 20, 30,
+    20, 40, 80,
 ]
 
 const CAVERN_PURIFY_WATER := [
-    1, 2, 3,
+    1, 1, 2,
 ]
 
 const MIDDLE_COORD := Vector2(2, 2)

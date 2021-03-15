@@ -15,7 +15,7 @@ color = Color( 0, 1, 1, 1 )
 
 [node name="Droplet" type="Particles2D"]
 amount = 16
-lifetime = 0.5
+lifetime = 0.3
 local_coords = false
 process_material = SubResource( 1 )
 script = ExtResource( 1 )

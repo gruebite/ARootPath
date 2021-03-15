@@ -152,6 +152,9 @@ func warp_island(through_roots: bool) -> void:
         if Plant.state_water_needed(st) == 0:
             air.set_cellv(mpos + Vector2(0, -(1 + Plant.KIND_RESOURCES[st["kind"]].space_needed)), Tile.FAIRY0 + Global.rng.randi_range(0, 2))
 
+    player = PlayerScene.instance()
+    entities.add_child(player)
+    
     GameState.watered_petrified_tree = false
     if through_roots:
         for i in GameState.petrified_water * 2:
@@ -159,8 +162,6 @@ func warp_island(through_roots: bool) -> void:
             drop.position = player.position + Vector2(64, 0).rotated(Global.rng.randf() * TAU)
             effects.add_child(drop)
             
-    player = PlayerScene.instance()
-    entities.add_child(player)
     move_player(GameState.petrified_tree_location, false)
     
     fog.hide()

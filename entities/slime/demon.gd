@@ -23,6 +23,7 @@ func think() -> void:
     else:
         hide()
     seen = true
+    GameState.saw_demon = true
 
     if brain.space.fog.is_revealed(map_position) and Global.rng.randf() < THROW_CHANCE:
         $Throw.play()

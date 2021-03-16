@@ -37,6 +37,14 @@ var chain_count := 0
 var petrified_water := 0
 var watered_petrified_tree := true
 
+var island_walker: Walker
+
+# Flavor variables for friendly slime.
+var friendly_slime_state := {}
+var saw_demon := false
+var death_count := 0
+var cavern_levels_reached := [false, false, false]
+
 func _ready() -> void:
     pass
 
@@ -82,35 +90,35 @@ func new_game() -> void:
     generate_island()
 
 func generate_island() -> void:
-    var walker := Walker.new(Global.rng)
+    island_walker = Walker.new(Global.rng)
 
-    walker.start(ISLAND_WIDTH, ISLAND_HEIGHT)
-    walker.goto(ISLAND_WIDTH / 2, ISLAND_HEIGHT / 2)
-    walker.mark(Tile.GROUND)
-    walker.commit()
-    while walker.percent_opened() < 0.6:
-        walker.remember()
-        walker.goto_random_closed()
-        while not walker.on_opened():
-            walker.step_weighted_last(0.55)
-            walker.mark_plus(Tile.GROUND)
-        walker.commit()
-        walker.forget()
-    walker.goto(ISLAND_WIDTH / 2, ISLAND_HEIGHT / 2)
-    walker.mark_circle(2, Tile.WATER)
+    island_walker.start(ISLAND_WIDTH, ISLAND_HEIGHT)
+    island_walker.goto(ISLAND_WIDTH / 2, ISLAND_HEIGHT / 2)
+    island_walker.mark(Tile.GROUND)
+    island_walker.commit()
+    while island_walker.percent_opened() < 0.6:
+        island_walker.remember()
+        island_walker.goto_random_closed()
+        while not island_walker.on_opened():
+            island_walker.step_weighted_last(0.55)
+            island_walker.mark_plus(Tile.GROUND)
+        island_walker.commit()
+        island_walker.forget()
+    island_walker.goto(ISLAND_WIDTH / 2, ISLAND_HEIGHT / 2)
+    island_walker.mark_circle(2, Tile.WATER)
     for i in 40:
-        walker.step_random()
-        walker.mark_circle(2, Tile.WATER)
-    walker.goto(ISLAND_WIDTH / 2, ISLAND_HEIGHT / 2)
-    walker.mark_circle(6, Tile.WATER)
-    walker.mark_circle(2, Tile.GROUND)
-    walker.commit()
+        island_walker.step_random()
+        island_walker.mark_circle(2, Tile.WATER)
+    island_walker.goto(ISLAND_WIDTH / 2, ISLAND_HEIGHT / 2)
+    island_walker.mark_circle(6, Tile.WATER)
+    island_walker.mark_circle(2, Tile.GROUND)
+    island_walker.commit()
 
     # Save island state.
     island_tiles.clear()
     for y in ISLAND_HEIGHT:
         for x in ISLAND_WIDTH:
-            var c = walker.grid[Vector2(x, y)]
+            var c = island_walker.grid[Vector2(x, y)]
             island_tiles[Vector2(x, y)] = c
 
     var island_rect := Rect2(Vector2.ZERO, Vector2(ISLAND_WIDTH, ISLAND_HEIGHT))
@@ -143,3 +151,21 @@ func update_island() -> void:
 
     plant_state = surviving
 
+# Flavor functions.
+
+func has_spell_charges() -> bool:
+    for charge in spell_charges:
+        if charge > 0: return true
+    return false
+    
+func total_spell_charges() -> int:
+    var total := 0
+    for pos in plant_state:
+        total += Plant.state_water_needed(plant_state[pos])
+    return total
+    
+func a_plant_needs_water() -> bool:
+    for pos in plant_state:
+        if Plant.state_water_needed(plant_state[pos]) > 0:
+            return true
+    return false

@@ -34,6 +34,7 @@ const CAVERN_PURIFY_WATER := [
 
 const MIDDLE_COORD := Vector2(2, 2)
 
+const FriendlySlime = preload("res://entities/slime/friendly_slime/friendly_slime.tscn")
 const Droplet = preload("res://entities/slime/droplet/droplet.tscn")
 const PlayerScene = preload("res://player/player.tscn")
 const Spring = preload("res://entities/spring/spring.tscn")
@@ -141,7 +142,8 @@ func warp_island(through_roots: bool) -> void:
     _tile_hack()
     post_process(GameState.ISLAND_WIDTH, GameState.ISLAND_HEIGHT)
 
-    entities.add_entity_at(Spring.instance(), Vector2(GameState.ISLAND_WIDTH / 2, GameState.ISLAND_HEIGHT / 2))
+    var center := Vector2(GameState.ISLAND_WIDTH / 2, GameState.ISLAND_HEIGHT / 2)
+    entities.add_entity_at(Spring.instance(), center)
     entities.add_entity_at(PetrifiedTree.instance(), GameState.petrified_tree_location)
     objects.set_cellv(GameState.petrified_tree_location, -1)
 
@@ -152,6 +154,12 @@ func warp_island(through_roots: bool) -> void:
         if Plant.state_water_needed(st) == 0:
             air.set_cellv(mpos + Vector2(0, -(1 + Plant.KIND_RESOURCES[st["kind"]].space_needed)), Tile.FAIRY0 + Global.rng.randi_range(0, 2))
 
+    var vec: Vector2 = center + Direction.delta(Global.rng.randi_range(0, 3) * 2)
+    var friend = FriendlySlime.instance()
+    friend.space = self
+    entities.add_entity_at(friend, vec)
+    friend.connect("finished_thinking", get_node("../TurnSystem"), "_on_SlimeBrain_slime_finished_thinking")
+        
     player = PlayerScene.instance()
     entities.add_child(player)
     
@@ -176,6 +184,7 @@ func warp_cavern() -> void:
         $CavernMusic.play()
     where = CAVERN
     cavern_level += 1
+    GameState.cavern_levels_reached[cavern_level] = true
 
     var size: int = CAVERN_SIZES[cavern_level]
 

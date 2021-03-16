@@ -137,20 +137,13 @@ func update_island() -> void:
     for i in Plant.COUNT:
         set_spell_charges(i, 0)
 
-    var surviving := {}
     for pos in plant_state:
         var state: Dictionary = plant_state[pos]
 
         var res: PlantResource = Plant.KIND_RESOURCES[state["kind"]]
         state["age"] += 1
-        var drought := Plant.state_drought_level(state)
-        if drought >= res.watering_frequency:
-            pass
-        else:
-            surviving[pos] = state
-            set_spell_charges(state["kind"], spell_charges[state["kind"]] + Plant.state_charges(state))
+        set_spell_charges(state["kind"], spell_charges[state["kind"]] + Plant.state_charges(state))
 
-    plant_state = surviving
 
 # Flavor functions.
 

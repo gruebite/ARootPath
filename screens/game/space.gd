@@ -126,6 +126,9 @@ func warp_island(through_roots: bool) -> void:
     $CavernMusic.stop()
     $IslandMusic.play(island_music_pos)
     reset_everything()
+    
+    if through_roots:
+        GameState.petrified_water += (cavern_level + 1)
 
     where = ISLAND
     cavern_level = -1
@@ -166,7 +169,7 @@ func warp_island(through_roots: bool) -> void:
     GameState.watered_petrified_tree = false
     if through_roots:
         GameState.found_fairy_roots = true
-        for i in GameState.petrified_water * 2:
+        for i in GameState.petrified_water:
             var drop := Droplet.instance()
             drop.position = GameState.petrified_tree_location * 16 + Vector2(Global.rng.randf_range(16, 64), 0).rotated(Global.rng.randf() * TAU)
             effects.add_child(drop)

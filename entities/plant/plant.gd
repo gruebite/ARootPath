@@ -45,9 +45,9 @@ static func state_drought_level(state: Dictionary) -> int:
 
 static func state_water_needed(state: Dictionary) -> int:
     var quant: int = KIND_RESOURCES[state["kind"]].watering_quantity
-    var dought: int = state_drought_level(state) + 1
-    if dought >= 1:
-        return quant + dought - 1
+    var drought: int = state_drought_level(state)
+    if drought >= 0:
+        return quant
     return 0
 
 static func state_inc_age(state: Dictionary) -> void:
@@ -60,6 +60,8 @@ static func state_mature(state: Dictionary) -> bool:
     return state_stage(state) >= KIND_RESOURCES[state["kind"]].mature_stage
 
 static func state_charges(state: Dictionary) -> int:
+    if state_drought_level(state) >= KIND_RESOURCES[state["kind"]].watering_frequency:
+        return 0
     if state_mature(state):
         return 2
     return 1

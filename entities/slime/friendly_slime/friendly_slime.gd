@@ -33,13 +33,16 @@ func get_dialog() -> String:
         return "'You have water, but no plants.'"
     if GameState.dive_count == 0:
         return "'I came from the cavern. It's better up here.'"
-    if GameState.friendly_slime_state.has("death") and GameState.death_count > 0:
+    if GameState.death_count > 0 and not GameState.friendly_slime_state.has("death"):
         GameState.friendly_slime_state["death"] = true
         return "'You stepped on a bad slime.'"
     if not GameState.watered_petrified_tree:
         return "'The petrified tree wants water.'"
     if GameState.a_plant_needs_water():
         return "'Some plants here look parched.'"
+    if GameState.dive_count > 5 and not GameState.found_fairy_roots and not GameState.friendly_slime_state.has("fairy_roots"):
+        GameState.friendly_slime_state["fairy_roots"] = true
+        return "'Find the fairy roots.'"
         
     # Flavor.
     if GameState.total_spell_charges() > 20 and not GameState.friendly_slime_state.has("so_many"):
@@ -50,13 +53,10 @@ func get_dialog() -> String:
         return "'It's scary down there.'"
     if GameState.cavern_levels_reached[1] and not GameState.friendly_slime_state.has("fiends"):
         GameState.friendly_slime_state["fiends"] = true
-        return "'I did't like it when fiends threw me.'"
+        return "'I did't like it when fiend slimes threw me.'"
     if GameState.cavern_levels_reached[2] and not GameState.friendly_slime_state.has("final"):
         GameState.friendly_slime_state["final"] = true
-        return "'Be careful on the last level.'"
-    if GameState.saw_demon and not GameState.friendly_slime_state.has("demon_shiver"):
-        GameState.friendly_slime_state["demon_shiver"] = true
-        return "The slime is shivering."
+        return "'Be careful on the deepest level.'"
     if GameState.saw_demon and not GameState.friendly_slime_state.has("demon"):
         GameState.friendly_slime_state["demon"] = true
         return "'Grow more to challenge the demon slime.'"

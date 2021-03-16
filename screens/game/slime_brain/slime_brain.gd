@@ -82,12 +82,15 @@ func take_turn() -> void:
     var grew := false
     for pos in slimes:
         if slimes[pos] == SLIME_GROWING:
-            if defrost(pos):
+            # Wait a turn so it's clear it's about to grow.
+            if not frost.has(pos):
                 slimes[pos] = SLIME_GROWN
                 emit_signal("slime_grew", pos)
                 var slime: Entity = space.entities.get_entity(pos)
                 slime.grow_up()
                 grew = true
+            # Now defrost.
+            defrost(pos)
     if grew:
         $Grew.play()
 
@@ -107,12 +110,12 @@ func take_turn() -> void:
             var neigh := (pos as Vector2) + delta
             # Only grow slimes in cardinal direction, but move food in all.
             # Only grow from non-growing slime to prevent explosive growth.
-            if slimes.has(neigh) and slimes.get(neigh) != SLIME_GROWING and Direction.is_cardinal(d) and space.is_free(pos):
-                # Consume the food.
-                consumed = true
-                if defrost(neigh):
+            if slimes.has(neigh) and Direction.is_cardinal(d) and space.is_free(pos):
+                if slimes.get(neigh) != SLIME_GROWING and defrost(neigh):
+                    # Consume the food.
+                    consumed = true
                     grow_slime(pos)
-                break
+                    break
             if not space.unwalkable(neigh):
                 candidates.append(neigh)
         # If this food wasn't consumed, move it to a random location.
@@ -182,14 +185,14 @@ func move_slime(at: Vector2, to: Vector2) -> void:
         frost[to] = f
 
 func freeze_spot(at: Vector2) -> void:
-    if not slimes.get(at): return
+    if not slimes.has(at): return
     # Definitely slime.
     space.entities.get_entity(at).freeze()
     frost[at] = FROST_TIMER
     
 func defrost(at: Vector2) -> bool:
     var slime = slimes.get(at)
-    if not slime: return true
+    if slime == null: return true
     if not frost.has(at): return true
     frost[at] -= 1
     if frost[at] == 0:

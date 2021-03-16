@@ -43,6 +43,7 @@ var island_walker: Walker
 var friendly_slime_state := {}
 var saw_demon := false
 var death_count := 0
+var found_fairy_roots := false
 var cavern_levels_reached := [false, false, false]
 
 func _ready() -> void:

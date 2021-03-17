@@ -283,6 +283,9 @@ func post_process(w: int, h: int) -> void:
                         objects.set_cell(x, y, Tile.LILY)
 
 func interact(index: int=-1) -> void:
+    if index != -1:
+        emit_signal("player_interacted", player.map_position, index)
+        return
     var ent: Entity = entities.get_entity(player.map_position)
     if ent:
         if ent.is_in_group("spring") or ent.is_in_group("pit"):
@@ -456,6 +459,12 @@ func _on_SlimeBrain_demon_spotted() -> void:
 
 
 func _on_TurnSystem_finished_turn() -> void:
+    # If we can take an exit.
+    var ent = entities.get_entity(player.map_position)
+    if ent:
+        if ent.is_in_group("roots") or ent.is_in_group("pit"):
+            return
+    
     # Check if we lost by being unable to move.
     for d in range(0, Direction.COUNT, 2):
         var check: Vector2 = player.map_position + Direction.delta(d)
@@ -465,7 +474,9 @@ func _on_TurnSystem_finished_turn() -> void:
     # Any damage spell works.
     var spells = GameState.spell_charges
     if spells[Plant.Kind.TREE] > 0 or spells[Plant.Kind.BUSH] > 0 or spells[Plant.Kind.MOSS] > 0:
-        return
+        # Make sure we can cast it.
+        if GameState.water >= GameState.chain_count:
+            return
 
     # If we have a flower, check if somewhere empty is visible.
     if spells[Plant.Kind.FLOWER] > 0:

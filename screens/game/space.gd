@@ -36,7 +36,7 @@ const CAVERN_SLIMY_WATER := [
 ]
 
 const CAVERN_PURIFY_WATER := [
-    3, 6, 9,
+    3, 7, 15,
 ]
 
 const MIDDLE_COORD := Vector2(2, 2)

@@ -8,7 +8,7 @@ signal spell_chain_stopped()
 
 const ISLAND_WIDTH := 32
 const ISLAND_HEIGHT := 32
-const STARTING_WATER := 10
+const STARTING_WATER := 20
 const MAX_WATER := 999
 const MAX_CHAINS := 11
 

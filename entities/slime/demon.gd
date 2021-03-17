@@ -15,6 +15,7 @@ var health: int
 
 func _ready() -> void:
     health = max(HEALTH_MEDIAN, Global.rng.randfn(HEALTH_MEDIAN, HEALTH_DEVIATION))
+    print(health)
 
 func think() -> void:
     # Don't think unless we've been seen, then all hell breaks loss.

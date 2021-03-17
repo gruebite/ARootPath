@@ -10,6 +10,13 @@ enum {
     CAVERN,
 }
 
+enum {
+    NO_RETURN,
+    RETURN_DEAD,
+    RETURN_ROOTS,
+    RETURN_FAIRY_ROOTS,    
+}
+
 const CAVERN_SIZES := [
     # Keeping some to adjust.  These are length of a square where each area doubles.  Could be difficulty?
     50, 70, 100, 141, 173,
@@ -121,13 +128,14 @@ func _tile_hack() -> void:
                     128:
                         $TileFix.set_cellv(p * 2 + Vector2(0, 0), 7)
 
-func warp_island(through_roots: bool) -> void:
+func warp_island(ret: int) -> void:
     $DemonMusic.stop()
     $CavernMusic.stop()
     $IslandMusic.play(island_music_pos)
     reset_everything()
     
-    if through_roots:
+    if ret == RETURN_FAIRY_ROOTS:
+        GameState.found_fairy_roots = true
         GameState.petrified_water += (cavern_level + 1)
 
     where = ISLAND
@@ -166,9 +174,8 @@ func warp_island(through_roots: bool) -> void:
     player = PlayerScene.instance()
     entities.add_child(player)
     
-    GameState.watered_petrified_tree = false
-    if through_roots:
-        GameState.found_fairy_roots = true
+    if ret == RETURN_ROOTS or ret == RETURN_FAIRY_ROOTS:
+        GameState.watered_petrified_tree = false
         for i in GameState.petrified_water:
             var drop := Droplet.instance()
             drop.position = GameState.petrified_tree_location * 16 + Vector2(Global.rng.randf_range(16, 64), 0).rotated(Global.rng.randf() * TAU)
@@ -234,7 +241,7 @@ func warp_cavern() -> void:
             continue
         var roots = Roots.instance()
         if roots_to_add == 1:
-            roots.add_to_group("watered")
+            roots.add_to_group("fairy")
             air.set_cellv(mpos + Vector2(0, -1), Tile.FAIRY0 + Global.rng.randi_range(0, 2))
         entities.add_entity_at(roots, mpos)
         objects.set_cellv(mpos, -1)
@@ -291,7 +298,10 @@ func interact(index: int=-1) -> void:
             return
         elif ent.is_in_group("roots"):
             $Roots.play()
-            warp_island(ent.is_in_group("watered"))
+            if ent.is_in_group("fairy"):
+                warp_island(RETURN_FAIRY_ROOTS)
+            else:
+                warp_island(RETURN_ROOTS)
             return
         elif ent.is_in_group("plant"):
             var plant := ent as Plant
@@ -331,7 +341,7 @@ func interact(index: int=-1) -> void:
     elif Input.is_key_pressed(KEY_SHIFT) and objects.get_cellv(player.map_position) == Tile.PURIFIED_WATER:
         GameState.modify_water(GameState.MAX_WATER)
     elif Input.is_key_pressed(KEY_SHIFT) and where == CAVERN:
-        warp_island(true)
+        warp_island(RETURN_FAIRY_ROOTS)
     else:
         emit_signal("player_interacted", player.map_position, index)
 

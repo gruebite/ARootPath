@@ -8,7 +8,7 @@ func _ready() -> void:
     GameState.connect("spell_chained", $HUD, "_on_spell_chained")
     GameState.connect("spell_chain_stopped", $HUD, "_on_spell_chain_stopped")
     GameState.new_game()
-    $Space.warp_island(false)
+    $Space.warp_island(Space.NO_RETURN)
     GameState.watered_petrified_tree = true
     # So we're not on the tree.
     $Space.move_player($Space.player.map_position + Vector2.DOWN, false)
@@ -18,4 +18,4 @@ func _on_player_died():
     GameState.death_count += 1
     GameState.set_water(GameState.water / 2)
     # We likely died in the middle of processing.  Keep state stable.
-    $Space.call_deferred("warp_island", false)
+    $Space.call_deferred("warp_island", Space.RETURN_DEAD)

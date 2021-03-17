@@ -65,7 +65,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0.1, 0.3 ),
+"times": PoolRealArray( 0, 0.1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ 2, 3 ]
@@ -83,6 +83,7 @@ position = Vector2( -8, -16 )
 texture = ExtResource( 2 )
 centered = false
 hframes = 7
+frame = 3
 region_enabled = true
 region_rect = Rect2( 0, 432, 224, 32 )
 

@@ -165,11 +165,11 @@ gdscript/warnings/integer_division=false
 
 [display]
 
-window/size/width=768
-window/size/height=432
+window/size/width=1152
+window/size/height=648
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
-window/stretch/shrink=2.0
+window/stretch/shrink=3.0
 
 [importer_defaults]
 
